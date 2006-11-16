@@ -122,15 +122,36 @@
 						contextInfo: script];	
 }
 
+
+- (void) progressStarted: (NSNotification*) n
+{    
+	WebView* webView = [n object];
+	WebDataSource* dataSource = [[webView mainFrame] provisionalDataSource];
+    if (! dataSource) {
+        return;
+    }
+    
+	NSURL* url = [[dataSource request] URL];
+    
+    // NSLog(@"S: webView = %@, dataSource = %@, url = %@", webView, dataSource, url);
+
+    NSArray* ary = [self matchedScripts: url];
+    if ([ary count] > 0) {
+        [targetPages_ addObject: dataSource];
+    }
+}
+    
 - (void) progressFinished: (NSNotification*) n
-{
+{    
+	// Default
+	[root_ setTitle: @":)"];
+    
 	WebView* webView = [n object];
 	WebDataSource* dataSource = [[webView mainFrame] dataSource];
 	NSURL* url = [[dataSource request] URL];
-	
-	// Default
-	[root_ setTitle: @":)"];
 
+    // NSLog(@"F: url = %@", url);
+	
 	if ([[url absoluteString] hasSuffix: @".user.js"]) {
 		CMUserScript* script;
 		script = [[CMUserScript alloc] initWithContentsOfURL: url];
@@ -140,6 +161,13 @@
 		}
 		return;
 	}
+    
+    if ([targetPages_ containsObject: dataSource]) {
+        [targetPages_ removeObject: dataSource];
+        // NSLog(@"targetPages_ = %@", targetPages_);
+    } else {
+        return;
+    }
 	
 	if (! [[webView mainFrame] DOMDocument]) {
 		return;
@@ -184,7 +212,7 @@
 		@"Creammonkey",  @"ApplicationName",
 		icon,  @"ApplicationIcon",
 		@"",  @"Version",
-		@"Version 0.3",  @"ApplicationVersion",
+		@"Version 0.4",  @"ApplicationVersion",
 		@"Copyright (c) 2006 KATO Kazuyoshi",  @"Copyright",
 		nil];
 	[NSApp orderFrontStandardAboutPanelWithOptions: options];
@@ -220,6 +248,8 @@
 	
 	scripts_ = nil;
 	[self reloadUserScripts: nil];
+    
+    targetPages_ = [[NSMutableSet alloc] init];
 	
 	[NSBundle loadNibNamed: @"Menu.nib" owner: self];
 	
@@ -231,6 +261,8 @@
 	NSLog(@"CMController - dealloc");
 	
 	[scripts_ release];
+    [targetPages_ release];
+    
 	[super dealloc];
 }
 
@@ -249,7 +281,11 @@
 	[item release];
 	
 	// Notification
-	NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
+	NSNotificationCenter* center = [NSNotificationCenter defaultCenter];    
+	[center addObserver: self
+			   selector: @selector(progressStarted:)
+				   name: WebViewProgressStartedNotification
+				 object: nil];
 	[center addObserver: self
 			   selector: @selector(progressFinished:)
 				   name: WebViewProgressFinishedNotification
