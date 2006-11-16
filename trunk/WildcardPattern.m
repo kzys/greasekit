@@ -1,5 +1,9 @@
-#import "WildcardPattern.h"
+/*
+ * Copyright (c) 2006 KATO Kazuyoshi <kzys@8-p.info>
+ * This source code is released under the MIT license.
+ */
 
+#import "WildcardPattern.h"
 
 @implementation WildcardPattern
 
