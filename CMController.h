@@ -6,15 +6,15 @@
 #import <Cocoa/Cocoa.h>
 
 @interface CMController : NSObject {
-	IBOutlet NSMenu* menu;	
+	IBOutlet NSMenu* menu;
 	IBOutlet NSArrayController* scriptsController;
 	
-	NSMenuItem* root_;
 	NSMutableArray* scripts_;
 	NSString* scriptDir_;
     NSMutableSet* targetPages_;
 }
 
+- (IBAction) toggleScriptEnable: (id) sender;
 - (IBAction) uninstallSelected: (id) sender;
 - (IBAction) orderFrontAboutPanel: (id) sender;
 - (IBAction) reloadUserScripts: (id) sender;
