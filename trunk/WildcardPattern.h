@@ -1,5 +1,9 @@
-#import <Cocoa/Cocoa.h>
+/*
+ * Copyright (c) 2006 KATO Kazuyoshi <kzys@8-p.info>
+ * This source code is released under the MIT license.
+ */
 
+#import <Cocoa/Cocoa.h>
 
 @interface WildcardPattern : NSObject {
 	NSString* pattern_;
