@@ -12,6 +12,7 @@
 	NSMenuItem* root_;
 	NSMutableArray* scripts_;
 	NSString* scriptDir_;
+    NSMutableSet* targetPages_;
 }
 
 - (IBAction) uninstallSelected: (id) sender;
