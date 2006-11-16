@@ -20,6 +20,7 @@
 }
 @end
 
+
 @implementation CMUserScript
 - (BOOL) isInstalled: (NSString*) scriptDir
 {
@@ -45,6 +46,11 @@
 - (NSString*) script
 {
 	return script_;
+}
+
+- (NSString*) basename
+{
+	return basename_;
 }
 
 - (BOOL) install: (NSString*) path

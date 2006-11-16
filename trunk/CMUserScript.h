@@ -28,6 +28,7 @@
 - (NSString*) name;
 - (NSString*) description;
 - (NSString*) script;
+- (NSString*) basename;
 
 - (BOOL) isInstalled: (NSString*) path;
 - (BOOL) install: (NSString*) path;
