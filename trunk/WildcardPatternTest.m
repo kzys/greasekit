@@ -53,7 +53,7 @@
 
 	pat = [[WildcardPattern alloc] initWithString: @"abcd*"];
 	STAssertTrue([pat isMatch: @"abcd"], 
-				 @"'*' at end, '*' match '\0'.");
+				 @"'*' at end, '*' match '\\0'.");
 	[pat release];
 	
 	pat = [[WildcardPattern alloc] initWithString: @"ab*ef"];	
