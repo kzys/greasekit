@@ -14,6 +14,8 @@
 	
 	NSString* basename_;
 	NSString* fullPath_;
+    
+    BOOL enabled_;
 }
 
 + (NSDictionary*) parseMetadata: (NSString*) script;
@@ -30,6 +32,9 @@
 - (BOOL) isInstalled: (NSString*) path;
 - (BOOL) install: (NSString*) path;
 - (BOOL) uninstall;
+
+- (BOOL) isEnabled;
+- (void) setEnabled: (BOOL) flag;
 
 - (BOOL) isMatched: (NSURL*) url;
 
