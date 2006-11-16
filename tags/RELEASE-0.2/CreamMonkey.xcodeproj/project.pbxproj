@@ -1,0 +1,534 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		402FF6EA099F0CE2007B4C8F /* CMUserScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 402FF6E8099F0CE2007B4C8F /* CMUserScript.m */; };
+		402FF74A099F11CA007B4C8F /* CMController.m in Sources */ = {isa = PBXBuildFile; fileRef = 402FF748099F11CA007B4C8F /* CMController.m */; };
+		402FF7FD099F18F1007B4C8F /* WildcardPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 402FF7FB099F18F1007B4C8F /* WildcardPattern.m */; };
+		402FF8CA099F29D1007B4C8F /* WildcardPatternTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 402FF850099F1CBE007B4C8F /* WildcardPatternTest.m */; };
+		402FF8CB099F29D5007B4C8F /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 402FF890099F2733007B4C8F /* SenTestingKit.framework */; };
+		402FF8CC099F29D7007B4C8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		402FF8CE099F29E4007B4C8F /* WildcardPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 402FF7FB099F18F1007B4C8F /* WildcardPattern.m */; };
+		404629BF09A0D075009C3946 /* CMUserScriptTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 404629BE09A0D075009C3946 /* CMUserScriptTest.m */; };
+		404629D809A0D10C009C3946 /* CMUserScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 402FF6E8099F0CE2007B4C8F /* CMUserScript.m */; };
+		40892A98099EEDE500D05D08 /* CreamMonkey.m in Sources */ = {isa = PBXBuildFile; fileRef = 40892A97099EEDE500D05D08 /* CreamMonkey.m */; };
+		40892AAC099EEED000D05D08 /* Menu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 40892AAA099EEED000D05D08 /* Menu.nib */; };
+		40892AC3099EEF7000D05D08 /* Info in Resources */ = {isa = PBXBuildFile; fileRef = 40892AC2099EEF7000D05D08 /* Info */; };
+		40892AE0099EF02C00D05D08 /* CreamMonkey.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* CreamMonkey.bundle */; };
+		40892AE1099EF02F00D05D08 /* Info in CopyFiles */ = {isa = PBXBuildFile; fileRef = 40892AC2099EEF7000D05D08 /* Info */; };
+		40892B33099EFC5C00D05D08 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40892B32099EFC5C00D05D08 /* WebKit.framework */; };
+		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		014CEA420018CDE011CA2923 /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		014CEA430018CDE011CA2923 /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		40892AC9099EF00200D05D08 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = CreamMonkey;
+			dstSubfolderSpec = 16;
+			files = (
+				40892AE1099EF02F00D05D08 /* Info in CopyFiles */,
+				40892AE0099EF02C00D05D08 /* CreamMonkey.bundle in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		32DBCF630370AF2F00C91783 /* CreamMonkey_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreamMonkey_Prefix.pch; sourceTree = "<group>"; };
+		402FF6E7099F0CE2007B4C8F /* CMUserScript.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMUserScript.h; sourceTree = "<group>"; };
+		402FF6E8099F0CE2007B4C8F /* CMUserScript.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMUserScript.m; sourceTree = "<group>"; };
+		402FF747099F11CA007B4C8F /* CMController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMController.h; sourceTree = "<group>"; };
+		402FF748099F11CA007B4C8F /* CMController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMController.m; sourceTree = "<group>"; };
+		402FF7FA099F18F1007B4C8F /* WildcardPattern.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WildcardPattern.h; sourceTree = "<group>"; };
+		402FF7FB099F18F1007B4C8F /* WildcardPattern.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WildcardPattern.m; sourceTree = "<group>"; };
+		402FF84F099F1CBE007B4C8F /* WildcardPatternTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WildcardPatternTest.h; sourceTree = "<group>"; };
+		402FF850099F1CBE007B4C8F /* WildcardPatternTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WildcardPatternTest.m; sourceTree = "<group>"; };
+		402FF890099F2733007B4C8F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
+		402FF8C2099F29C1007B4C8F /* Test.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		402FF8C3099F29C1007B4C8F /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
+		404629BD09A0D075009C3946 /* CMUserScriptTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMUserScriptTest.h; sourceTree = "<group>"; };
+		404629BE09A0D075009C3946 /* CMUserScriptTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMUserScriptTest.m; sourceTree = "<group>"; };
+		40892A96099EEDE500D05D08 /* CreamMonkey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreamMonkey.h; sourceTree = "<group>"; };
+		40892A97099EEDE500D05D08 /* CreamMonkey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreamMonkey.m; sourceTree = "<group>"; };
+		40892AAB099EEED000D05D08 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Menu.nib; sourceTree = "<group>"; };
+		40892AC2099EEF7000D05D08 /* Info */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Info; sourceTree = "<group>"; };
+		40892B32099EFC5C00D05D08 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
+		8D5B49B6048680CD000E48DA /* CreamMonkey.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CreamMonkey.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		402FF8BF099F29C1007B4C8F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				402FF8CB099F29D5007B4C8F /* SenTestingKit.framework in Frameworks */,
+				402FF8CC099F29D7007B4C8F /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				40892B33099EFC5C00D05D08 /* WebKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* CreamMonkey */ = {
+			isa = PBXGroup;
+			children = (
+				402FF852099F1CC9007B4C8F /* Test Cases */,
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+				402FF8C3099F29C1007B4C8F /* Test-Info.plist */,
+			);
+			name = CreamMonkey;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				40892AAA099EEED000D05D08 /* Menu.nib */,
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+				40892AC2099EEF7000D05D08 /* Info */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				40892A96099EEDE500D05D08 /* CreamMonkey.h */,
+				40892A97099EEDE500D05D08 /* CreamMonkey.m */,
+				402FF747099F11CA007B4C8F /* CMController.h */,
+				402FF748099F11CA007B4C8F /* CMController.m */,
+				402FF6E7099F0CE2007B4C8F /* CMUserScript.h */,
+				402FF6E8099F0CE2007B4C8F /* CMUserScript.m */,
+				402FF7FA099F18F1007B4C8F /* WildcardPattern.h */,
+				402FF7FB099F18F1007B4C8F /* WildcardPattern.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				402FF890099F2733007B4C8F /* SenTestingKit.framework */,
+				40892B32099EFC5C00D05D08 /* WebKit.framework */,
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B6048680CD000E48DA /* CreamMonkey.bundle */,
+				402FF8C2099F29C1007B4C8F /* Test.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF630370AF2F00C91783 /* CreamMonkey_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		402FF852099F1CC9007B4C8F /* Test Cases */ = {
+			isa = PBXGroup;
+			children = (
+				402FF84F099F1CBE007B4C8F /* WildcardPatternTest.h */,
+				402FF850099F1CBE007B4C8F /* WildcardPatternTest.m */,
+				404629BD09A0D075009C3946 /* CMUserScriptTest.h */,
+				404629BE09A0D075009C3946 /* CMUserScriptTest.m */,
+			);
+			name = "Test Cases";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		402FF8C1099F29C1007B4C8F /* Test */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 402FF8C5099F29C2007B4C8F /* Build configuration list for PBXNativeTarget "Test" */;
+			buildPhases = (
+				402FF8BD099F29C1007B4C8F /* Resources */,
+				402FF8BE099F29C1007B4C8F /* Sources */,
+				402FF8BF099F29C1007B4C8F /* Frameworks */,
+				402FF8C0099F29C1007B4C8F /* ShellScript */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				INFOPLIST_FILE = "Test-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Test;
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			dependencies = (
+			);
+			name = Test;
+			productName = Test;
+			productReference = 402FF8C2099F29C1007B4C8F /* Test.octest */;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.Test</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>BNDL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.bundle";
+		};
+		8D5B49AC048680CD000E48DA /* CreamMonkey */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "CreamMonkey" */;
+			buildPhases = (
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				40892AC9099EF00200D05D08 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+			};
+			dependencies = (
+			);
+			name = CreamMonkey;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = CreamMonkey;
+			productReference = 8D5B49B6048680CD000E48DA /* CreamMonkey.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "CreamMonkey" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				014CEA420018CDE011CA2923 /* Debug */,
+				014CEA430018CDE011CA2923 /* Release */,
+			);
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* CreamMonkey */;
+			projectDirPath = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* CreamMonkey */,
+				402FF8C1099F29C1007B4C8F /* Test */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		402FF8BD099F29C1007B4C8F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+				40892AAC099EEED000D05D08 /* Menu.nib in Resources */,
+				40892AC3099EEF7000D05D08 /* Info in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		402FF8C0099F29C1007B4C8F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		402FF8BE099F29C1007B4C8F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				402FF8CA099F29D1007B4C8F /* WildcardPatternTest.m in Sources */,
+				402FF8CE099F29E4007B4C8F /* WildcardPattern.m in Sources */,
+				404629BF09A0D075009C3946 /* CMUserScriptTest.m in Sources */,
+				404629D809A0D10C009C3946 /* CMUserScript.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				40892A98099EEDE500D05D08 /* CreamMonkey.m in Sources */,
+				402FF6EA099F0CE2007B4C8F /* CMUserScript.m in Sources */,
+				402FF74A099F11CA007B4C8F /* CMController.m in Sources */,
+				402FF7FD099F18F1007B4C8F /* WildcardPattern.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		40892AAA099EEED000D05D08 /* Menu.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				40892AAB099EEED000D05D08 /* English */,
+			);
+			name = Menu.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB913B08733D840010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CreamMonkey_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				PRODUCT_NAME = CreamMonkey;
+				WRAPPER_EXTENSION = bundle;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		1DEB913C08733D840010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = CreamMonkey_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				PRODUCT_NAME = CreamMonkey;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+		1DEB913F08733D840010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Debug;
+		};
+		1DEB914008733D840010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Release;
+		};
+		402FF8C6099F29C2007B4C8F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				INFOPLIST_FILE = "Test-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Test;
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Debug;
+		};
+		402FF8C7099F29C2007B4C8F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				INFOPLIST_FILE = "Test-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Test;
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "CreamMonkey" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913B08733D840010E9CD /* Debug */,
+				1DEB913C08733D840010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "CreamMonkey" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913F08733D840010E9CD /* Debug */,
+				1DEB914008733D840010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		402FF8C5099F29C2007B4C8F /* Build configuration list for PBXNativeTarget "Test" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				402FF8C6099F29C2007B4C8F /* Debug */,
+				402FF8C7099F29C2007B4C8F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}
