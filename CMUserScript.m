@@ -31,7 +31,10 @@
 
 - (NSString*) name
 {
-	return [[metadata_ objectForKey: @"@name"] firstObject];
+    if ([metadata_ objectForKey: @"@name"])
+        return [[metadata_ objectForKey: @"@name"] firstObject];
+    else
+        return basename_;
 }
 
 - (NSString*) description
@@ -79,6 +82,9 @@
 
 - (BOOL) isMatched: (NSURL*) url
 {
+    if (! include_)
+        return YES;
+    
 	if ([self isMatched: url patterns: include_]) {
 		if (! [self isMatched: url patterns: exclude_]) {
 			return YES;
@@ -153,6 +159,9 @@
 
 + (NSArray*) createPatterns: (NSArray*) ary
 {
+    if (! ary)
+        return nil;
+    
 	NSMutableArray* result = [[NSMutableArray alloc] init];
 	
 	int i;
@@ -180,11 +189,11 @@
 	// include
 	NSArray* ary;
 	ary = [CMUserScript createPatterns: [metadata_ objectForKey: @"@include"]];
-	[include_ addObjectsFromArray: ary];
+	include_ = [ary retain];
 	
 	// exclude
 	ary = [CMUserScript createPatterns: [metadata_ objectForKey: @"@exclude"]];
-	[exclude_ addObjectsFromArray: ary];
+    exclude_ = [ary retain];
 	
 	return self;
 }
@@ -230,8 +239,8 @@
 	script_ = nil;
 
 	metadata_ = nil;
-	include_ = [[NSMutableArray alloc] init];
-	exclude_ = [[NSMutableArray alloc] init];
+	include_ = nil;
+	exclude_ = nil;
 	
 	basename_ = nil;
 	fullPath_ = nil;
