@@ -143,9 +143,6 @@
     
 - (void) progressFinished: (NSNotification*) n
 {    
-	// Default
-	[root_ setTitle: @":)"];
-    
 	WebView* webView = [n object];
 	WebDataSource* dataSource = [[webView mainFrame] dataSource];
 	NSURL* url = [[dataSource request] URL];
@@ -164,7 +161,6 @@
     
     if ([targetPages_ containsObject: dataSource]) {
         [targetPages_ removeObject: dataSource];
-        // NSLog(@"targetPages_ = %@", targetPages_);
     } else {
         return;
     }
@@ -179,9 +175,6 @@
 	NSArray* ary = [self matchedScripts: url];
 	int i;
 	for (i = 0; i < [ary count]; i++) {
-		// User script is working!
-		[root_ setTitle: @";)"];
-
 		[script appendString: [ary objectAtIndex: i]];
 	}
 	
@@ -212,7 +205,7 @@
 		@"Creammonkey",  @"ApplicationName",
 		icon,  @"ApplicationIcon",
 		@"",  @"Version",
-		@"Version 0.4",  @"ApplicationVersion",
+		@"Version 0.5",  @"ApplicationVersion",
 		@"Copyright (c) 2006 KATO Kazuyoshi",  @"Copyright",
 		nil];
 	[NSApp orderFrontStandardAboutPanelWithOptions: options];
