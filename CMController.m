@@ -7,21 +7,40 @@
 #import <WebKit/WebKit.h>
 #import "CMUserScript.h"
 
-@interface NSMutableString(StringPrepend)
-- (void) prependString: (NSString*) s;
-@end
-
-@implementation NSMutableString(StringPrepend)
-- (void) prependString: (NSString*) s
-{
-	[self insertString: s atIndex: 0];
-}
-@end
-
 @implementation CMController
 - (NSArray*) scripts
 {
 	return scripts_;
+}
+
+- (NSDictionary*) scriptsConfig
+{
+    NSString* path = [@"~/Library/Application Support/Creammonkey/config.plist" stringByExpandingTildeInPath];
+    return [NSDictionary dictionaryWithContentsOfFile: path];
+}
+
+- (void) saveScriptsConfig
+{
+    NSMutableDictionary* dict = [NSMutableDictionary dictionary];
+    
+    NSEnumerator* enumerator = [scripts_ objectEnumerator];
+    CMUserScript* script;
+    while (script = [enumerator nextObject]) {
+        [dict setObject: [NSNumber numberWithBool: [script isEnabled]]
+                 forKey: [script basename]];
+    }
+    
+    NSString* path = [@"~/Library/Application Support/Creammonkey/config.plist" stringByExpandingTildeInPath];
+    [dict writeToFile: path atomically: YES];
+}
+
+- (void) installScript: (CMUserScript*) s
+{
+    [s install: scriptDir_];
+    
+    [scripts_ addObject: s];
+    [self saveScriptsConfig];
+    [self reloadUserScripts: nil];
 }
 
 - (void) reloadMenu
@@ -41,7 +60,7 @@
         [item setTag: i];
         [item setTarget: self];
         [item setAction: @selector(toggleScriptEnable:)];
-        [item setState: NSOnState];
+        [item setState: [script isEnabled] ? NSOnState : NSOffState];
         
         [item setTitle: [script name]];
         [menu insertItem: item atIndex: i];
@@ -62,6 +81,8 @@
 		files = [manager directoryContentsAtPath: scriptDir_];
 	}
 	
+    NSDictionary* config = [self scriptsConfig];
+    
 	[self willChangeValueForKey: @"scripts"];
 	
 	int i;
@@ -75,6 +96,8 @@
 		
 		CMUserScript* script;
 		script = [[CMUserScript alloc] initWithContentsOfFile: path];
+
+        [script setEnabled: [[config objectForKey: [script basename]] intValue]];
 		
 		[scripts_ addObject: script];
 		[script release];
@@ -105,8 +128,7 @@
 {
 	CMUserScript* script = (CMUserScript*) contextInfo;
 	if (returnCode == NSAlertFirstButtonReturn) {
-		[script install: scriptDir_];
-		[self reloadUserScripts: nil];
+        [self installScript: script];
 	}
 	[script release];
 }
@@ -182,8 +204,7 @@
 	WebDataSource* dataSource = [[webView mainFrame] dataSource];
 	NSURL* url = [[dataSource request] URL];
 
-    // NSLog(@"F: url = %@", url);
-	
+    // User Script
 	if ([[url absoluteString] hasSuffix: @".user.js"]) {
 		CMUserScript* script;
 		script = [[CMUserScript alloc] initWithContentsOfURL: url];
@@ -193,9 +214,8 @@
 		}
 		return;
 	}
-    
+        
     if ([targetPages_ containsObject: dataSource]) {
-        // NSLog(@"targetPages_ = %@", targetPages_);
         [targetPages_ removeObject: dataSource];
     } else {
         return;
@@ -205,24 +225,20 @@
 		return;
 	}
 	
-	// Build Script
-	NSMutableString* script = [[NSMutableString alloc] init];
-
+    // Eval Once?
+    NSString* s = [webView stringByEvaluatingJavaScriptFromString: @"document.body.__creammonkeyed__;"];
+    if ([s isEqualToString: @"true"]) {
+        return;
+    } else {
+		[webView stringByEvaluatingJavaScriptFromString: @"document.body.__creammonkeyed__ = true;"];
+    }
+	
+    // Eval!
 	NSArray* ary = [self matchedScripts: url];
 	int i;
 	for (i = 0; i < [ary count]; i++) {
-		[script appendString: [ary objectAtIndex: i]];
+        [webView stringByEvaluatingJavaScriptFromString: [ary objectAtIndex: i]];
 	}
-
-    
-	if ([script length] > 0) {
-		// Eval
-        [script prependString: @"if (! document.body.__creammonkeyed__) { "];
-        [script appendString: @"; document.body.__creammonkeyed__ = true; }"];
-		[webView stringByEvaluatingJavaScriptFromString: script];
-	}
-	
-	[script release];
 }
 
 #pragma mark Action
@@ -232,6 +248,8 @@
     
     [script setEnabled: [sender state] != NSOnState];
     [sender setState: [script isEnabled] ? NSOnState : NSOffState];
+    
+    [self saveScriptsConfig];
 }
 
 - (IBAction) uninstallSelected: (id) sender
@@ -252,7 +270,7 @@
 		@"Creammonkey",  @"ApplicationName",
 		icon,  @"ApplicationIcon",
 		@"",  @"Version",
-		@"Version 0.6",  @"ApplicationVersion",
+		@"Version 0.7",  @"ApplicationVersion",
 		@"Copyright (c) 2006 KATO Kazuyoshi",  @"Copyright",
 		nil];
 	[NSApp orderFrontStandardAboutPanelWithOptions: options];
@@ -275,29 +293,17 @@
 	if (! [identifier isEqual: @"com.apple.Safari"]) {
 		return nil;
 	}
-
-	NSLog(@"CMController - init");
 	
+	NSLog(@"CMController %p - init", self);
 	self = [super init];
-	if (! self) {
+	if (! self)
 		return nil;
-	}
 	
 	scriptDir_ = [@"~/Library/Application Support/Creammonkey/" stringByExpandingTildeInPath];
 	[scriptDir_ retain];
 	
 	scripts_ = nil;    
-    
-#if 1
     targetPages_ = [[NSMutableSet alloc] init];
-#else
-    CFSetCallBacks callbacks = kCFTypeSetCallBacks;
-    callbacks.retain = NULL;
-    callbacks.release = NULL;
-    
-    targetPages_ = (NSMutableSet*) CFSetCreateMutable(kCFAllocatorDefault,
-                                                      0, &callbacks);
-#endif
 	
 	[NSBundle loadNibNamed: @"Menu.nib" owner: self];
 	
@@ -320,7 +326,7 @@
 
 	// Menu
 	NSMenuItem* item;
-	
+
 	item = [[NSMenuItem alloc] init];
 	[item setSubmenu: menu];
 	
