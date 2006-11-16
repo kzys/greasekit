@@ -7,6 +7,17 @@
 #import <WebKit/WebKit.h>
 #import "CMUserScript.h"
 
+@interface NSMutableString(StringPrepend)
+- (void) prependString: (NSString*) s;
+@end
+
+@implementation NSMutableString(StringPrepend)
+- (void) prependString: (NSString*) s
+{
+	[self insertString: s atIndex: 0];
+}
+@end
+
 @implementation CMController
 - (NSArray*) scripts
 {
@@ -78,8 +89,23 @@
 					   webView: (WebView*) webView
 {
 	NSAlert* alert = [[NSAlert alloc] init];
-	[alert setInformativeText: [NSString stringWithFormat: @"%@ - %@", [script name], [script description]]];
+
+	// Informative Text
+	NSMutableString* text = [[NSMutableString alloc] init];
 	
+	if ([script name] && [script description]) {
+		[text appendFormat: @"%@ - %@", [script name], [script description]];
+	} else {
+		if ([script name])
+			[text appendString: [script name]];
+		else if ([script description])
+			[text appendString: [script description]];
+	}
+	
+	[alert setInformativeText: text];
+	[text release];
+	
+	// Message and Buttons
 	if([script isInstalled: scriptDir_]) {
 		[alert setMessageText: @"This script is installed, Override?"];	
 		[alert addButtonWithTitle: @"Override"];
@@ -89,6 +115,7 @@
 	}
 	[alert addButtonWithTitle: @"Cancel"];
 	
+	// Begin Sheet
 	[alert beginSheetModalForWindow: [webView window]
 					  modalDelegate: self
 					 didEndSelector: @selector(installAlertDidEnd:returnCode:contextInfo:)
@@ -113,15 +140,29 @@
 		}
 		return;
 	}
-		
+	
+	if (! [[webView mainFrame] DOMDocument]) {
+		return;
+	}
+	
+	// Build Script
+	NSMutableString* script = [[NSMutableString alloc] init];
+
 	NSArray* ary = [self matchedScripts: url];
 	int i;
 	for (i = 0; i < [ary count]; i++) {
-		NSString* script = [ary objectAtIndex: i];
 		// User script is working!
 		[root_ setTitle: @";)"];
+
+		[script appendString: [ary objectAtIndex: i]];
+	}
+	
+	if ([script length] > 0) {
+		// Eval
 		[webView stringByEvaluatingJavaScriptFromString: script];
 	}
+	
+	[script release];
 }
 
 #pragma mark Action
@@ -140,10 +181,10 @@
 	
 	NSDictionary* options;
 	options = [NSDictionary dictionaryWithObjectsAndKeys: 
-		@"CreamMonkey",  @"ApplicationName",
+		@"Creammonkey",  @"ApplicationName",
 		icon,  @"ApplicationIcon",
 		@"",  @"Version",
-		@"Version 0.2",  @"ApplicationVersion",
+		@"Version 0.3",  @"ApplicationVersion",
 		@"Copyright (c) 2006 KATO Kazuyoshi",  @"Copyright",
 		nil];
 	[NSApp orderFrontStandardAboutPanelWithOptions: options];
@@ -167,14 +208,14 @@
 		return nil;
 	}
 
-	// NSLog(@"CMController - init");
+	NSLog(@"CMController - init");
 	
 	self = [super init];
 	if (! self) {
 		return nil;
 	}
 	
-	scriptDir_ = [@"~/Library/Application Support/CreamMonkey/" stringByExpandingTildeInPath];
+	scriptDir_ = [@"~/Library/Application Support/Creammonkey/" stringByExpandingTildeInPath];
 	[scriptDir_ retain];
 	
 	scripts_ = nil;
