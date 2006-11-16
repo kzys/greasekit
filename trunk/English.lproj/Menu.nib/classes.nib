@@ -1,9 +1,10 @@
 {
     IBClasses = (
         {
+            ACTIONS = {orderFrontAboutPanel = id; reloadUserScripts = id; uninstallSelected = id; }; 
             CLASS = CMController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {menu = NSMenu; }; 
+            OUTLETS = {menu = NSMenu; scriptsController = NSArrayController; }; 
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
