@@ -3,17 +3,15 @@
  * This source code is released under the MIT license.
  */
 
-#import "CreamMonkey.h"
+#import "Creammonkey.h"
 #import "CMController.h"
 #import "WildcardPattern.h"
 
-@implementation CreamMonkey
+@implementation Creammonkey
 
 #pragma mark Override
 + (void) load
 {
-	// NSLog(@"CreamMonkey + load");
-	
 	[[CMController alloc] init];
 }
 
