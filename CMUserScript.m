@@ -6,20 +6,6 @@
 #import "CMUserScript.h"
 #import "WildcardPattern.h"
 
-@interface NSArray(ArrayFirstObject)
-- (id) firstObject;
-@end
-
-@implementation NSArray(ArrayFirstObject)
-- (id) firstObject
-{
-	if ([self count] > 0)
-		return [self objectAtIndex: 0];
-	else
-		return nil;
-}
-@end
-
 @implementation CMUserScript
 - (BOOL) isInstalled: (NSString*) scriptDir
 {
@@ -31,12 +17,12 @@
 
 - (NSString*) name
 {
-	return [[metadata_ objectForKey: @"@name"] firstObject];
+	return name_;
 }
 
 - (NSString*) description
 {
-	return [[metadata_ objectForKey: @"@description"] firstObject];
+	return description_;
 }
 
 - (NSString*) script
@@ -167,23 +153,32 @@
 
 - (id) initWithString: (NSString*) script
 {
-	self = [self init];
-	if (! self)
+	NSDictionary* metadata = [CMUserScript parseMetadata: script];
+	if (! metadata)
 		return nil;
-		
+	
+	if ([[metadata objectForKey: @"@name"] count] &&
+		[[metadata objectForKey: @"@description"] count] &&
+		[[metadata objectForKey: @"@include"] count])
+		;
+	else
+		return nil;
+
+	self = [self init];
+	
 	script_ = [script retain];
 	
-	// metadata
-	metadata_ = [[CMUserScript parseMetadata: script] retain];
-	// NSLog(@"metadata_ = %@", metadata_);
+	// name, description
+	name_ = [[[metadata objectForKey: @"@name"] objectAtIndex: 0] retain];
+	description_ = [[[metadata objectForKey: @"@description"] objectAtIndex: 0] retain];
 	
 	// include
 	NSArray* ary;
-	ary = [CMUserScript createPatterns: [metadata_ objectForKey: @"@include"]];
+	ary = [CMUserScript createPatterns: [metadata objectForKey: @"@include"]];
 	[include_ addObjectsFromArray: ary];
 	
 	// exclude
-	ary = [CMUserScript createPatterns: [metadata_ objectForKey: @"@exclude"]];
+	ary = [CMUserScript createPatterns: [metadata objectForKey: @"@exclude"]];
 	[exclude_ addObjectsFromArray: ary];
 	
 	return self;
@@ -228,8 +223,9 @@
 	self = [super init];
 	
 	script_ = nil;
-
-	metadata_ = nil;
+	
+	name_ = nil;
+	description_ = nil;
 	include_ = [[NSMutableArray alloc] init];
 	exclude_ = [[NSMutableArray alloc] init];
 	
@@ -245,7 +241,8 @@
 
 	[script_ release];
 
-	[metadata_ release];
+	[name_ release];
+	[description_ release];
 	[include_ release];
 	
 	[basename_ release];
