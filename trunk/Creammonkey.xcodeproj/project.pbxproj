@@ -61,6 +61,7 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* Creammonkey_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Creammonkey_Prefix.pch; sourceTree = "<group>"; };
+		404B82FC09C331FE00CBF32A /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4062458709A325B00040CB9C /* CMController.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMController.h; sourceTree = "<group>"; };
 		4062458809A325B00040CB9C /* CMController.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMController.m; sourceTree = "<group>"; };
 		4062458909A325B00040CB9C /* CMUserScript.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMUserScript.h; sourceTree = "<group>"; };
@@ -72,13 +73,14 @@
 		4062459B09A325F40040CB9C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 		406245B609A326440040CB9C /* Info */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text.xml; path = Info; sourceTree = "<group>"; };
 		4062461609A3282B0040CB9C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Menu.nib; sourceTree = "<group>"; };
-		40A3E04D09A57CCA0091278C /* Test.cptest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = Test.cptest; path = build/Release/Test.cptest; sourceTree = "<group>"; };
+		40A3E04D09A57CCA0091278C /* Test.cptest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.cptest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40A3E04E09A57CCA0091278C /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
 		40A3E05309A57CEF0091278C /* CMUserScriptTest.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMUserScriptTest.h; sourceTree = "<group>"; };
 		40A3E05409A57CEF0091278C /* CMUserScriptTest.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMUserScriptTest.m; sourceTree = "<group>"; };
 		40A3E05509A57CEF0091278C /* WildcardPatternTest.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = WildcardPatternTest.h; sourceTree = "<group>"; };
 		40A3E05609A57CEF0091278C /* WildcardPatternTest.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = WildcardPatternTest.m; sourceTree = "<group>"; };
 		40A3E0A309A58AF40091278C /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
+		40A95AF609BDAF27001C0447 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/Menu.nib; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* Creammonkey.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Creammonkey.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -374,6 +376,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				089C167EFE841241C02AAC07 /* English */,
+				404B82FC09C331FE00CBF32A /* German */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				4062461609A3282B0040CB9C /* English */,
+				40A95AF609BDAF27001C0447 /* German */,
 			);
 			name = Menu.nib;
 			sourceTree = "<group>";
