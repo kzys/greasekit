@@ -5,7 +5,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface CreamMonkey : NSObject {
+@interface Creammonkey : NSObject {
 }
 
 @end
