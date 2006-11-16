@@ -81,6 +81,8 @@
 		40A3E05609A57CEF0091278C /* WildcardPatternTest.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = WildcardPatternTest.m; sourceTree = "<group>"; };
 		40A3E0A309A58AF40091278C /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
 		40A95AF609BDAF27001C0447 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/Menu.nib; sourceTree = "<group>"; };
+		40F6844609CA6CBD004C4C61 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Spanish; path = Spanish.lproj/Menu.nib; sourceTree = "<group>"; };
+		40F6844809CA6CD2004C4C61 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Spanish; path = Spanish.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* Creammonkey.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Creammonkey.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -117,7 +119,6 @@
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
-				4062461509A3282B0040CB9C /* Menu.nib */,
 				40A3E04E09A57CCA0091278C /* Test-Info.plist */,
 			);
 			name = Creammonkey;
@@ -135,6 +136,7 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4062461509A3282B0040CB9C /* Menu.nib */,
 				406245B609A326440040CB9C /* Info */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
@@ -301,6 +303,13 @@
 				014CEA430018CDE011CA2923 /* Release */,
 			);
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				Spanish,
+			);
 			mainGroup = 089C166AFE841209C02AAC07 /* Creammonkey */;
 			projectDirPath = "";
 			targets = (
@@ -377,6 +386,7 @@
 			children = (
 				089C167EFE841241C02AAC07 /* English */,
 				404B82FC09C331FE00CBF32A /* German */,
+				40F6844809CA6CD2004C4C61 /* Spanish */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -386,6 +396,7 @@
 			children = (
 				4062461609A3282B0040CB9C /* English */,
 				40A95AF609BDAF27001C0447 /* German */,
+				40F6844609CA6CBD004C4C61 /* Spanish */,
 			);
 			name = Menu.nib;
 			sourceTree = "<group>";
