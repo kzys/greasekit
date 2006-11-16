@@ -51,8 +51,10 @@
 {
 	[fullPath_ release];
 	fullPath_ = [[NSString alloc] initWithFormat: @"%@/%@", path, basename_];
+    
+    NSData* data = [script_ dataUsingEncoding: [script_ smallestEncoding]];
 	
-	return [script_ writeToFile: fullPath_ atomically: YES];
+	return [data writeToFile: fullPath_ atomically: YES];
 }
 
 - (BOOL) uninstall
@@ -181,6 +183,7 @@
 		return nil;
 		
 	script_ = [script retain];
+    // NSLog(@"script_ = %@", script_);
 	
 	// metadata
 	metadata_ = [[CMUserScript parseMetadata: script] retain];
@@ -198,12 +201,22 @@
 	return self;
 }
 
+- (id) initWithData: (NSData*) data
+{
+    NSString* str = [[NSString alloc] initWithData: data
+                                          encoding: NSUTF8StringEncoding];
+
+	self = [self initWithString: str];
+	if (! self)
+		return nil;
+	
+	return self;
+}
+
+
 - (id) initWithContentsOfFile: (NSString*) path
 {
-	NSString* script = [[NSString alloc] initWithContentsOfFile: path];
-	
-	self = [self initWithString: script];
-	[script release];	
+    self = [self initWithData: [NSData dataWithContentsOfFile: path]];
 
 	if (! self)
 		return nil;
@@ -216,10 +229,7 @@
 
 - (id) initWithContentsOfURL: (NSURL*) url
 {
-	NSString* script = [[NSString alloc] initWithContentsOfURL: url];
-	
-	self = [self initWithString: script];
-	[script release];
+    self = [self initWithData: [NSData dataWithContentsOfURL: url]];
 	
 	if (! self)
 		return nil;
