@@ -14,8 +14,6 @@
 		402FF8CB099F29D5007B4C8F /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 402FF890099F2733007B4C8F /* SenTestingKit.framework */; };
 		402FF8CC099F29D7007B4C8F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		402FF8CE099F29E4007B4C8F /* WildcardPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 402FF7FB099F18F1007B4C8F /* WildcardPattern.m */; };
-		404629BF09A0D075009C3946 /* CMUserScriptTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 404629BE09A0D075009C3946 /* CMUserScriptTest.m */; };
-		404629D809A0D10C009C3946 /* CMUserScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 402FF6E8099F0CE2007B4C8F /* CMUserScript.m */; };
 		40892A98099EEDE500D05D08 /* CreamMonkey.m in Sources */ = {isa = PBXBuildFile; fileRef = 40892A97099EEDE500D05D08 /* CreamMonkey.m */; };
 		40892AAC099EEED000D05D08 /* Menu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 40892AAA099EEED000D05D08 /* Menu.nib */; };
 		40892AC3099EEF7000D05D08 /* Info in Resources */ = {isa = PBXBuildFile; fileRef = 40892AC2099EEF7000D05D08 /* Info */; };
@@ -67,13 +65,12 @@
 		402FF748099F11CA007B4C8F /* CMController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMController.m; sourceTree = "<group>"; };
 		402FF7FA099F18F1007B4C8F /* WildcardPattern.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WildcardPattern.h; sourceTree = "<group>"; };
 		402FF7FB099F18F1007B4C8F /* WildcardPattern.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WildcardPattern.m; sourceTree = "<group>"; };
+		402FF84A099F1CA0007B4C8F /* UnitTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "UnitTest-Info.plist"; sourceTree = "<group>"; };
 		402FF84F099F1CBE007B4C8F /* WildcardPatternTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WildcardPatternTest.h; sourceTree = "<group>"; };
 		402FF850099F1CBE007B4C8F /* WildcardPatternTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WildcardPatternTest.m; sourceTree = "<group>"; };
 		402FF890099F2733007B4C8F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
 		402FF8C2099F29C1007B4C8F /* Test.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		402FF8C3099F29C1007B4C8F /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
-		404629BD09A0D075009C3946 /* CMUserScriptTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMUserScriptTest.h; sourceTree = "<group>"; };
-		404629BE09A0D075009C3946 /* CMUserScriptTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMUserScriptTest.m; sourceTree = "<group>"; };
 		40892A96099EEDE500D05D08 /* CreamMonkey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreamMonkey.h; sourceTree = "<group>"; };
 		40892A97099EEDE500D05D08 /* CreamMonkey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreamMonkey.m; sourceTree = "<group>"; };
 		40892AAB099EEED000D05D08 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Menu.nib; sourceTree = "<group>"; };
@@ -114,6 +111,7 @@
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
+				402FF84A099F1CA0007B4C8F /* UnitTest-Info.plist */,
 				402FF8C3099F29C1007B4C8F /* Test-Info.plist */,
 			);
 			name = CreamMonkey;
@@ -195,8 +193,6 @@
 			children = (
 				402FF84F099F1CBE007B4C8F /* WildcardPatternTest.h */,
 				402FF850099F1CBE007B4C8F /* WildcardPatternTest.m */,
-				404629BD09A0D075009C3946 /* CMUserScriptTest.h */,
-				404629BE09A0D075009C3946 /* CMUserScriptTest.m */,
 			);
 			name = "Test Cases";
 			sourceTree = "<group>";
@@ -348,8 +344,6 @@
 			files = (
 				402FF8CA099F29D1007B4C8F /* WildcardPatternTest.m in Sources */,
 				402FF8CE099F29E4007B4C8F /* WildcardPattern.m in Sources */,
-				404629BF09A0D075009C3946 /* CMUserScriptTest.m in Sources */,
-				404629D809A0D10C009C3946 /* CMUserScript.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
