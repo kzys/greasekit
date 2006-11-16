@@ -6,8 +6,7 @@
 #import <Cocoa/Cocoa.h>
 
 @interface CMUserScript : NSObject {
-	NSString* name_;
-	NSString* description_;
+	NSDictionary* metadata_;
 	NSString* script_;
 	
 	NSMutableArray* include_;
