@@ -24,6 +24,30 @@
 	return scripts_;
 }
 
+- (void) reloadMenu
+{
+    int i;
+
+    int count = [menu indexOfItemWithTag: -1];
+    for (i = 0; i < count; i++) {
+        [menu removeItemAtIndex: 0];
+    }
+    
+    for (i = 0; i < [scripts_ count]; i++) {  
+        CMUserScript* script = [scripts_ objectAtIndex: i];
+        
+        NSMenuItem* item = [[NSMenuItem alloc] init];
+        
+        [item setTag: i];
+        [item setTarget: self];
+        [item setAction: @selector(toggleScriptEnable:)];
+        [item setState: NSOnState];
+        
+        [item setTitle: [script name]];
+        [menu insertItem: item atIndex: i];
+    }
+}
+
 - (void) loadUserScripts
 {
 	NSFileManager* manager;
@@ -56,6 +80,8 @@
 		[script release];
 	}
 	[self didChangeValueForKey: @"scripts"];
+    
+    [self reloadMenu];
 }
 
 - (NSArray*) matchedScripts: (NSURL*) url
@@ -65,7 +91,7 @@
 	int i;
 	for (i = 0; i < [scripts_ count]; i++) {
 		CMUserScript* script = [scripts_ objectAtIndex: i];
-		if ([script isMatched: url]) {
+		if ([script isEnabled] && [script isMatched: url]) {
 			[result addObject: [script script]];
 		}
 	}
@@ -137,10 +163,19 @@
 
     NSArray* ary = [self matchedScripts: url];
     if ([ary count] > 0) {
-        [targetPages_ addObject: dataSource];
+        if ([targetPages_ containsObject: dataSource]) {
+            [targetPages_ removeObject: dataSource];
+        } else {
+            [targetPages_ addObject: dataSource];
+        }
     }
 }
-    
+
+- (void) progressChanged: (NSNotification*) n
+{    
+    ;
+}    
+
 - (void) progressFinished: (NSNotification*) n
 {    
 	WebView* webView = [n object];
@@ -160,6 +195,7 @@
 	}
     
     if ([targetPages_ containsObject: dataSource]) {
+        // NSLog(@"targetPages_ = %@", targetPages_);
         [targetPages_ removeObject: dataSource];
     } else {
         return;
@@ -177,9 +213,12 @@
 	for (i = 0; i < [ary count]; i++) {
 		[script appendString: [ary objectAtIndex: i]];
 	}
-	
+
+    
 	if ([script length] > 0) {
 		// Eval
+        [script prependString: @"if (! document.body.__creammonkeyed__) { "];
+        [script appendString: @"; document.body.__creammonkeyed__ = true; }"];
 		[webView stringByEvaluatingJavaScriptFromString: script];
 	}
 	
@@ -187,6 +226,14 @@
 }
 
 #pragma mark Action
+- (IBAction) toggleScriptEnable: (id) sender
+{
+    CMUserScript* script = [scripts_ objectAtIndex: [sender tag]];
+    
+    [script setEnabled: [sender state] != NSOnState];
+    [sender setState: [script isEnabled] ? NSOnState : NSOffState];
+}
+
 - (IBAction) uninstallSelected: (id) sender
 {
 	CMUserScript* script = [[scriptsController selectedObjects] objectAtIndex: 0];
@@ -205,7 +252,7 @@
 		@"Creammonkey",  @"ApplicationName",
 		icon,  @"ApplicationIcon",
 		@"",  @"Version",
-		@"Version 0.5",  @"ApplicationVersion",
+		@"Version 0.6",  @"ApplicationVersion",
 		@"Copyright (c) 2006 KATO Kazuyoshi",  @"Copyright",
 		nil];
 	[NSApp orderFrontStandardAboutPanelWithOptions: options];
@@ -239,10 +286,18 @@
 	scriptDir_ = [@"~/Library/Application Support/Creammonkey/" stringByExpandingTildeInPath];
 	[scriptDir_ retain];
 	
-	scripts_ = nil;
-	[self reloadUserScripts: nil];
+	scripts_ = nil;    
     
+#if 1
     targetPages_ = [[NSMutableSet alloc] init];
+#else
+    CFSetCallBacks callbacks = kCFTypeSetCallBacks;
+    callbacks.retain = NULL;
+    callbacks.release = NULL;
+    
+    targetPages_ = (NSMutableSet*) CFSetCreateMutable(kCFAllocatorDefault,
+                                                      0, &callbacks);
+#endif
 	
 	[NSBundle loadNibNamed: @"Menu.nib" owner: self];
 	
@@ -261,23 +316,28 @@
 
 - (void) awakeFromNib
 {
+	[self reloadUserScripts: nil];
+
 	// Menu
 	NSMenuItem* item;
 	
 	item = [[NSMenuItem alloc] init];
 	[item setSubmenu: menu];
 	
-	root_ = item;
 	[menu setTitle: @":)"];
 	
 	[[NSApp mainMenu] addItem: item];
 	[item release];
-	
+    	
 	// Notification
 	NSNotificationCenter* center = [NSNotificationCenter defaultCenter];    
 	[center addObserver: self
 			   selector: @selector(progressStarted:)
 				   name: WebViewProgressStartedNotification
+				 object: nil];
+	[center addObserver: self
+			   selector: @selector(progressChanged:)
+				   name: WebViewProgressEstimateChangedNotification
 				 object: nil];
 	[center addObserver: self
 			   selector: @selector(progressFinished:)
