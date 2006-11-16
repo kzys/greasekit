@@ -9,8 +9,8 @@
 	NSDictionary* metadata_;
 	NSString* script_;
 	
-	NSMutableArray* include_;
-	NSMutableArray* exclude_;
+	NSArray* include_;
+	NSArray* exclude_;
 	
 	NSString* basename_;
 	NSString* fullPath_;
