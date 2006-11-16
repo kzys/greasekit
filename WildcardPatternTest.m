@@ -1,17 +1,6 @@
 #import "WildcardPatternTest.h"
 
-
 @implementation WildcardPatternTest
-- (void) setUp
-{
-	;
-}
-
-- (void) tearDown
-{
-	;
-}
-
 - (void) testPlainMatch
 {
 	WildcardPattern* pat;
