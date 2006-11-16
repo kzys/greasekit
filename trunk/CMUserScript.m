@@ -52,7 +52,7 @@
 	[fullPath_ release];
 	fullPath_ = [[NSString alloc] initWithFormat: @"%@/%@", path, basename_];
     
-    NSData* data = [script_ dataUsingEncoding: [script_ smallestEncoding]];
+    NSData* data = [script_ dataUsingEncoding: NSUTF8StringEncoding];
 	
 	return [data writeToFile: fullPath_ atomically: YES];
 }
@@ -64,6 +64,16 @@
 														handler: nil];
 	}
 	return NO;
+}
+
+- (BOOL) isEnabled
+{
+    return enabled_;
+}
+
+- (void) setEnabled: (BOOL) flag
+{
+    enabled_ = flag;
 }
 
 - (BOOL) isMatched: (NSURL*) url
@@ -206,6 +216,8 @@
     NSString* str = [[NSString alloc] initWithData: data
                                           encoding: NSUTF8StringEncoding];
 
+    // NSLog(@"str = %@", str);
+    
 	self = [self initWithString: str];
 	if (! self)
 		return nil;
@@ -254,6 +266,8 @@
 	
 	basename_ = nil;
 	fullPath_ = nil;
+    
+    enabled_ = YES;
 	
 	return self;
 }
