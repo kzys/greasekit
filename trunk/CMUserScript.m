@@ -221,8 +221,6 @@
 {
     NSString* str = [[NSString alloc] initWithData: data
                                           encoding: NSUTF8StringEncoding];
-
-    // NSLog(@"str = %@", str);
     
 	self = [self initWithString: str];
 	if (! self)
@@ -247,8 +245,17 @@
 
 - (id) initWithContentsOfURL: (NSURL*) url
 {
-    self = [self initWithData: [NSData dataWithContentsOfURL: url]];
-	
+    NSURLRequest* req = [NSURLRequest requestWithURL: url];
+    NSURLResponse* resp;
+    NSError* error;
+
+    NSData* data = [NSURLConnection sendSynchronousRequest: req
+                                         returningResponse: &resp
+                                                     error: &error];
+    if (! data)
+        return nil;
+    
+    self = [self initWithData: data];
 	if (! self)
 		return nil;
 	
