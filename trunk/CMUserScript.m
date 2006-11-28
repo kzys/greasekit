@@ -25,7 +25,7 @@
 - (BOOL) isInstalled: (NSString*) scriptDir
 {
 	NSString* path;
-	path = [NSString stringWithFormat: @"%@/%@", scriptDir, basename_];
+	path = [NSString stringWithFormat: @"%@/%@", scriptDir, [self basename]];
 	
 	return [[NSFileManager defaultManager] fileExistsAtPath: path];
 }
@@ -35,7 +35,7 @@
     if ([metadata_ objectForKey: @"@name"])
         return [[metadata_ objectForKey: @"@name"] firstObject];
     else
-        return basename_;
+        return [self basename];
 }
 
 - (NSString*) description
@@ -50,13 +50,17 @@
 
 - (NSString*) basename
 {
-	return basename_;
+    if (url_) {
+        return [[url_ path] lastPathComponent];
+    } else {
+        return [fullPath_ lastPathComponent];
+    }
 }
 
 - (BOOL) install: (NSString*) path
 {
 	[fullPath_ release];
-	fullPath_ = [[NSString alloc] initWithFormat: @"%@/%@", path, basename_];
+	fullPath_ = [[NSString alloc] initWithFormat: @"%@/%@", path, [self basename]];
     
     NSData* data = [script_ dataUsingEncoding: NSUTF8StringEncoding];
 	
@@ -237,7 +241,6 @@
 	if (! self)
 		return nil;
 	
-	basename_ = [[path lastPathComponent] retain];
 	fullPath_ = [path retain];
 	
 	return self;
@@ -259,7 +262,7 @@
 	if (! self)
 		return nil;
 	
-	basename_ = [[[url absoluteString] lastPathComponent] retain];
+    url_ = [url retain];
 	
 	return self;
 }
@@ -277,8 +280,8 @@
 	include_ = nil;
 	exclude_ = nil;
 	
-	basename_ = nil;
 	fullPath_ = nil;
+    url_ = nil;
     
     enabled_ = YES;
 	
@@ -294,7 +297,6 @@
 	[metadata_ release];
 	[include_ release];
 	
-	[basename_ release];
 	[fullPath_ release];
 	
 	[super dealloc];
