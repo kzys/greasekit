@@ -175,12 +175,10 @@
 	WebDataSource* dataSource = [[webView mainFrame] dataSource];
 	NSURL* url = [[dataSource request] URL];
 
-    if ([targetPages_ containsObject: dataSource]) {
-        [targetPages_ removeObject: dataSource];
-    } else {
-        return;
-    }
-		
+    if (! [[webView mainFrame] DOMDocument]) {
+		return;
+	}
+
     // Eval Once?
     NSString* s = [webView stringByEvaluatingJavaScriptFromString: @"document.body.__creammonkeyed__;"];
     if ([s isEqualToString: @"true"]) {
@@ -198,22 +196,8 @@
 }
 
 - (void) progressStarted: (NSNotification*) n
-{    
-	WebView* webView = [n object];
-	WebDataSource* dataSource = [[webView mainFrame] provisionalDataSource];
-    if (! dataSource) {
-        return;
-    }
-    
-	NSURL* url = [[dataSource request] URL];
-    NSArray* ary = [self matchedScripts: url];
-    if ([ary count] > 0) {
-        if ([targetPages_ containsObject: dataSource]) {
-            [targetPages_ removeObject: dataSource];
-        } else {
-            [targetPages_ addObject: dataSource];
-        }
-    }
+{
+    ;
 }
 
 - (void) progressChanged: (NSNotification*) n
@@ -222,8 +206,8 @@
     
     if (! [[webView mainFrame] DOMDocument]) {
 		return;
-	}
-    
+    }
+
     NSString* s = [webView stringByEvaluatingJavaScriptFromString: @"document.readyState"];
     if ([s isEqualToString: @"loaded"]) {
         [self evalScriptsInWebView: webView];
@@ -311,7 +295,6 @@
 	[scriptDir_ retain];
 	
 	scripts_ = nil;    
-    targetPages_ = [[NSMutableSet alloc] init];
 	
 	[NSBundle loadNibNamed: @"Menu.nib" owner: self];
 	
@@ -323,7 +306,6 @@
 	NSLog(@"CMController - dealloc");
 	
 	[scripts_ release];
-    [targetPages_ release];
     
 	[super dealloc];
 }

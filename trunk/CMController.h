@@ -11,7 +11,6 @@
 	
 	NSMutableArray* scripts_;
 	NSString* scriptDir_;
-    NSMutableSet* targetPages_;
 }
 
 - (IBAction) toggleScriptEnable: (id) sender;
