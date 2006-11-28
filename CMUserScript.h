@@ -12,8 +12,8 @@
 	NSArray* include_;
 	NSArray* exclude_;
 	
-	NSString* basename_;
 	NSString* fullPath_;
+    NSURL* url_;
     
     BOOL enabled_;
 }
