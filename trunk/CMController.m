@@ -197,7 +197,11 @@
 
 - (void) progressStarted: (NSNotification*) n
 {
-    ;
+    NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
+	[center addObserver: self
+			   selector: @selector(progressChanged:)
+				   name: WebViewProgressEstimateChangedNotification
+				 object: [n object]];
 }
 
 - (void) progressChanged: (NSNotification*) n
@@ -211,6 +215,11 @@
     NSString* s = [webView stringByEvaluatingJavaScriptFromString: @"document.readyState"];
     if ([s isEqualToString: @"loaded"]) {
         [self evalScriptsInWebView: webView];
+        
+        NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
+        [center removeObserver: self
+                          name: WebViewProgressEstimateChangedNotification
+                        object: webView];
     }
 }    
 
@@ -330,10 +339,6 @@
 	[center addObserver: self
 			   selector: @selector(progressStarted:)
 				   name: WebViewProgressStartedNotification
-				 object: nil];
-	[center addObserver: self
-			   selector: @selector(progressChanged:)
-				   name: WebViewProgressEstimateChangedNotification
 				 object: nil];
 	[center addObserver: self
 			   selector: @selector(progressFinished:)
