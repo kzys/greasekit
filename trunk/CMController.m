@@ -170,61 +170,17 @@
 						contextInfo: script];	
 }
 
-
-- (void) progressStarted: (NSNotification*) n
-{    
-	WebView* webView = [n object];
-	WebDataSource* dataSource = [[webView mainFrame] provisionalDataSource];
-    if (! dataSource) {
-        return;
-    }
-    
-	NSURL* url = [[dataSource request] URL];
-    
-    // NSLog(@"S: webView = %@, dataSource = %@, url = %@", webView, dataSource, url);
-
-    NSArray* ary = [self matchedScripts: url];
-    if ([ary count] > 0) {
-        if ([targetPages_ containsObject: dataSource]) {
-            [targetPages_ removeObject: dataSource];
-        } else {
-            [targetPages_ addObject: dataSource];
-        }
-    }
-}
-
-- (void) progressChanged: (NSNotification*) n
-{    
-    ;
-}    
-
-- (void) progressFinished: (NSNotification*) n
-{    
-	WebView* webView = [n object];
+- (void) evalScriptsInWebView: (WebView*) webView
+{
 	WebDataSource* dataSource = [[webView mainFrame] dataSource];
 	NSURL* url = [[dataSource request] URL];
 
-    // User Script
-	if ([[url absoluteString] hasSuffix: @".user.js"]) {
-		CMUserScript* script;
-		script = [[CMUserScript alloc] initWithContentsOfURL: url];
-		
-		if (script) {
-			[self showInstallAlertSheet: script webView: webView];
-		}
-		return;
-	}
-        
     if ([targetPages_ containsObject: dataSource]) {
         [targetPages_ removeObject: dataSource];
     } else {
         return;
     }
-	
-	if (! [[webView mainFrame] DOMDocument]) {
-		return;
-	}
-	
+		
     // Eval Once?
     NSString* s = [webView stringByEvaluatingJavaScriptFromString: @"document.body.__creammonkeyed__;"];
     if ([s isEqualToString: @"true"]) {
@@ -239,6 +195,58 @@
 	for (i = 0; i < [ary count]; i++) {
         [webView stringByEvaluatingJavaScriptFromString: [ary objectAtIndex: i]];
 	}
+}
+
+- (void) progressStarted: (NSNotification*) n
+{    
+	WebView* webView = [n object];
+	WebDataSource* dataSource = [[webView mainFrame] provisionalDataSource];
+    if (! dataSource) {
+        return;
+    }
+    
+	NSURL* url = [[dataSource request] URL];
+    NSArray* ary = [self matchedScripts: url];
+    if ([ary count] > 0) {
+        if ([targetPages_ containsObject: dataSource]) {
+            [targetPages_ removeObject: dataSource];
+        } else {
+            [targetPages_ addObject: dataSource];
+        }
+    }
+}
+
+- (void) progressChanged: (NSNotification*) n
+{    
+	WebView* webView = [n object];
+    
+    if (! [[webView mainFrame] DOMDocument]) {
+		return;
+	}
+    
+    NSString* s = [webView stringByEvaluatingJavaScriptFromString: @"document.readyState"];
+    if ([s isEqualToString: @"loaded"]) {
+        [self evalScriptsInWebView: webView];
+    }
+}    
+
+- (void) progressFinished: (NSNotification*) n
+{
+	WebView* webView = [n object];
+	WebDataSource* dataSource = [[webView mainFrame] dataSource];
+	NSURL* url = [[dataSource request] URL];
+
+    // User Script
+	if ([[url absoluteString] hasSuffix: @".user.js"]) {
+		CMUserScript* script;
+		script = [[CMUserScript alloc] initWithContentsOfURL: url];
+		
+		if (script) {
+			[self showInstallAlertSheet: script webView: webView];
+		}
+	} else {
+        [self evalScriptsInWebView: webView];
+    }
 }
 
 #pragma mark Action
