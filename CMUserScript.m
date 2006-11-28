@@ -45,7 +45,12 @@
 
 - (NSString*) script
 {
-	return script_;
+    if (fullPath_) {
+        return [[NSString alloc] initWithData: [NSData dataWithContentsOfFile: fullPath_]
+                                     encoding: NSUTF8StringEncoding];        
+    } else {
+        return script_;
+    }
 }
 
 - (NSString*) basename
@@ -63,7 +68,6 @@
 	fullPath_ = [[NSString alloc] initWithFormat: @"%@/%@", path, [self basename]];
     
     NSData* data = [script_ dataUsingEncoding: NSUTF8StringEncoding];
-	
 	return [data writeToFile: fullPath_ atomically: YES];
 }
 
