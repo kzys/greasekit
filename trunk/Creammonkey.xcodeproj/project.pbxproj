@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		402F816F0B9A68A9001EF155 /* template.js in Resources */ = {isa = PBXBuildFile; fileRef = 402F81010B9A5E3E001EF155 /* template.js */; };
 		4062458F09A325B00040CB9C /* CMController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062458809A325B00040CB9C /* CMController.m */; };
 		4062459009A325B10040CB9C /* CMUserScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062458A09A325B00040CB9C /* CMUserScript.m */; };
 		4062459109A325B10040CB9C /* Creammonkey.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062458C09A325B00040CB9C /* Creammonkey.m */; };
@@ -16,6 +17,7 @@
 		406245B709A326440040CB9C /* Info in Resources */ = {isa = PBXBuildFile; fileRef = 406245B609A326440040CB9C /* Info */; };
 		406245D909A327590040CB9C /* Info in CopyFiles */ = {isa = PBXBuildFile; fileRef = 406245B609A326440040CB9C /* Info */; };
 		4062461709A3282B0040CB9C /* Menu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4062461509A3282B0040CB9C /* Menu.nib */; };
+		406EA0460B9A3932004C2A39 /* XMLHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 406EA0440B9A3932004C2A39 /* XMLHttpRequest.m */; };
 		40A3E05709A57CEF0091278C /* CMUserScriptTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A3E05409A57CEF0091278C /* CMUserScriptTest.m */; };
 		40A3E05809A57CEF0091278C /* WildcardPatternTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A3E05609A57CEF0091278C /* WildcardPatternTest.m */; };
 		40A3E09A09A58AC00091278C /* CMUserScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062458A09A325B00040CB9C /* CMUserScript.m */; };
@@ -46,6 +48,7 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* Creammonkey_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Creammonkey_Prefix.pch; sourceTree = "<group>"; };
+		402F81010B9A5E3E001EF155 /* template.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = template.js; sourceTree = "<group>"; };
 		404B82FC09C331FE00CBF32A /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4062458709A325B00040CB9C /* CMController.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMController.h; sourceTree = "<group>"; };
 		4062458809A325B00040CB9C /* CMController.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMController.m; sourceTree = "<group>"; };
@@ -58,6 +61,8 @@
 		4062459B09A325F40040CB9C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 		406245B609A326440040CB9C /* Info */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text.xml; path = Info; sourceTree = "<group>"; };
 		4062461609A3282B0040CB9C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Menu.nib; sourceTree = "<group>"; };
+		406EA0430B9A3932004C2A39 /* XMLHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLHttpRequest.h; sourceTree = "<group>"; };
+		406EA0440B9A3932004C2A39 /* XMLHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLHttpRequest.m; sourceTree = "<group>"; };
 		40A3E04D09A57CCA0091278C /* Test.cptest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.cptest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40A3E04E09A57CCA0091278C /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
 		40A3E05309A57CEF0091278C /* CMUserScriptTest.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMUserScriptTest.h; sourceTree = "<group>"; };
@@ -125,6 +130,7 @@
 				406245B609A326440040CB9C /* Info */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+				402F81010B9A5E3E001EF155 /* template.js */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -140,6 +146,8 @@
 				4062458C09A325B00040CB9C /* Creammonkey.m */,
 				4062458D09A325B00040CB9C /* WildcardPattern.h */,
 				4062458E09A325B00040CB9C /* WildcardPattern.m */,
+				406EA0430B9A3932004C2A39 /* XMLHttpRequest.h */,
+				406EA0440B9A3932004C2A39 /* XMLHttpRequest.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -267,6 +275,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				402F816F0B9A68A9001EF155 /* template.js in Resources */,
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				406245B709A326440040CB9C /* Info in Resources */,
 				4062461709A3282B0040CB9C /* Menu.nib in Resources */,
@@ -311,6 +320,7 @@
 				4062459009A325B10040CB9C /* CMUserScript.m in Sources */,
 				4062459109A325B10040CB9C /* Creammonkey.m in Sources */,
 				4062459209A325B10040CB9C /* WildcardPattern.m in Sources */,
+				406EA0460B9A3932004C2A39 /* XMLHttpRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

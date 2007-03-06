@@ -4,10 +4,20 @@
  */
 
 #import "CMController.h"
+
 #import <WebKit/WebKit.h>
 #import "CMUserScript.h"
+#import "XMLHttpRequest.h"
 
 @implementation CMController
+- (NSString*) loadScriptTemplate
+{
+    NSBundle* bundle = [NSBundle bundleWithIdentifier: @"info.8-p.Creammonkey"];
+    NSString* path = [NSString stringWithFormat: @"%@/template.js", [bundle resourcePath]];   
+    NSLog(@"path = %@", path);
+    return [NSString stringWithContentsOfFile: path];
+}
+
 - (NSArray*) scripts
 {
 	return scripts_;
@@ -188,11 +198,30 @@
     }
 	
     // Eval!
+    id scriptObject = [webView windowScriptObject];
+    NSString* bridgeName = [NSString stringWithFormat: @"bridge%x", rand()];
+    if ([scriptObject valueForKey: bridgeName] != self) {
+        [scriptObject setValue: self forKey: bridgeName];
+    }
+
 	NSArray* ary = [self matchedScripts: url];
 	int i;
 	for (i = 0; i < [ary count]; i++) {
-        [webView stringByEvaluatingJavaScriptFromString: [ary objectAtIndex: i]];
+        NSMutableString* ms = [NSMutableString stringWithString: scriptTemplate_];
+
+        [ms replaceOccurrencesOfString: @"<bridge>"
+                            withString: bridgeName
+                               options: 0
+                                 range: NSMakeRange(0, [ms length])];
+        [ms replaceOccurrencesOfString: @"<body>"
+                            withString: [ary objectAtIndex: i]
+                               options: 0
+                                 range: NSMakeRange(0, [ms length])];
+     
+        NSLog(@"ms = %@", ms);
+        [webView stringByEvaluatingJavaScriptFromString: ms];
 	}
+    [scriptObject setValue: nil forKey: bridgeName];
 }
 
 - (void) progressStarted: (NSNotification*) n
@@ -202,6 +231,55 @@
 			   selector: @selector(progressChanged:)
 				   name: WebViewProgressEstimateChangedNotification
 				 object: [n object]];
+    
+    // NSLog(@"webView = %@, wso = %@", [n object], );
+}
+
++ (BOOL) isSelectorExcludedFromWebScript: (SEL) sel
+{
+    if (sel == @selector(gmLog:) ||
+        sel == @selector(gmValueForKey:defaultValue:) ||
+        sel == @selector(gmSetValue:forKey:) ||
+        sel == @selector(gmRegisterMenuCommand:callback:) ||
+        sel == @selector(gmXmlhttpRequest:))
+        return NO;
+    else
+        return YES;
+}
+
++ (BOOL) isKeyExcludedFromWebScript: (const char*) name
+{
+    return YES;
+}
+
+- (id) gmLog: (NSString*) s
+{
+    NSLog(@"%@", s);
+    return nil;
+}
+
+- (id) gmValueForKey: (NSString*) key
+        defaultValue: (NSString*) value
+{
+    return value;
+}
+
+- (id) gmSetValue: (NSString*) value
+           forKey: (NSString*) key
+{
+    return nil;
+}
+
+- (id) gmRegisterMenuCommand: (NSString*) text
+                    callback: (id) func
+{
+    return nil;
+}
+
+- (void) gmXmlhttpRequest: (WebScriptObject*) details
+{
+    [[XMLHttpRequest alloc] initWithDetails: details
+                                   delegate: self];
 }
 
 - (void) progressChanged: (NSNotification*) n
@@ -306,6 +384,8 @@
 	scripts_ = nil;    
 	
 	[NSBundle loadNibNamed: @"Menu.nib" owner: self];
+
+    scriptTemplate_ = [[self loadScriptTemplate] retain];
 	
 	return self;
 }
