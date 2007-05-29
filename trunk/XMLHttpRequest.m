@@ -1,11 +1,15 @@
 #import "XMLHttpRequest.h"
 
 
+#define IS_JS_UNDEF(obj) ([(obj) isKindOfClass: [WebUndefined class]])
+
 @implementation XMLHttpRequest
 
 WebScriptObject* webScriptFunctionCall(WebScriptObject* func, id arg)
 {
-    // NSLog(@"func = %@", func);
+    if (IS_JS_UNDEF(func)) {
+        return nil;
+    }
     WebScriptObject* jsThis = [func evaluateWebScript: @"this"];
     return [func callWebScriptMethod: @"call"
                        withArguments: [NSArray arrayWithObjects: jsThis, arg, nil]];
@@ -42,8 +46,8 @@ NSArray* webScriptObjectKeys(WebScriptObject* obj)
     [req setHTTPMethod: [details valueForKey: @"method"]];
     
     // headers
-    if ([details valueForKey: @"headers"]) {
-        WebScriptObject* headers = [details valueForKey: @"headers"];
+    WebScriptObject* headers = [details valueForKey: @"headers"];
+    if (! IS_JS_UNDEF(headers)) {
         NSArray* keys = webScriptObjectKeys(headers);
         
         size_t i;
@@ -61,10 +65,10 @@ NSArray* webScriptObjectKeys(WebScriptObject* obj)
     onReadyStateChange_ = [[details valueForKey: @"onreadystatechange"] retain];
     
     data_ = [[NSMutableData alloc] init];
-    response_ = [[NSMutableDictionary alloc] init];
+    response_ = [[details evaluateWebScript: @"new Object"] retain];
     
     // call onreadystate 1
-    [response_ setObject: [NSNumber numberWithInt: 1]
+    [response_ setValue: [NSNumber numberWithInt: 1]
                   forKey: @"readyState"];
     webScriptFunctionCall(onReadyStateChange_, response_);
 
@@ -73,7 +77,7 @@ NSArray* webScriptObjectKeys(WebScriptObject* obj)
                                     delegate: self];
     
     // call onreadystate 2
-    [response_ setObject: [NSNumber numberWithInt: 2]
+    [response_ setValue: [NSNumber numberWithInt: 2]
                   forKey: @"readyState"];
     webScriptFunctionCall(onReadyStateChange_, response_);    
 
@@ -84,11 +88,11 @@ NSArray* webScriptObjectKeys(WebScriptObject* obj)
  didReceiveResponse: (NSURLResponse*) resp
 {    
     NSHTTPURLResponse* http = (NSHTTPURLResponse*) resp;
-    [response_ setObject: [NSNumber numberWithInt: [http statusCode]] 
+    [response_ setValue: [NSNumber numberWithInt: [http statusCode]] 
                   forKey: @"status"];
-    [response_ setObject: [NSHTTPURLResponse localizedStringForStatusCode: [http statusCode]] 
+    [response_ setValue: [NSHTTPURLResponse localizedStringForStatusCode: [http statusCode]] 
                   forKey: @"statusText"];
-    [response_ setObject: [http allHeaderFields]
+    [response_ setValue: [http allHeaderFields]
                   forKey: @"responseHeaders"];
     
     [data_ setLength: 0];
@@ -99,19 +103,20 @@ NSArray* webScriptObjectKeys(WebScriptObject* obj)
 {
     [data_ appendData:data];
 
-    [response_ setObject: [NSNumber numberWithInt: 3]
+    [response_ setValue: [NSNumber numberWithInt: 3]
                   forKey: @"readyState"];
     webScriptFunctionCall(onReadyStateChange_, response_);    
 }
 
 - (void) connectionDidFinishLoading: (NSURLConnection*) connection
 {
-    NSString* s = [[NSString alloc] initWithData: data_ encoding: NSUTF8StringEncoding];
-    [response_ setObject: s
+    NSString* s = [[NSString alloc] initWithData: data_
+                                        encoding: NSUTF8StringEncoding];
+    [response_ setValue: s
                   forKey: @"responseText"];
     [s release];
     
-    [response_ setObject: [NSNumber numberWithInt: 4]
+    [response_ setValue: [NSNumber numberWithInt: 4]
                   forKey: @"readyState"];
     webScriptFunctionCall(onReadyStateChange_, response_);
     webScriptFunctionCall(onLoad_, response_);

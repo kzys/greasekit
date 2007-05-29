@@ -9,7 +9,7 @@
     WebScriptObject* onError_;
     WebScriptObject* onReadyStateChange_;
     
-    NSMutableDictionary* response_;
+    WebScriptObject* response_;
 }
 - (id) initWithDetails: (WebScriptObject*) details
               delegate: (id) delegate;
