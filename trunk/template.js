@@ -18,9 +18,8 @@
 
     // unsafeWindow
     var unsafeWindow = window;
-    window = null;
 
-    with ({ document: unsafeWindow.document, location: unsafeWindow.location }) {
+    with ({ document: unsafeWindow.document, location: unsafeWindow.location, window: {} }) {
         <body>;
     }
 })();
