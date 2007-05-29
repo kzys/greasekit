@@ -3,6 +3,28 @@
 
 #define IS_JS_UNDEF(obj) ([(obj) isKindOfClass: [WebUndefined class]])
 
+@interface NSObject(ValueForKeyJS)
+- (id) valueForKeyJS: (NSString*) key;
+@end
+
+@implementation NSObject(ValueForKeyJS)
+- (id) valueForKeyJS: (NSString*) key
+{
+    id result;
+    @try {
+        result = [self valueForKey: key];
+    } @catch (NSException* e) {
+        return nil;
+    }
+    
+    if (IS_JS_UNDEF(result)) {
+        return nil;
+    }
+    
+    return result;
+}
+@end
+
 @implementation XMLHttpRequest
 
 WebScriptObject* webScriptFunctionCall(WebScriptObject* func, id arg)
@@ -39,15 +61,15 @@ NSArray* webScriptObjectKeys(WebScriptObject* obj)
         return nil;
     
     // url
-    NSURL* url = [NSURL URLWithString: [details valueForKey: @"url"]];
+    NSURL* url = [NSURL URLWithString: [details valueForKeyJS: @"url"]];
     NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL: url];
     
     // method
-    [req setHTTPMethod: [details valueForKey: @"method"]];
+    [req setHTTPMethod: [details valueForKeyJS: @"method"]];
     
     // headers
-    WebScriptObject* headers = [details valueForKey: @"headers"];
-    if (! IS_JS_UNDEF(headers)) {
+    WebScriptObject* headers = [details valueForKeyJS: @"headers"];
+    if (! headers) {
         NSArray* keys = webScriptObjectKeys(headers);
         
         size_t i;
@@ -58,11 +80,11 @@ NSArray* webScriptObjectKeys(WebScriptObject* obj)
     }
     
     // onload
-    onLoad_ = [[details valueForKey: @"onload"] retain];
+    onLoad_ = [[details valueForKeyJS: @"onload"] retain];
     // onerror
-    onError_ = [[details valueForKey: @"onerror"] retain];
+    onError_ = [[details valueForKeyJS: @"onerror"] retain];
     // onreadystatechange
-    onReadyStateChange_ = [[details valueForKey: @"onreadystatechange"] retain];
+    onReadyStateChange_ = [[details valueForKeyJS: @"onreadystatechange"] retain];
     
     data_ = [[NSMutableData alloc] init];
     response_ = [[details evaluateWebScript: @"new Object"] retain];

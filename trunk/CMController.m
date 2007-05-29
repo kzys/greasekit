@@ -200,10 +200,10 @@
     // Eval!
     id scriptObject = [webView windowScriptObject];
     NSString* bridgeName = [NSString stringWithFormat: @"bridge%x", rand()];
-    if ([scriptObject valueForKey: bridgeName] != self) {
+    if ([scriptObject valueForKeyJS: bridgeName] != self) {
         [scriptObject setValue: self forKey: bridgeName];
     }
-
+    
 	NSArray* ary = [self matchedScripts: url];
 	int i;
 	for (i = 0; i < [ary count]; i++) {
@@ -218,7 +218,6 @@
                                options: 0
                                  range: NSMakeRange(0, [ms length])];
      
-        NSLog(@"ms = %@", ms);
         [webView stringByEvaluatingJavaScriptFromString: ms];
 	}
     [scriptObject setValue: nil forKey: bridgeName];
@@ -276,8 +275,8 @@
 
 - (void) gmXmlhttpRequest: (WebScriptObject*) details
 {
-    [[XMLHttpRequest alloc] initWithDetails: details
-                                   delegate: self];
+    XMLHttpRequest* req = [[XMLHttpRequest alloc] initWithDetails: details
+                                                         delegate: self];
 }
 
 - (void) progressChanged: (NSNotification*) n
