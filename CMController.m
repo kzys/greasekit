@@ -231,8 +231,6 @@
 			   selector: @selector(progressChanged:)
 				   name: WebViewProgressEstimateChangedNotification
 				 object: [n object]];
-    
-    // NSLog(@"webView = %@, wso = %@", [n object], );
 }
 
 + (BOOL) isSelectorExcludedFromWebScript: (SEL) sel
