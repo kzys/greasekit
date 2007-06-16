@@ -16,6 +16,22 @@ static NSString* BUNDLE_IDENTIFIER = @"info.8-p.Creammonkey";
 static NSString* CONFIG_PATH = @"~/Library/Application Support/Creammonkey/config.plist";
 static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/values.plist";
 
+@interface NSMutableString(ReplaceOccurrencesOfStringWithString)
+- (unsigned int) replaceOccurrencesOfString: (NSString*) target
+                                 withString: (NSString*) replacement;
+@end
+
+@implementation NSMutableString(ReplaceOccurrencesOfStringWithString)
+- (unsigned int) replaceOccurrencesOfString: (NSString*) target
+                                 withString: (NSString*) replacement
+{
+    return [self replaceOccurrencesOfString: target
+                                 withString: replacement
+                                    options: 0
+                                      range: NSMakeRange(0, [self length])];
+}
+@end
+
 @implementation CMController
 - (NSString*) loadScriptTemplate
 {
@@ -212,6 +228,7 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
     // Eval!
     id scriptObject = [webView windowScriptObject];
     
+    NSString* bridgeName = [NSString stringWithFormat: @"__bridge%u__", rand()];
 	NSArray* ary = [self matchedScripts: url];
 	int i;
 	for (i = 0; i < [ary count]; i++) {
@@ -219,23 +236,17 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
         NSMutableString* ms = [NSMutableString stringWithString: scriptTemplate_];
 
         [ms replaceOccurrencesOfString: @"<namespace>"
-                            withString: [s namespace]
-                               options: 0
-                                 range: NSMakeRange(0, [ms length])];
+                            withString: [s namespace]];
         [ms replaceOccurrencesOfString: @"<name>"
-                            withString: [s name]
-                               options: 0
-                                 range: NSMakeRange(0, [ms length])];
+                            withString: [s name]];
+        [ms replaceOccurrencesOfString: @"<bridge>"
+                            withString: bridgeName];
         [ms replaceOccurrencesOfString: @"<body>"
-                            withString: [s script]
-                               options: 0
-                                 range: NSMakeRange(0, [ms length])];
-
+                            withString: [s script]];
+        
         id func = [scriptObject evaluateWebScript: ms];
         JSFunctionCall(func, self);
 	}
-    // [scriptObject setValue: nil forKey: bridgeName];
-    // [webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat: @"var %@ = 0;", bridgeName]];
 }
 
 - (void) progressStarted: (NSNotification*) n
