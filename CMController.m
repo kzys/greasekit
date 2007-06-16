@@ -211,13 +211,8 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
 	
     // Eval!
     id scriptObject = [webView windowScriptObject];
-    NSString* bridgeName = [NSString stringWithFormat: @"bridge%x", rand()];
-    if ([scriptObject valueForKeyJS: bridgeName] != self) {
-        [scriptObject setValue: self forKey: bridgeName];
-    }
     
 	NSArray* ary = [self matchedScripts: url];
-    NSLog(@"ary = %@", ary);
 	int i;
 	for (i = 0; i < [ary count]; i++) {
         CMUserScript* s = [ary objectAtIndex: i];
@@ -231,19 +226,16 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
                             withString: [s name]
                                options: 0
                                  range: NSMakeRange(0, [ms length])];
-        [ms replaceOccurrencesOfString: @"<bridge>"
-                            withString: bridgeName
-                               options: 0
-                                 range: NSMakeRange(0, [ms length])];
         [ms replaceOccurrencesOfString: @"<body>"
                             withString: [s script]
                                options: 0
                                  range: NSMakeRange(0, [ms length])];
 
-        NSLog(@"ms = %@", ms);
-        [webView stringByEvaluatingJavaScriptFromString: ms];
+        id func = [scriptObject evaluateWebScript: ms];
+        JSFunctionCall(func, self);
 	}
-    [scriptObject setValue: nil forKey: bridgeName];
+    // [scriptObject setValue: nil forKey: bridgeName];
+    // [webView stringByEvaluatingJavaScriptFromString: [NSString stringWithFormat: @"var %@ = 0;", bridgeName]];
 }
 
 - (void) progressStarted: (NSNotification*) n
