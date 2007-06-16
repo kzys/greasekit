@@ -43,6 +43,11 @@
 	return [[metadata_ objectForKey: @"@description"] firstObject];
 }
 
+- (NSString*) namespace
+{
+	return [[metadata_ objectForKey: @"@namespace"] firstObject];
+}
+
 - (NSString*) script
 {
     if (fullPath_) {

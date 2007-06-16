@@ -8,13 +8,17 @@
 #import <WebKit/WebKit.h>
 #import "CMUserScript.h"
 #import "XMLHttpRequest.h"
+#import "JSUtils.h"
+
+// #import "Creammonkey.h"
+
+static NSString* BUNDLE_IDENTIFIER = @"info.8-p.Creammonkey";
 
 @implementation CMController
 - (NSString*) loadScriptTemplate
 {
-    NSBundle* bundle = [NSBundle bundleWithIdentifier: @"info.8-p.Creammonkey"];
+    NSBundle* bundle = [NSBundle bundleWithIdentifier: BUNDLE_IDENTIFIER];
     NSString* path = [NSString stringWithFormat: @"%@/template.js", [bundle resourcePath]];   
-    NSLog(@"path = %@", path);
     return [NSString stringWithContentsOfFile: path];
 }
 
@@ -125,7 +129,7 @@
 	for (i = 0; i < [scripts_ count]; i++) {
 		CMUserScript* script = [scripts_ objectAtIndex: i];
 		if ([script isEnabled] && [script isMatched: url]) {
-			[result addObject: [script script]];
+			[result addObject: script];
 		}
 	}
 	
@@ -205,19 +209,30 @@
     }
     
 	NSArray* ary = [self matchedScripts: url];
+    NSLog(@"ary = %@", ary);
 	int i;
 	for (i = 0; i < [ary count]; i++) {
+        CMUserScript* s = [ary objectAtIndex: i];
         NSMutableString* ms = [NSMutableString stringWithString: scriptTemplate_];
 
+        [ms replaceOccurrencesOfString: @"<namespace>"
+                            withString: [s namespace]
+                               options: 0
+                                 range: NSMakeRange(0, [ms length])];
+        [ms replaceOccurrencesOfString: @"<name>"
+                            withString: [s name]
+                               options: 0
+                                 range: NSMakeRange(0, [ms length])];
         [ms replaceOccurrencesOfString: @"<bridge>"
                             withString: bridgeName
                                options: 0
                                  range: NSMakeRange(0, [ms length])];
         [ms replaceOccurrencesOfString: @"<body>"
-                            withString: [ary objectAtIndex: i]
+                            withString: [s script]
                                options: 0
                                  range: NSMakeRange(0, [ms length])];
-     
+
+        NSLog(@"ms = %@", ms);
         [webView stringByEvaluatingJavaScriptFromString: ms];
 	}
     [scriptObject setValue: nil forKey: bridgeName];
@@ -235,8 +250,8 @@
 + (BOOL) isSelectorExcludedFromWebScript: (SEL) sel
 {
     if (sel == @selector(gmLog:) ||
-        sel == @selector(gmValueForKey:defaultValue:) ||
-        sel == @selector(gmSetValue:forKey:) ||
+        sel == @selector(gmValueForKey:defaultValue:scriptName:namespace:) ||
+        sel == @selector(gmSetValue:forKey:scriptName:namespace:) ||
         sel == @selector(gmRegisterMenuCommand:callback:) ||
         sel == @selector(gmXmlhttpRequest:))
         return NO;
@@ -251,25 +266,53 @@
 
 - (id) gmLog: (NSString*) s
 {
-    NSLog(@"%@", s);
+    NSLog(@"GM_log: %@", s);
     return nil;
 }
 
 - (id) gmValueForKey: (NSString*) key
-        defaultValue: (NSString*) value
+        defaultValue: (NSString*) defaultValue
+          scriptName: (NSString*) name
+           namespace: (NSString*) ns
 {
-    return value;
+    NSMutableDictionary* namespace = [scriptValues_ objectForKey: ns];
+    if (! namespace) {
+        return defaultValue;
+    }
+    NSMutableDictionary* dict = [namespace objectForKey: name];
+    if (! dict) {
+        return defaultValue;
+    }
+    NSLog(@"dict = %@, result = %@", 
+          dict, [dict objectForKey: key]);
+    return [dict objectForKey: key];
 }
 
 - (id) gmSetValue: (NSString*) value
            forKey: (NSString*) key
+       scriptName: (NSString*) name
+        namespace: (NSString*) ns
 {
+    NSMutableDictionary* namespace = [scriptValues_ objectForKey: ns];
+    if (! namespace) {
+        namespace = [NSMutableDictionary dictionary];
+        [scriptValues_ setObject: namespace
+                          forKey: ns];
+    }
+    NSMutableDictionary* dict = [namespace objectForKey: name];
+    if (! dict) {
+        dict = [NSMutableDictionary dictionary];
+        [namespace setObject: dict
+                      forKey: name];
+    }
+    [dict setObject: value forKey: key];
     return nil;
 }
 
 - (id) gmRegisterMenuCommand: (NSString*) text
                     callback: (id) func
 {
+    // FIXME
     return nil;
 }
 
@@ -362,6 +405,11 @@
 }
 
 #pragma mark Override
++ (void) load
+{
+	[[self alloc] init];
+}
+
 - (id) init
 {
 	// Safari?
@@ -383,6 +431,7 @@
 	[NSBundle loadNibNamed: @"Menu.nib" owner: self];
 
     scriptTemplate_ = [[self loadScriptTemplate] retain];
+    scriptValues_ = [[NSMutableDictionary alloc] init];
 	
 	return self;
 }

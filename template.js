@@ -1,19 +1,21 @@
 (function () {
     // define GM functions
     var GM_log = function (s) {
-        <bridge>.gmLog_(s);
+        return <bridge>.gmLog_(s);
     }
     var GM_getValue = function (k, d) {
-        <bridge>.gmValueForKey_defaultValue_(k, d);
+        return <bridge>.gmValueForKey_defaultValue_scriptName_namespace_(k, d, "<name>", "<namespace>");
     }
     var GM_setValue = function (k, v) {
-        <bridge>.gmSetValue_ForKey_(v, k);
+        return <bridge>.gmSetValue_forKey_scriptName_namespace_(v, k, "<name>", "<namespace>");
     }
+    /* Not implemented yet
     var GM_registerMenuCommand = function (t, c) {
         <bridge>.gmRegisterMenuCommand_callback_(t, c);
     }
+     */
     var GM_xmlhttpRequest = function (d) {
-        <bridge>.gmXmlhttpRequest_(d);
+        return <bridge>.gmXmlhttpRequest_(d);
     }
 
     // unsafeWindow

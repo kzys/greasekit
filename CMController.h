@@ -11,6 +11,7 @@
 	
 	NSMutableArray* scripts_;
 	NSString* scriptDir_;
+    NSMutableDictionary* scriptValues_;
     
     NSString* scriptTemplate_;
 }
