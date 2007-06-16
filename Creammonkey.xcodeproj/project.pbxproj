@@ -23,7 +23,6 @@
 		40A3E09B09A58AC60091278C /* WildcardPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062458E09A325B00040CB9C /* WildcardPattern.m */; };
 		40A3E09F09A58ADA0091278C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		40A3E0A409A58AF40091278C /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A3E0A309A58AF40091278C /* SenTestingKit.framework */; };
-		40EB0E0A0C23A3D500FCFBF8 /* JSUtils.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 40EB0E080C23A3D500FCFBF8 /* JSUtils.h */; };
 		40EB0E0B0C23A3D600FCFBF8 /* JSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 40EB0E090C23A3D500FCFBF8 /* JSUtils.m */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
@@ -38,7 +37,6 @@
 			files = (
 				406245D909A327590040CB9C /* Info in CopyFiles */,
 				406245B509A3262B0040CB9C /* Creammonkey.bundle in CopyFiles */,
-				40EB0E0A0C23A3D500FCFBF8 /* JSUtils.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +375,7 @@
 					ppc,
 					i386,
 				);
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
