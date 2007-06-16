@@ -26,6 +26,7 @@
 
 // Getter
 - (NSString*) name;
+- (NSString*) namespace;
 - (NSString*) description;
 - (NSString*) script;
 - (NSString*) basename;

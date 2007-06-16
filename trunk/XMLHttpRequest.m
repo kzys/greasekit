@@ -1,29 +1,5 @@
 #import "XMLHttpRequest.h"
-
-
-#define IS_JS_UNDEF(obj) ([(obj) isKindOfClass: [WebUndefined class]])
-
-@interface NSObject(ValueForKeyJS)
-- (id) valueForKeyJS: (NSString*) key;
-@end
-
-@implementation NSObject(ValueForKeyJS)
-- (id) valueForKeyJS: (NSString*) key
-{
-    id result;
-    @try {
-        result = [self valueForKey: key];
-    } @catch (NSException* e) {
-        return nil;
-    }
-    
-    if (IS_JS_UNDEF(result)) {
-        return nil;
-    }
-    
-    return result;
-}
-@end
+#import "JSUtils.h"
 
 @implementation XMLHttpRequest
 
