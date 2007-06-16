@@ -13,6 +13,8 @@
 // #import "Creammonkey.h"
 
 static NSString* BUNDLE_IDENTIFIER = @"info.8-p.Creammonkey";
+static NSString* CONFIG_PATH = @"~/Library/Application Support/Creammonkey/config.plist";
+static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/values.plist";
 
 @implementation CMController
 - (NSString*) loadScriptTemplate
@@ -29,7 +31,7 @@ static NSString* BUNDLE_IDENTIFIER = @"info.8-p.Creammonkey";
 
 - (NSDictionary*) scriptsConfig
 {
-    NSString* path = [@"~/Library/Application Support/Creammonkey/config.plist" stringByExpandingTildeInPath];
+    NSString* path = [CONFIG_PATH stringByExpandingTildeInPath];
     return [NSDictionary dictionaryWithContentsOfFile: path];
 }
 
@@ -44,8 +46,14 @@ static NSString* BUNDLE_IDENTIFIER = @"info.8-p.Creammonkey";
                  forKey: [script basename]];
     }
     
-    NSString* path = [@"~/Library/Application Support/Creammonkey/config.plist" stringByExpandingTildeInPath];
+    NSString* path = [CONFIG_PATH stringByExpandingTildeInPath];
     [dict writeToFile: path atomically: YES];
+}
+
+- (void) saveScriptValues
+{
+    NSString* path = [VALUES_PATH stringByExpandingTildeInPath];
+    [scriptValues_ writeToFile: path atomically: YES];
 }
 
 - (void) installScript: (CMUserScript*) s
@@ -283,8 +291,6 @@ static NSString* BUNDLE_IDENTIFIER = @"info.8-p.Creammonkey";
     if (! dict) {
         return defaultValue;
     }
-    NSLog(@"dict = %@, result = %@", 
-          dict, [dict objectForKey: key]);
     return [dict objectForKey: key];
 }
 
@@ -306,13 +312,16 @@ static NSString* BUNDLE_IDENTIFIER = @"info.8-p.Creammonkey";
                       forKey: name];
     }
     [dict setObject: value forKey: key];
+    
+    [self saveScriptValues];
+    
     return nil;
 }
 
 - (id) gmRegisterMenuCommand: (NSString*) text
                     callback: (id) func
 {
-    // FIXME
+    // FIXME: Not implemented yet.
     return nil;
 }
 
@@ -389,8 +398,8 @@ static NSString* BUNDLE_IDENTIFIER = @"info.8-p.Creammonkey";
 		@"Creammonkey",  @"ApplicationName",
 		icon,  @"ApplicationIcon",
 		@"",  @"Version",
-		@"Version 0.8",  @"ApplicationVersion",
-		@"Copyright (c) 2006 KATO Kazuyoshi",  @"Copyright",
+		@"Version 0.9",  @"ApplicationVersion",
+		@"Copyright (c) 2006-2007 KATO Kazuyoshi",  @"Copyright",
 		nil];
 	[NSApp orderFrontStandardAboutPanelWithOptions: options];
 }
@@ -431,7 +440,14 @@ static NSString* BUNDLE_IDENTIFIER = @"info.8-p.Creammonkey";
 	[NSBundle loadNibNamed: @"Menu.nib" owner: self];
 
     scriptTemplate_ = [[self loadScriptTemplate] retain];
-    scriptValues_ = [[NSMutableDictionary alloc] init];
+    
+    NSString* path = [VALUES_PATH stringByExpandingTildeInPath];
+    scriptValues_ = [NSDictionary dictionaryWithContentsOfFile: path];
+    if (scriptValues_) {
+        [scriptValues_ retain];
+    } else {
+        scriptValues_ = [[NSMutableDictionary alloc] init];
+    }
 	
 	return self;
 }
