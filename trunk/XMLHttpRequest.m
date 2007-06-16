@@ -3,30 +3,6 @@
 
 @implementation XMLHttpRequest
 
-WebScriptObject* webScriptFunctionCall(WebScriptObject* func, id arg)
-{
-    if (IS_JS_UNDEF(func)) {
-        return nil;
-    }
-    WebScriptObject* jsThis = [func evaluateWebScript: @"this"];
-    return [func callWebScriptMethod: @"call"
-                       withArguments: [NSArray arrayWithObjects: jsThis, arg, nil]];
-}
-
-NSArray* webScriptObjectKeys(WebScriptObject* obj)
-{
-    WebScriptObject* func = [obj evaluateWebScript: @"function(obj){var result=[];for(var k in obj)result.push(k);return result;}"];
-    WebScriptObject* keys = webScriptFunctionCall(func, obj);
-    
-    size_t i;
-    NSMutableArray* result = [NSMutableArray array];
-    WebScriptObject* jsUndefined = [obj evaluateWebScript: @"undefined"];
-    for (i = 0; [keys webScriptValueAtIndex: i] != jsUndefined; i++) {
-        [result addObject: [keys webScriptValueAtIndex: i]];
-    }
-    return result;
-}
-
 - (id) initWithDetails: (WebScriptObject*) details
               delegate: (id) delegate
 {
@@ -46,7 +22,7 @@ NSArray* webScriptObjectKeys(WebScriptObject* obj)
     // headers
     WebScriptObject* headers = [details valueForKeyJS: @"headers"];
     if (! headers) {
-        NSArray* keys = webScriptObjectKeys(headers);
+        NSArray* keys = JSObjectKeys(headers);
         
         size_t i;
         for (i = 0; i < [keys count]; i++) {
@@ -68,7 +44,7 @@ NSArray* webScriptObjectKeys(WebScriptObject* obj)
     // call onreadystate 1
     [response_ setValue: [NSNumber numberWithInt: 1]
                   forKey: @"readyState"];
-    webScriptFunctionCall(onReadyStateChange_, response_);
+    JSFunctionCall(onReadyStateChange_, response_);
 
     // send
     [[NSURLConnection alloc] initWithRequest: req
@@ -77,7 +53,7 @@ NSArray* webScriptObjectKeys(WebScriptObject* obj)
     // call onreadystate 2
     [response_ setValue: [NSNumber numberWithInt: 2]
                   forKey: @"readyState"];
-    webScriptFunctionCall(onReadyStateChange_, response_);    
+    JSFunctionCall(onReadyStateChange_, response_);    
 
     return self;
 }
@@ -103,7 +79,7 @@ NSArray* webScriptObjectKeys(WebScriptObject* obj)
 
     [response_ setValue: [NSNumber numberWithInt: 3]
                   forKey: @"readyState"];
-    webScriptFunctionCall(onReadyStateChange_, response_);    
+    JSFunctionCall(onReadyStateChange_, response_);    
 }
 
 - (void) connectionDidFinishLoading: (NSURLConnection*) connection
@@ -116,8 +92,8 @@ NSArray* webScriptObjectKeys(WebScriptObject* obj)
     
     [response_ setValue: [NSNumber numberWithInt: 4]
                   forKey: @"readyState"];
-    webScriptFunctionCall(onReadyStateChange_, response_);
-    webScriptFunctionCall(onLoad_, response_);
+    JSFunctionCall(onReadyStateChange_, response_);
+    JSFunctionCall(onLoad_, response_);
     
     [connection release];
     
