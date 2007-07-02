@@ -17,8 +17,14 @@
     NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL: url];
     
     // method
-    [req setHTTPMethod: [details valueForKeyJS: @"method"]];
-    
+    [req setHTTPMethod: [[details valueForKeyJS: @"method"] uppercaseString]];
+    if ([[req HTTPMethod] isEqualTo: @"POST"]) {
+        NSString* s = [details valueForKeyJS: @"data"];
+        if (! s)
+            s = @"";
+        [details valueForKeyJS: @"data"];
+    }
+
     // headers
     WebScriptObject* headers = [details valueForKeyJS: @"headers"];
     if (! headers) {
@@ -96,7 +102,7 @@
     JSFunctionCall(onLoad_, response_);
     
     [connection release];
-    
+
     [self release]; // FIXME
 }
 
