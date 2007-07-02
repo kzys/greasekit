@@ -1,9 +1,8 @@
 (function (<bridge>) {
-    // unsafeWindow
-    with ({ unsafeWindow: window, document: window.document, location: window.location, window: undefined }) {
+    with ({ document: window.document, location: window.location, }) {
         // define GM functions
         var GM_log = function (s) {
-            unsafeWindow.console.log('GM_log: ' + s);
+            window.console.log('GM_log: ' + s);
             return <bridge>.gmLog_(s);
         };
         var GM_getValue = function (k, d) {
