@@ -235,15 +235,17 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
         CMUserScript* s = [ary objectAtIndex: i];
         NSMutableString* ms = [NSMutableString stringWithString: scriptTemplate_];
 
-        [ms replaceOccurrencesOfString: @"<namespace>"
-                            withString: [s namespace]];
+        if ([s namespace]) {
+            [ms replaceOccurrencesOfString: @"<namespace>"
+                                withString: [s namespace]];
+        }
         [ms replaceOccurrencesOfString: @"<name>"
                             withString: [s name]];
         [ms replaceOccurrencesOfString: @"<bridge>"
                             withString: bridgeName];
         [ms replaceOccurrencesOfString: @"<body>"
                             withString: [s script]];
-        
+
         id func = [scriptObject evaluateWebScript: ms];
         JSFunctionCall(func, self);
 	}
