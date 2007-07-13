@@ -235,6 +235,7 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
         CMUserScript* s = [ary objectAtIndex: i];
         NSMutableString* ms = [NSMutableString stringWithString: scriptTemplate_];
 
+        // create function!
         if ([s namespace]) {
             [ms replaceOccurrencesOfString: @"<namespace>"
                                 withString: [s namespace]];
@@ -245,9 +246,18 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
                             withString: bridgeName];
         [ms replaceOccurrencesOfString: @"<body>"
                             withString: [s script]];
-
         id func = [scriptObject evaluateWebScript: ms];
-        JSFunctionCall(func, self);
+
+        // eval on main frame
+        JSFunctionCall(func, [NSArray arrayWithObjects: self, [[webView mainFrame] DOMDocument], nil]);
+        
+        // eval on child frames...
+        NSArray* frames = [[webView mainFrame] childFrames];
+        int j;
+        for (j = 0; j < [frames count]; j++) {
+            DOMDocument* doc = [[frames objectAtIndex: j] DOMDocument];
+            JSFunctionCall(func, [NSArray arrayWithObjects: self, doc, nil]);
+        }
 	}
 }
 
@@ -344,15 +354,28 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
 		return;
     }
 
-    NSString* s = [webView stringByEvaluatingJavaScriptFromString: @"document.readyState"];
-    if ([s isEqualToString: @"loaded"]) {
-        [self evalScriptsInWebView: webView];
-        
-        NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
-        [center removeObserver: self
-                          name: WebViewProgressEstimateChangedNotification
-                        object: webView];
+    NSString* s;
+    
+    s = [webView stringByEvaluatingJavaScriptFromString: @"document.readyState"];
+    if (! ([s isEqualToString: @"loaded"] || [s isEqualToString: @"complete"])) {
+        return;
     }
+    
+    int i;
+    NSArray* frames = [[webView mainFrame] childFrames];
+    for (i = 0; i < [frames count]; i++) {
+        DOMDocument* doc = [[frames objectAtIndex: i] DOMDocument];
+        s = [doc valueForKeyJS: @"readyState"];
+        if (! ([s isEqualToString: @"loaded"] || [s isEqualToString: @"complete"])) {
+            return;
+        }
+    }
+    [self evalScriptsInWebView: webView];
+    
+    NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
+    [center removeObserver: self
+                      name: WebViewProgressEstimateChangedNotification
+                    object: webView];
 }    
 
 - (void) progressFinished: (NSNotification*) n

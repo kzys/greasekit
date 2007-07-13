@@ -1,5 +1,10 @@
-(function (<bridge>) {
-    with ({ document: window.document, location: window.location, }) {
+(function (<bridge>, document) {
+    if (document.readyState == "loaded" || document.readyState == "complete") {
+        document.__creammonkeyed__ = true;
+    } else {
+        return;
+    }
+    with ({ location: window.location, }) {        
         // define GM functions
         var GM_log = function (s) {
             window.console.log('GM_log: ' + s);

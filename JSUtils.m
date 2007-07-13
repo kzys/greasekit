@@ -1,19 +1,20 @@
 #import "JSUtils.h"
 
-WebScriptObject* JSFunctionCall(WebScriptObject* func, id arg)
+WebScriptObject* JSFunctionCall(WebScriptObject* func, NSArray* args)
 {
     if (IS_JS_UNDEF(func)) {
         return nil;
     }
-    WebScriptObject* jsThis = [func evaluateWebScript: @"this"];
-    return [func callWebScriptMethod: @"call"
-                       withArguments: [NSArray arrayWithObjects: jsThis, arg, nil]];
+    NSMutableArray* ary = [NSMutableArray arrayWithArray: args];
+    [ary insertObject: [func evaluateWebScript: @"this"] 
+              atIndex: 0];
+    return [func callWebScriptMethod: @"call" withArguments: ary];
 }
 
 NSArray* JSObjectKeys(WebScriptObject* obj)
 {
     WebScriptObject* func = [obj evaluateWebScript: @"function(obj){var result=[];for(var k in obj)result.push(k);return result;}"];
-    WebScriptObject* keys = JSFunctionCall(func, obj);
+    WebScriptObject* keys = JSFunctionCall(func, [NSArray arrayWithObject: obj]);
     
     size_t i;
     NSMutableArray* result = [NSMutableArray array];
