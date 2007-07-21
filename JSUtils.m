@@ -5,12 +5,15 @@ WebScriptObject* JSFunctionCall(WebScriptObject* func, NSArray* args)
     if (IS_JS_UNDEF(func)) {
         return nil;
     }
-    NSMutableArray* ary = [NSMutableArray arrayWithArray: args];
-    [ary insertObject: [func evaluateWebScript: @"this"] 
-              atIndex: 0];
+    WebScriptObject* jsThis = [func evaluateWebScript: @"this"];
+    if (! jsThis) {
+        return nil;
+    }
+    NSMutableArray* ary = [NSMutableArray arrayWithObject: jsThis];
+    [ary addObjectsFromArray: args];
     return [func callWebScriptMethod: @"call" withArguments: ary];
 }
-
+ 
 NSArray* JSObjectKeys(WebScriptObject* obj)
 {
     WebScriptObject* func = [obj evaluateWebScript: @"function(obj){var result=[];for(var k in obj)result.push(k);return result;}"];
