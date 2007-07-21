@@ -4,7 +4,7 @@
     } else {
         return;
     }
-    with ({ location: window.location, }) {        
+    with ({ location: window.location, unsafeWindow: window }) {        
         // define GM functions
         var GM_log = function (s) {
             window.console.log('GM_log: ' + s);
