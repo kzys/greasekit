@@ -22,12 +22,13 @@
         NSString* s = [details valueForKeyJS: @"data"];
         if (! s)
             s = @"";
-        [details valueForKeyJS: @"data"];
+        [req setHTTPBody: [s dataUsingEncoding: NSUTF8StringEncoding]];
     }
 
     // headers
     WebScriptObject* headers = [details valueForKeyJS: @"headers"];
-    if (! headers) {
+    
+    if (headers) {
         NSArray* keys = JSObjectKeys(headers);
         
         size_t i;
@@ -46,11 +47,12 @@
     
     data_ = [[NSMutableData alloc] init];
     response_ = [[details evaluateWebScript: @"new Object"] retain];
+    NSArray* args = [NSArray arrayWithObjects: response_, nil];
     
     // call onreadystate 1
     [response_ setValue: [NSNumber numberWithInt: 1]
                   forKey: @"readyState"];
-    JSFunctionCall(onReadyStateChange_, response_);
+    JSFunctionCall(onReadyStateChange_, args);
 
     // send
     [[NSURLConnection alloc] initWithRequest: req
@@ -59,8 +61,8 @@
     // call onreadystate 2
     [response_ setValue: [NSNumber numberWithInt: 2]
                   forKey: @"readyState"];
-    JSFunctionCall(onReadyStateChange_, response_);    
-
+    JSFunctionCall(onReadyStateChange_, args);    
+    
     return self;
 }
 
@@ -85,7 +87,7 @@
 
     [response_ setValue: [NSNumber numberWithInt: 3]
                   forKey: @"readyState"];
-    JSFunctionCall(onReadyStateChange_, response_);    
+    JSFunctionCall(onReadyStateChange_, [NSArray arrayWithObject: response_]);    
 }
 
 - (void) connectionDidFinishLoading: (NSURLConnection*) connection
@@ -98,8 +100,10 @@
     
     [response_ setValue: [NSNumber numberWithInt: 4]
                   forKey: @"readyState"];
-    JSFunctionCall(onReadyStateChange_, response_);
-    JSFunctionCall(onLoad_, response_);
+    
+    NSArray* args = [NSArray arrayWithObject: response_];
+    JSFunctionCall(onReadyStateChange_, args);
+    JSFunctionCall(onLoad_, args);
     
     [connection release];
 
