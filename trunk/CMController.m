@@ -10,6 +10,8 @@
 #import "XMLHttpRequest.h"
 #import "JSUtils.h"
 
+#define DEBUG_LOG(format, ...) NSLog(format, __VA_ARGS__)
+
 // #import "Creammonkey.h"
 
 static NSString* BUNDLE_IDENTIFIER = @"info.8-p.Creammonkey";
@@ -210,6 +212,8 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
 
 - (void) evalScriptsInWebView: (WebView*) webView
 {
+    DEBUG_LOG(@"CMController %p - evalScriptsInWebView: %@", self, webView);
+    
 	WebDataSource* dataSource = [[webView mainFrame] dataSource];
 	NSURL* url = [[dataSource request] URL];
 
@@ -263,6 +267,7 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
 
 - (void) progressStarted: (NSNotification*) n
 {
+    DEBUG_LOG(@"CMController %@ - progressStarted: %@", self, n);
     NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
 	[center addObserver: self
 			   selector: @selector(progressChanged:)
@@ -348,6 +353,8 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
 
 - (void) progressChanged: (NSNotification*) n
 {    
+    DEBUG_LOG(@"CMController %p - progressChanged: %@", self, n);
+    
 	WebView* webView = [n object];
     
     if (! [[webView mainFrame] DOMDocument]) {
