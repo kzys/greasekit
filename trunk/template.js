@@ -1,5 +1,6 @@
 (function (<bridge>, document) {
-    if (document.readyState == "loaded" || document.readyState == "complete") {
+    if ((! document.__creammonkeyed__) &&
+        (document.readyState == "loaded" || document.readyState == "complete")) {
         document.__creammonkeyed__ = true;
     } else {
         return;

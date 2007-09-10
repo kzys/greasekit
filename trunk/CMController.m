@@ -210,6 +210,32 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
 						contextInfo: script];	
 }
 
++ (int) countNewDocument: (WebView*) webView
+{
+    if (! [[webView mainFrame] DOMDocument]) {
+		return 0;
+	}
+    
+    // Eval!
+    id scriptObject = [webView windowScriptObject];
+    WebScriptObject* func = [scriptObject evaluateWebScript: @"(function(doc){if(!doc.body.__creammonkeyed__){doc.body.__creammonkeyed__=true;return true;}})"];
+    
+    // Eval Once?
+    NSArray* frames = [[webView mainFrame] childFrames];
+    if ([frames count] > 0) {
+        int count = 0;
+        int i;
+        for (i = 0; i < [frames count]; i++) {
+            DOMDocument* doc = [[frames objectAtIndex: i] DOMDocument];
+            count += IS_JS_UNDEF(JSFunctionCall(func, [NSArray arrayWithObject: doc]));
+        }
+        return count;
+    } else {
+        DOMDocument* doc = [[webView mainFrame] DOMDocument];
+        return IS_JS_UNDEF(JSFunctionCall(func, [NSArray arrayWithObject: doc]));
+    }
+}
+
 - (void) evalScriptsInWebView: (WebView*) webView
 {
     DEBUG_LOG(@"CMController %p - evalScriptsInWebView: %@", self, webView);
@@ -221,17 +247,13 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
 		return;
 	}
 
-    // Eval Once?
-    NSString* s = [webView stringByEvaluatingJavaScriptFromString: @"document.body.__creammonkeyed__;"];
-    if ([s isEqualToString: @"true"]) {
+    if ([[self class] countNewDocument: webView] == 0) {
         return;
-    } else {
-		[webView stringByEvaluatingJavaScriptFromString: @"document.body.__creammonkeyed__ = true;"];
     }
-	
+    
     // Eval!
     id scriptObject = [webView windowScriptObject];
-    
+    	
     NSString* bridgeName = [NSString stringWithFormat: @"__bridge%u__", rand()];
 	NSArray* ary = [self matchedScripts: url];
 	int i;
@@ -255,7 +277,6 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
         // eval on main frame
         JSFunctionCall(func, [NSArray arrayWithObjects: self, [[webView mainFrame] DOMDocument], nil]);
         
-        // eval on child frames...
         NSArray* frames = [[webView mainFrame] childFrames];
         int j;
         for (j = 0; j < [frames count]; j++) {
