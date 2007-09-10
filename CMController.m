@@ -10,7 +10,11 @@
 #import "XMLHttpRequest.h"
 #import "JSUtils.h"
 
-#define DEBUG_LOG(format, ...) NSLog(format, __VA_ARGS__)
+#if 0
+#  define DEBUG_LOG(format, ...) NSLog(format, __VA_ARGS__)
+#else
+#  define DEBUG_LOG
+#endif
 
 // #import "Creammonkey.h"
 
