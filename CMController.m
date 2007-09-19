@@ -16,8 +16,6 @@
 #  define DEBUG_LOG
 #endif
 
-// #import "Creammonkey.h"
-
 static NSString* BUNDLE_IDENTIFIER = @"info.8-p.Creammonkey";
 static NSString* CONFIG_PATH = @"~/Library/Application Support/Creammonkey/config.plist";
 static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/values.plist";
@@ -242,14 +240,19 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
 
 - (void) evalScriptsInFrame: (WebFrame*) frame
 {
-    WebDataSource* dataSource = [frame dataSource];
-    NSURL* url = [[dataSource request] URL];
-    if (url)
-        DEBUG_LOG(@"url = %@", url);
-    else
+    int i;
+    NSArray* children = [frame childFrames];
+    for (i = 0; i < [children count]; i++) {
+        [self evalScriptsInFrame: [children objectAtIndex: i]];
+    }
+
+    NSURL* url = [[[frame dataSource] request] URL];
+    if (! url) {
         return;
+    }
 
     if (! [frame DOMDocument]) {
+        DEBUG_LOG(@"No DOMDocument: %@", url);
         return;
     }
 
@@ -276,7 +279,6 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
 
     NSString* bridgeName = [NSString stringWithFormat: @"__bridge%u__", rand()];
     NSArray* ary = [self matchedScripts: url];
-    int i;
     for (i = 0; i < [ary count]; i++) {
         CMUserScript* s = [ary objectAtIndex: i];
         NSMutableString* ms = [NSMutableString stringWithString: scriptTemplate_];
@@ -292,16 +294,11 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
                             withString: bridgeName];
         [ms replaceOccurrencesOfString: @"<body>"
                             withString: [s script]];
-        DEBUG_LOG(@"ms = %@", ms);
+        // DEBUG_LOG(@"ms = %@", ms);
         func = [scriptObject evaluateWebScript: ms];
 
         // eval on frame
         JSFunctionCall(func, [NSArray arrayWithObjects: self, [frame DOMDocument], nil]);
-    }
-
-    NSArray* children = [frame childFrames];
-    for (i = 0; i < [children count]; i++) {
-        [self evalScriptsInFrame: [children objectAtIndex: i]];
     }
 }
 
