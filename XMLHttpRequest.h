@@ -10,6 +10,7 @@
     WebScriptObject* onReadyStateChange_;
     
     WebScriptObject* response_;
+    NSStringEncoding encoding_;
 }
 - (id) initWithDetails: (WebScriptObject*) details
               delegate: (id) delegate;

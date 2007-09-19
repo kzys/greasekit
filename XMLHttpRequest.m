@@ -3,6 +3,22 @@
 
 @implementation XMLHttpRequest
 
++ (NSStringEncoding) encodingFromMimeType: (NSString*) s
+{
+    if ([s rangeOfString: @"charset=shift_jis"
+                 options: NSCaseInsensitiveSearch].location != NSNotFound) {
+        return NSShiftJISStringEncoding;
+    } else if ([s rangeOfString: @"charset=iso-2022-jp"
+                        options: NSCaseInsensitiveSearch].location != NSNotFound) {
+        return NSISO2022JPStringEncoding;
+    } else if ([s rangeOfString: @"charset=euc-jp"
+                        options: NSCaseInsensitiveSearch].location != NSNotFound) {
+        return NSJapaneseEUCStringEncoding;
+    } else {
+        return NSUTF8StringEncoding;
+    }
+}
+
 - (id) initWithDetails: (WebScriptObject*) details
               delegate: (id) delegate
 {
@@ -23,6 +39,13 @@
         if (! s)
             s = @"";
         [req setHTTPBody: [s dataUsingEncoding: NSUTF8StringEncoding]];
+    }
+
+    // encoding
+    encoding_ = NSUTF8StringEncoding;
+    if ([details valueForKeyJS: @"overrideMimeType"]) {
+        NSString* s = [details valueForKeyJS: @"overrideMimeType"];
+        encoding_ = [[self class] encodingFromMimeType: s];
     }
 
     // headers
@@ -93,7 +116,7 @@
 - (void) connectionDidFinishLoading: (NSURLConnection*) connection
 {
     NSString* s = [[NSString alloc] initWithData: data_
-                                        encoding: NSUTF8StringEncoding];
+                                        encoding: encoding_];
     [response_ setValue: s
                   forKey: @"responseText"];
     [s release];
