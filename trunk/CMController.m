@@ -10,7 +10,7 @@
 #import "XMLHttpRequest.h"
 #import "JSUtils.h"
 
-#if 1
+#if 0
 #  define DEBUG_LOG(format, ...) NSLog(format, __VA_ARGS__)
 #else
 #  define DEBUG_LOG
@@ -262,16 +262,21 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
     WebScriptObject* func;
     id result;
 
+#if 1
+    result = [[frame DOMDocument] valueForKeyJS: @"readyState"];
+#else
     func = [scriptObject evaluateWebScript: @"(function(doc){return doc.readyState;})"];
     result = JSFunctionCall(func,
                             [NSArray arrayWithObject: [frame DOMDocument]]);
+#endif
     if ([result isEqualToString: @"loaded"] ||
         [result isEqualToString: @"complete"]) {
-        func = [scriptObject evaluateWebScript: @"(function(doc){if(doc.body.__creammonkeyed__){return true;}else{doc.body.__creammonkeyed__=true;return false;}})"];
-        result = JSFunctionCall(func,
-                                [NSArray arrayWithObject: [frame DOMDocument]]);
-        if ([result intValue]) {
+        id body = [[frame DOMDocument] valueForKeyJS: @"body"];
+        if ([[body valueForKeyJS: @"__creammonkeyed__"] intValue]) {
             return;
+        } else {
+            [body setValue: [NSNumber numberWithBool: YES]
+                    forKey: @"__creammonkeyed__"];
         }
     } else {
         return;
