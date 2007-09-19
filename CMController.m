@@ -468,7 +468,7 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
 		@"Creammonkey",  @"ApplicationName",
 		icon,  @"ApplicationIcon",
 		@"",  @"Version",
-		@"Version 1.0",  @"ApplicationVersion",
+		@"Version 1.1",  @"ApplicationVersion",
 		@"Copyright (c) 2006-2007 KATO Kazuyoshi",  @"Copyright",
 		nil];
 	[NSApp orderFrontStandardAboutPanelWithOptions: options];
