@@ -1,10 +1,4 @@
 (function (<bridge>, document) {
-    if ((! document.__creammonkeyed__) &&
-        (document.readyState == "loaded" || document.readyState == "complete")) {
-        document.__creammonkeyed__ = true;
-    } else {
-        return;
-    }
     with ({ location: window.location, unsafeWindow: window }) {        
         // define GM functions
        var GM_addStyle = function (s) {
