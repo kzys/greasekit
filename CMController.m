@@ -212,32 +212,6 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
                         contextInfo: script];
 }
 
-+ (int) countNewDocument: (WebView*) webView
-{
-    if (! [[webView mainFrame] DOMDocument]) {
-        return 0;
-    }
-
-    // Eval!
-    id scriptObject = [webView windowScriptObject];
-    WebScriptObject* func = [scriptObject evaluateWebScript: @"(function(doc){if(!doc.body.__creammonkeyed__){doc.body.__creammonkeyed__=true;return true;}})"];
-
-    // Eval Once?
-    NSArray* frames = [[webView mainFrame] childFrames];
-    if ([frames count] > 0) {
-        int count = 0;
-        int i;
-        for (i = 0; i < [frames count]; i++) {
-            DOMDocument* doc = [[frames objectAtIndex: i] DOMDocument];
-            count += IS_JS_UNDEF(JSFunctionCall(func, [NSArray arrayWithObject: doc]));
-        }
-        return count;
-    } else {
-        DOMDocument* doc = [[webView mainFrame] DOMDocument];
-        return IS_JS_UNDEF(JSFunctionCall(func, [NSArray arrayWithObject: doc]));
-    }
-}
-
 - (void) evalScriptsInFrame: (WebFrame*) frame
 {
     int i;
@@ -262,13 +236,7 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
     WebScriptObject* func;
     id result;
 
-#if 1
     result = [[frame DOMDocument] valueForKeyJS: @"readyState"];
-#else
-    func = [scriptObject evaluateWebScript: @"(function(doc){return doc.readyState;})"];
-    result = JSFunctionCall(func,
-                            [NSArray arrayWithObject: [frame DOMDocument]]);
-#endif
     if ([result isEqualToString: @"loaded"] ||
         [result isEqualToString: @"complete"]) {
         id body = [[frame DOMDocument] valueForKeyJS: @"body"];
@@ -409,12 +377,6 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
 
     WebView* webView = [n object];
     [self evalScriptsInFrame: [webView mainFrame]];
-#if 0
-    NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
-    [center removeObserver: self
-                      name: WebViewProgressEstimateChangedNotification
-                    object: webView];
-#endif
 }
 
 - (void) progressFinished: (NSNotification*) n
