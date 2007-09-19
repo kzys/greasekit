@@ -17,6 +17,9 @@
             window.console.log('GM_log: ' + s);
             return <bridge>.gmLog_(s);
         };
+        var GM_openInTab = function (url) {
+            return <bridge>.gmOpenInTab_(url);
+        };
         var GM_getValue = function (k, d) {
             return <bridge>.gmValueForKey_defaultValue_scriptName_namespace_(k, d, "<name>", "<namespace>");
         };

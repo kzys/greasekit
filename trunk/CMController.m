@@ -306,7 +306,8 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
         sel == @selector(gmValueForKey:defaultValue:scriptName:namespace:) ||
         sel == @selector(gmSetValue:forKey:scriptName:namespace:) ||
         sel == @selector(gmRegisterMenuCommand:callback:) ||
-        sel == @selector(gmXmlhttpRequest:))
+        sel == @selector(gmXmlhttpRequest:) ||
+        sel == @selector(gmOpenInTab:))
         return NO;
     else
         return YES;
@@ -315,6 +316,15 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
 + (BOOL) isKeyExcludedFromWebScript: (const char*) name
 {
     return YES;
+}
+
+- (id) gmOpenInTab: (NSString*) s
+{
+    NSURL* url = [NSURL URLWithString: s];
+    NSWindowController* controller = [[NSApp keyWindow] windowController];
+    [[controller currentWebView] openURLInNewTab: url
+                                     tabLocation: nil];
+    return nil;
 }
 
 - (id) gmLog: (NSString*) s
