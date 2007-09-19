@@ -1,12 +1,12 @@
 (function (<bridge>, document) {
-    with ({ location: window.location, unsafeWindow: window }) {        
-        // define GM functions
-       var GM_addStyle = function (s) {
-	  var style = document.createElement('style');
-	  style.setAttribute('type', 'text/css');
-	  style.appendChild(document.createTextNode(s));
-	  document.getElementsByTagName('head')[0].appendChild(style);
-       }
+    with ({ location: window.location, unsafeWindow: window }) {
+       // define GM functions
+        var GM_addStyle = function (s) {
+	   var style = document.createElement('style');
+	   style.setAttribute('type', 'text/css');
+	   style.appendChild(document.createTextNode(s));
+	   document.getElementsByTagName('head')[0].appendChild(style);
+        };
         var GM_log = function (s) {
             window.console.log('GM_log: ' + s);
             return <bridge>.gmLog_(s);
