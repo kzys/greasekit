@@ -10,7 +10,7 @@
 #import "XMLHttpRequest.h"
 #import "JSUtils.h"
 
-#if 0
+#if 1
 #  define DEBUG_LOG(format, ...) NSLog(format, __VA_ARGS__)
 #else
 #  define DEBUG_LOG
@@ -240,28 +240,44 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
     }
 }
 
-- (void) evalScriptsInWebView: (WebView*) webView
+- (void) evalScriptsInFrame: (WebFrame*) frame
 {
-    DEBUG_LOG(@"CMController %p - evalScriptsInWebView: %@", self, webView);
-    
-	WebDataSource* dataSource = [[webView mainFrame] dataSource];
-	NSURL* url = [[dataSource request] URL];
+    WebDataSource* dataSource = [frame dataSource];
+    NSURL* url = [[dataSource request] URL];
+    if (url)
+        DEBUG_LOG(@"url = %@", url);
+    else
+        return;
 
-    if (! [[webView mainFrame] DOMDocument]) {
-		return;
-	}
-
-    if ([[self class] countNewDocument: webView] == 0) {
+    if (! [frame DOMDocument]) {
         return;
     }
-    
+
     // Eval!
-    id scriptObject = [webView windowScriptObject];
-    	
+    id scriptObject = [[frame webView] windowScriptObject];
+
+    WebScriptObject* func;
+    id result;
+
+    func = [scriptObject evaluateWebScript: @"(function(doc){return doc.readyState;})"];
+    result = JSFunctionCall(func,
+                            [NSArray arrayWithObject: [frame DOMDocument]]);
+    if ([result isEqualToString: @"loaded"] ||
+        [result isEqualToString: @"complete"]) {
+        func = [scriptObject evaluateWebScript: @"(function(doc){if(doc.body.__creammonkeyed__){return true;}else{doc.body.__creammonkeyed__=true;return false;}})"];
+        result = JSFunctionCall(func,
+                                [NSArray arrayWithObject: [frame DOMDocument]]);
+        if ([result intValue]) {
+            return;
+        }
+    } else {
+        return;
+    }
+
     NSString* bridgeName = [NSString stringWithFormat: @"__bridge%u__", rand()];
-	NSArray* ary = [self matchedScripts: url];
-	int i;
-	for (i = 0; i < [ary count]; i++) {
+    NSArray* ary = [self matchedScripts: url];
+    int i;
+    for (i = 0; i < [ary count]; i++) {
         CMUserScript* s = [ary objectAtIndex: i];
         NSMutableString* ms = [NSMutableString stringWithString: scriptTemplate_];
 
@@ -276,18 +292,17 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
                             withString: bridgeName];
         [ms replaceOccurrencesOfString: @"<body>"
                             withString: [s script]];
-        id func = [scriptObject evaluateWebScript: ms];
+        DEBUG_LOG(@"ms = %@", ms);
+        func = [scriptObject evaluateWebScript: ms];
 
-        // eval on main frame
-        JSFunctionCall(func, [NSArray arrayWithObjects: self, [[webView mainFrame] DOMDocument], nil]);
-        
-        NSArray* frames = [[webView mainFrame] childFrames];
-        int j;
-        for (j = 0; j < [frames count]; j++) {
-            DOMDocument* doc = [[frames objectAtIndex: j] DOMDocument];
-            JSFunctionCall(func, [NSArray arrayWithObjects: self, doc, nil]);
-        }
-	}
+        // eval on frame
+        JSFunctionCall(func, [NSArray arrayWithObjects: self, [frame DOMDocument], nil]);
+    }
+
+    NSArray* children = [frame childFrames];
+    for (i = 0; i < [children count]; i++) {
+        [self evalScriptsInFrame: [children objectAtIndex: i]];
+    }
 }
 
 - (void) progressStarted: (NSNotification*) n
@@ -387,55 +402,34 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
 }
 
 - (void) progressChanged: (NSNotification*) n
-{    
+{
     DEBUG_LOG(@"CMController %p - progressChanged: %@", self, n);
-    
-	WebView* webView = [n object];
-    
-    if (! [[webView mainFrame] DOMDocument]) {
-		return;
-    }
 
-    NSString* s;
-    
-    s = [webView stringByEvaluatingJavaScriptFromString: @"document.readyState"];
-    if (! ([s isEqualToString: @"loaded"] || [s isEqualToString: @"complete"])) {
-        return;
-    }
-    
-    int i;
-    NSArray* frames = [[webView mainFrame] childFrames];
-    for (i = 0; i < [frames count]; i++) {
-        DOMDocument* doc = [[frames objectAtIndex: i] DOMDocument];
-        s = [doc valueForKeyJS: @"readyState"];
-        if (! ([s isEqualToString: @"loaded"] || [s isEqualToString: @"complete"])) {
-            return;
-        }
-    }
-    [self evalScriptsInWebView: webView];
-    
+    WebView* webView = [n object];
+    [self evalScriptsInFrame: [webView mainFrame]];
+#if 0
     NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
     [center removeObserver: self
                       name: WebViewProgressEstimateChangedNotification
                     object: webView];
-}    
+#endif
+}
 
 - (void) progressFinished: (NSNotification*) n
 {
-	WebView* webView = [n object];
-	WebDataSource* dataSource = [[webView mainFrame] dataSource];
-	NSURL* url = [[dataSource request] URL];
+    WebView* webView = [n object];
+    WebDataSource* dataSource = [[webView mainFrame] dataSource];
+    NSURL* url = [[dataSource request] URL];
 
     // User Script
-	if ([[url absoluteString] hasSuffix: @".user.js"]) {
-		CMUserScript* script;
-		script = [[CMUserScript alloc] initWithContentsOfURL: url];
-		
-		if (script) {
-			[self showInstallAlertSheet: script webView: webView];
-		}
-	} else {
-        [self evalScriptsInWebView: webView];
+    if ([[url absoluteString] hasSuffix: @".user.js"]) {
+        CMUserScript* script;
+        script = [[CMUserScript alloc] initWithContentsOfURL: url];
+        if (script) {
+            [self showInstallAlertSheet: script webView: webView];
+        }
+    } else {
+        [self evalScriptsInFrame: [webView mainFrame]];
     }
 }
 
