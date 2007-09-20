@@ -10,7 +10,7 @@
 #import "XMLHttpRequest.h"
 #import "JSUtils.h"
 
-#if 1
+#if 0
 #  define DEBUG_LOG(...) NSLog(__VA_ARGS__)
 #else
 #  define DEBUG_LOG ;
