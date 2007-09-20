@@ -10,10 +10,10 @@
 #import "XMLHttpRequest.h"
 #import "JSUtils.h"
 
-#if 0
-#  define DEBUG_LOG(format, ...) NSLog(format, __VA_ARGS__)
+#if 1
+#  define DEBUG_LOG(...) NSLog(__VA_ARGS__)
 #else
-#  define DEBUG_LOG
+#  define DEBUG_LOG ;
 #endif
 
 static NSString* BUNDLE_IDENTIFIER = @"info.8-p.Creammonkey";
@@ -151,6 +151,8 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
 
 - (NSArray*) matchedScripts: (NSURL*) url
 {
+    if (! url)
+        return nil;
     NSMutableArray* result = [[NSMutableArray alloc] init];
 
     int i;
@@ -213,20 +215,20 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
 }
 
 - (void) evalScriptsInFrame: (WebFrame*) frame
+                      force: (BOOL) force
 {
     int i;
     NSArray* children = [frame childFrames];
     for (i = 0; i < [children count]; i++) {
-        [self evalScriptsInFrame: [children objectAtIndex: i]];
+        [self evalScriptsInFrame: [children objectAtIndex: i]
+                           force: force];
     }
 
     NSURL* url = [[[frame dataSource] request] URL];
-    if (! url) {
-        return;
-    }
-
-    if (! [frame DOMDocument]) {
-        DEBUG_LOG(@"No DOMDocument: %@", url);
+    if (url && (! [[url scheme] isEqualToString: @"about"]) &&
+        [frame DOMDocument]) {
+        ;
+    } else {
         return;
     }
 
@@ -237,8 +239,7 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
     id result;
 
     result = [[frame DOMDocument] valueForKeyJS: @"readyState"];
-    if ([result isEqualToString: @"loaded"] ||
-        [result isEqualToString: @"complete"]) {
+    if (force || [result isEqualToString: @"loaded"]) {
         id body = [[frame DOMDocument] valueForKeyJS: @"body"];
         if ([[body valueForKeyJS: @"__creammonkeyed__"] intValue]) {
             return;
@@ -249,6 +250,9 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
     } else {
         return;
     }
+    DEBUG_LOG(@"eval: %d %@ %@ %d",
+              force, url, [frame DOMDocument],
+              [[self matchedScripts: url] count]);
 
     NSString* bridgeName = [NSString stringWithFormat: @"__bridge%u__", rand()];
     NSArray* ary = [self matchedScripts: url];
@@ -277,7 +281,18 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
 
 - (void) progressStarted: (NSNotification*) n
 {
-    DEBUG_LOG(@"CMController %@ - progressStarted: %@", self, n);
+    // DEBUG_LOG(@"CMController %@ - progressStarted: %@", self, n);
+    WebView* webView = [n object];
+    WebDataSource* source = [[webView mainFrame] provisionalDataSource];
+    if (! source) {
+        // source = [[webView mainFrame] provisionalDataSource];
+    }
+    NSURL* url = [[source request] URL];
+    DEBUG_LOG(@"url = %@, matchedScripts = %d",
+              url, [[self matchedScripts: url] count]);
+    if ([[self matchedScripts: url] count] == 0) {
+        return;
+    }
     NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
     [center addObserver: self
                selector: @selector(progressChanged:)
@@ -373,10 +388,11 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
 
 - (void) progressChanged: (NSNotification*) n
 {
-    DEBUG_LOG(@"CMController %p - progressChanged: %@", self, n);
+    // DEBUG_LOG(@"CMController %p - progressChanged: %@", self, n);
 
     WebView* webView = [n object];
-    [self evalScriptsInFrame: [webView mainFrame]];
+    [self evalScriptsInFrame: [webView mainFrame]
+                       force: NO];
 }
 
 - (void) progressFinished: (NSNotification*) n
@@ -393,7 +409,8 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
             [self showInstallAlertSheet: script webView: webView];
         }
     } else {
-        [self evalScriptsInFrame: [webView mainFrame]];
+        [self evalScriptsInFrame: [webView mainFrame]
+                           force: YES];
     }
 }
 
@@ -506,10 +523,17 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
 
     // Notification
     NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
+#if 0
+    [center addObserver: self
+               selector: @selector(progressChanged:)
+                   name: WebViewProgressEstimateChangedNotification
+                 object: nil];
+#else
     [center addObserver: self
                selector: @selector(progressStarted:)
                    name: WebViewProgressStartedNotification
                  object: nil];
+#endif
     [center addObserver: self
                selector: @selector(progressFinished:)
                    name: WebViewProgressFinishedNotification
