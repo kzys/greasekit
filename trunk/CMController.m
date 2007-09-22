@@ -16,9 +16,9 @@
 #  define DEBUG_LOG ;
 #endif
 
-static NSString* BUNDLE_IDENTIFIER = @"info.8-p.Creammonkey";
-static NSString* CONFIG_PATH = @"~/Library/Application Support/Creammonkey/config.plist";
-static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/values.plist";
+static NSString* BUNDLE_IDENTIFIER = @"info.8-p.GreaseKit";
+static NSString* CONFIG_PATH = @"~/Library/Application Support/GreaseKit/config.plist";
+static NSString* VALUES_PATH = @"~/Library/Application Support/GreaseKit/values.plist";
 
 @interface NSMutableString(ReplaceOccurrencesOfStringWithString)
 - (unsigned int) replaceOccurrencesOfString: (NSString*) target
@@ -440,7 +440,7 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
 
     NSDictionary* options;
     options = [NSDictionary dictionaryWithObjectsAndKeys:
-                                @"Creammonkey",  @"ApplicationName",
+                                @"GreaseKit",  @"ApplicationName",
                             icon,  @"ApplicationIcon",
                             @"",  @"Version",
                             @"Version 1.1",  @"ApplicationVersion",
@@ -477,7 +477,7 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/Creammonkey/value
     if (! self)
         return nil;
 
-    scriptDir_ = [@"~/Library/Application Support/Creammonkey/" stringByExpandingTildeInPath];
+    scriptDir_ = [@"~/Library/Application Support/GreaseKit/" stringByExpandingTildeInPath];
     [scriptDir_ retain];
 
     scripts_ = nil;

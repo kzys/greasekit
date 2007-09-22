@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BundleName</key>
-	<string>Creammonkey.bundle</string>
+	<string>GreaseKit.bundle</string>
 	
 	<key>LoadBundleOnLaunch</key>
 	<string>YES</string>
@@ -11,7 +11,7 @@
 	<key>LocalizedNames</key>
 	<dict>
 		<key>English</key>
-		<string>Creammonkey</string>
+		<string>GreaseKit</string>
 	</dict>
 	
 	<key>NoMenuEntry</key>
