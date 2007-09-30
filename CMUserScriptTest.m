@@ -64,6 +64,24 @@
     STAssertTrue([s isEqualTo: @"foobar"], @"symbol");
 }
 
+- (void) testUniqueName
+{
+    NSString* s;
+    NSArray* ary;
+
+    ary = [NSArray array];
+    s = [CMUserScript uniqueName: @"foo" others: ary];
+    STAssertTrue([s isEqualTo: @"foo.user.js"], @"nothing");
+
+    ary = [NSArray arrayWithObjects: @"foo.user.js", nil];
+    s = [CMUserScript uniqueName: @"foo" others: ary];
+    STAssertTrue([s isEqualTo: @"foo-2.user.js"], @"1");
+
+    ary = [NSArray arrayWithObjects: @"foo.user.js", @"foo-2.user.js", nil];
+    s = [CMUserScript uniqueName: @"foo" others: ary];
+    STAssertTrue([s isEqualTo: @"foo-3.user.js"], @"2");
+}
+
 - (void) testXMLElement
 {
     CMUserScript* script;

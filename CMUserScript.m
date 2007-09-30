@@ -49,12 +49,25 @@
     return [result autorelease];
 }
 
+- (BOOL) isEqualTo: (CMUserScript*) other
+{
+    return ([[self name] isEqualTo: [other name]] &&
+            [[self namespace] isEqualTo: [other namespace]]);
+}
+
 - (BOOL) isInstalled: (NSString*) scriptDir
 {
 	NSString* path;
 	path = [NSString stringWithFormat: @"%@/%@", scriptDir, [self basename]];
-	
-	return [[NSFileManager defaultManager] fileExistsAtPath: path];
+    if (! [[NSFileManager defaultManager] fileExistsAtPath: path]) {
+        return NO;
+    }
+
+    CMUserScript* other;
+    other = [[CMUserScript alloc] initWithContentsOfFile: path];
+    [other autorelease];
+
+    return [self isEqualTo: other];
 }
 
 - (NSString*) name
@@ -110,17 +123,47 @@
     if (fullPath_) {
         return [fullPath_ lastPathComponent];
     } else {
-        return [[self class] fileNameFromString: [self name]];
+        NSString* s = [[self class] fileNameFromString: [self name]];
+        return [NSString stringWithFormat: @"%@.user.js", s];
     }
 }
 
-- (BOOL) install: (NSString*) path
++ (NSString*) uniqueName: (NSString*) name
+                  others: (NSArray*) others
+{
+    int i = 2;
+    NSString* s = [NSString stringWithFormat: @"%@.user.js", name];
+    while ([others containsObject: s]) {
+        s = [NSString stringWithFormat: @"%@-%d.user.js", name, i];
+        i++;
+    }
+    return s;
+}
+
+- (BOOL) install: (NSString*) dir
 {
 	[fullPath_ release];
-	fullPath_ = [[NSString alloc] initWithFormat: @"%@/%@", path, [self basename]];
+	fullPath_ = [[NSString alloc] initWithFormat: @"%@/%@", dir, [self basename]];
+
+    if ([[NSFileManager defaultManager] fileExistsAtPath: fullPath_]) {
+        CMUserScript* other;
+        other = [[CMUserScript alloc] initWithContentsOfFile: fullPath_];
+
+        // same filename, but not same script
+        if (! [self isEqualTo: other]) {
+            NSArray* ary = [[NSFileManager defaultManager] directoryContentsAtPath: dir];
+            NSString* s;
+            s = [[self class] uniqueName: [[self class] fileNameFromString: [self name]]
+                                  others: ary];
+
+            [fullPath_ release];
+            fullPath_ = [[NSString alloc] initWithFormat: @"%@/%@", dir, s];
+        }
+        [other release];
+    }
 
     NSData* data = [script_ dataUsingEncoding: NSUTF8StringEncoding];
-	return [data writeToFile: fullPath_ atomically: YES];
+    return [data writeToFile: fullPath_ atomically: YES];
 }
 
 - (BOOL) uninstall
