@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		401172A80CAFA8D500BBFE8D /* GKLoader.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 401172A60CAFA8D500BBFE8D /* GKLoader.h */; };
 		401172A90CAFA8D500BBFE8D /* GKLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 401172A70CAFA8D500BBFE8D /* GKLoader.m */; };
+		4011730A0CAFD69300BBFE8D /* Utils.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 401173080CAFD69300BBFE8D /* Utils.h */; };
+		4011730B0CAFD69300BBFE8D /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 401173090CAFD69300BBFE8D /* Utils.m */; };
+		4011730C0CAFD69300BBFE8D /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 401173090CAFD69300BBFE8D /* Utils.m */; };
+		4011730F0CAFD6DF00BBFE8D /* UtilsTest.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4011730D0CAFD6DF00BBFE8D /* UtilsTest.h */; };
+		401173100CAFD6DF00BBFE8D /* UtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4011730E0CAFD6DF00BBFE8D /* UtilsTest.m */; };
+		401173110CAFD6DF00BBFE8D /* UtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4011730E0CAFD6DF00BBFE8D /* UtilsTest.m */; };
+		401173120CAFD98B00BBFE8D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4062459B09A325F40040CB9C /* WebKit.framework */; };
 		402F816F0B9A68A9001EF155 /* template.js in Resources */ = {isa = PBXBuildFile; fileRef = 402F81010B9A5E3E001EF155 /* template.js */; };
 		4062458F09A325B00040CB9C /* CMController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062458809A325B00040CB9C /* CMController.m */; };
 		4062459009A325B10040CB9C /* CMUserScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062458A09A325B00040CB9C /* CMUserScript.m */; };
@@ -25,7 +32,6 @@
 		40A3E09B09A58AC60091278C /* WildcardPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062458E09A325B00040CB9C /* WildcardPattern.m */; };
 		40A3E09F09A58ADA0091278C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		40A3E0A409A58AF40091278C /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A3E0A309A58AF40091278C /* SenTestingKit.framework */; };
-		40EB0E0B0C23A3D600FCFBF8 /* JSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 40EB0E090C23A3D500FCFBF8 /* JSUtils.m */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -40,6 +46,8 @@
 				406245D909A327590040CB9C /* Info in CopyFiles */,
 				406245B509A3262B0040CB9C /* GreaseKit.bundle in CopyFiles */,
 				401172A80CAFA8D500BBFE8D /* GKLoader.h in CopyFiles */,
+				4011730A0CAFD69300BBFE8D /* Utils.h in CopyFiles */,
+				4011730F0CAFD6DF00BBFE8D /* UtilsTest.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +61,10 @@
 		32DBCF630370AF2F00C91783 /* Creammonkey_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Creammonkey_Prefix.pch; sourceTree = "<group>"; };
 		401172A60CAFA8D500BBFE8D /* GKLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKLoader.h; sourceTree = "<group>"; };
 		401172A70CAFA8D500BBFE8D /* GKLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKLoader.m; sourceTree = "<group>"; };
+		401173080CAFD69300BBFE8D /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		401173090CAFD69300BBFE8D /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		4011730D0CAFD6DF00BBFE8D /* UtilsTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtilsTest.h; sourceTree = "<group>"; };
+		4011730E0CAFD6DF00BBFE8D /* UtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UtilsTest.m; sourceTree = "<group>"; };
 		402F81010B9A5E3E001EF155 /* template.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = template.js; sourceTree = "<group>"; };
 		404B82FC09C331FE00CBF32A /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4062458709A325B00040CB9C /* CMController.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMController.h; sourceTree = "<group>"; };
@@ -74,8 +86,6 @@
 		40A3E05609A57CEF0091278C /* WildcardPatternTest.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = WildcardPatternTest.m; sourceTree = "<group>"; };
 		40A3E0A309A58AF40091278C /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
 		40A95AF609BDAF27001C0447 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/Menu.nib; sourceTree = "<group>"; };
-		40EB0E080C23A3D500FCFBF8 /* JSUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSUtils.h; sourceTree = "<group>"; };
-		40EB0E090C23A3D500FCFBF8 /* JSUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSUtils.m; sourceTree = "<group>"; };
 		40F6844609CA6CBD004C4C61 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Spanish; path = Spanish.lproj/Menu.nib; sourceTree = "<group>"; };
 		40F6844809CA6CD2004C4C61 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Spanish; path = Spanish.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* GreaseKit.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GreaseKit.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +100,7 @@
 			files = (
 				40A3E09F09A58ADA0091278C /* Foundation.framework in Frameworks */,
 				40A3E0A409A58AF40091278C /* SenTestingKit.framework in Frameworks */,
+				401173120CAFD98B00BBFE8D /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,9 +200,9 @@
 		32C88E010371C26100C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				40EB0E080C23A3D500FCFBF8 /* JSUtils.h */,
-				40EB0E090C23A3D500FCFBF8 /* JSUtils.m */,
 				32DBCF630370AF2F00C91783 /* Creammonkey_Prefix.pch */,
+				401173080CAFD69300BBFE8D /* Utils.h */,
+				401173090CAFD69300BBFE8D /* Utils.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -203,6 +214,8 @@
 				40A3E05409A57CEF0091278C /* CMUserScriptTest.m */,
 				40A3E05509A57CEF0091278C /* WildcardPatternTest.h */,
 				40A3E05609A57CEF0091278C /* WildcardPatternTest.m */,
+				4011730D0CAFD6DF00BBFE8D /* UtilsTest.h */,
+				4011730E0CAFD6DF00BBFE8D /* UtilsTest.m */,
 			);
 			name = Test;
 			sourceTree = "<group>";
@@ -316,6 +329,8 @@
 				40A3E05809A57CEF0091278C /* WildcardPatternTest.m in Sources */,
 				40A3E09A09A58AC00091278C /* CMUserScript.m in Sources */,
 				40A3E09B09A58AC60091278C /* WildcardPattern.m in Sources */,
+				4011730C0CAFD69300BBFE8D /* Utils.m in Sources */,
+				401173110CAFD6DF00BBFE8D /* UtilsTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,8 +342,9 @@
 				4062459009A325B10040CB9C /* CMUserScript.m in Sources */,
 				4062459209A325B10040CB9C /* WildcardPattern.m in Sources */,
 				406EA0460B9A3932004C2A39 /* XMLHttpRequest.m in Sources */,
-				40EB0E0B0C23A3D600FCFBF8 /* JSUtils.m in Sources */,
 				401172A90CAFA8D500BBFE8D /* GKLoader.m in Sources */,
+				4011730B0CAFD69300BBFE8D /* Utils.m in Sources */,
+				401173100CAFD6DF00BBFE8D /* UtilsTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

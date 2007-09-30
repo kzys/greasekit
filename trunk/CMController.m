@@ -9,6 +9,7 @@
 #import "CMUserScript.h"
 #import "XMLHttpRequest.h"
 #import "JSUtils.h"
+#import "Utils.h"
 
 #if 0
 #  define DEBUG_LOG(...) NSLog(__VA_ARGS__)
@@ -30,22 +31,6 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
 - (BrowserWebView*) currentWebView;
 @end
 
-@interface NSMutableString(ReplaceOccurrencesOfStringWithString)
-- (unsigned int) replaceOccurrencesOfString: (NSString*) target
-                                 withString: (NSString*) replacement;
-@end
-
-@implementation NSMutableString(ReplaceOccurrencesOfStringWithString)
-- (unsigned int) replaceOccurrencesOfString: (NSString*) target
-                                 withString: (NSString*) replacement
-{
-    return [self replaceOccurrencesOfString: target
-                                 withString: replacement
-                                    options: 0
-                                      range: NSMakeRange(0, [self length])];
-}
-@end
-
 @implementation CMController
 - (BOOL) addApplication: (NSString*) identifier
 {
@@ -60,28 +45,6 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
     NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys: name, @"name", icon, @"icon", [NSNumber numberWithBool: YES], @"enabled", identifier, @"identifier", nil];
     [applications addObject: dict];
     return YES;
-}
-
-- (void) buildApplicationList
-{
-    NSArray* apps = [NSArray arrayWithObjects: @"com.apple.Safari", @"com.mailplaneapp.Mailplane", @"com.factorycity.DietPibb", nil];
-    int i;
-    for (i = 0; i < [apps count]; i++) {
-        [self addApplication: [apps objectAtIndex: i]];
-    }
-}
-
-- (BOOL) canInjectable: (NSString*) identifier
-{
-    int i;
-    for (i = 0; i < [applications count]; i++) {
-        NSDictionary* app = [applications objectAtIndex: i];
-        NSLog(@"app = %@", app);
-        if ([[app objectForKey: @"identifier"] isEqualTo: identifier]) {
-            return YES;
-        }
-    }
-    return NO;
 }
 
 - (NSString*) loadScriptTemplate
