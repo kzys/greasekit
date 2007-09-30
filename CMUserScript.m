@@ -6,20 +6,7 @@
 #import "CMUserScript.h"
 #import "WildcardPattern.h"
 
-@interface NSArray(ArrayFirstObject)
-- (id) firstObject;
-@end
-
-@implementation NSArray(ArrayFirstObject)
-- (id) firstObject
-{
-	if ([self count] > 0)
-		return [self objectAtIndex: 0];
-	else
-		return nil;
-}
-@end
-
+#import "Utils.h"
 
 @implementation CMUserScript
 - (NSMutableArray*) include

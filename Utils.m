@@ -1,4 +1,26 @@
-#import "JSUtils.h"
+#import "Utils.h"
+#import <WebKit/WebKit.h>
+
+@implementation NSArray(ArrayFirstObject)
+- (id) firstObject
+{
+	if ([self count] > 0)
+		return [self objectAtIndex: 0];
+	else
+		return nil;
+}
+@end
+
+@implementation NSMutableString(ReplaceOccurrencesOfStringWithString)
+- (unsigned int) replaceOccurrencesOfString: (NSString*) target
+                                 withString: (NSString*) replacement
+{
+    return [self replaceOccurrencesOfString: target
+                                 withString: replacement
+                                    options: 0
+                                      range: NSMakeRange(0, [self length])];
+}
+@end
 
 WebScriptObject* JSFunctionCall(WebScriptObject* func, NSArray* args)
 {
@@ -13,12 +35,12 @@ WebScriptObject* JSFunctionCall(WebScriptObject* func, NSArray* args)
     [ary addObjectsFromArray: args];
     return [func callWebScriptMethod: @"call" withArguments: ary];
 }
- 
+
 NSArray* JSObjectKeys(WebScriptObject* obj)
 {
     WebScriptObject* func = [obj evaluateWebScript: @"function(obj){var result=[];for(var k in obj)result.push(k);return result;}"];
     WebScriptObject* keys = JSFunctionCall(func, [NSArray arrayWithObject: obj]);
-    
+
     size_t i;
     NSMutableArray* result = [NSMutableArray array];
     WebScriptObject* jsUndefined = [obj evaluateWebScript: @"undefined"];
@@ -37,11 +59,11 @@ NSArray* JSObjectKeys(WebScriptObject* obj)
     } @catch (NSException* e) {
         return nil;
     }
-    
+
     if (IS_JS_UNDEF(result)) {
         return nil;
     }
-    
+
     return result;
 }
 @end
