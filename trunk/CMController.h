@@ -4,6 +4,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import "GKGMObject.h"
 
 @interface CMController : NSObject {
 	IBOutlet NSMenu* menu;
@@ -11,10 +12,10 @@
 	
 	NSMutableArray* scripts_;
 	NSString* scriptDir_;
-    NSMutableDictionary* scriptValues_;
     NSMutableArray* applications;
     
     NSString* scriptTemplate_;
+    GKGMObject* gmObject_;
 }
 
 - (IBAction) toggleScriptEnable: (id) sender;
