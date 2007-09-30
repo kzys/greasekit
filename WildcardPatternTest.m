@@ -1,6 +1,18 @@
 #import "WildcardPatternTest.h"
 
 @implementation WildcardPatternTest
+- (void) testString
+{
+	WildcardPattern* pat;
+
+	pat = [[WildcardPattern alloc] initWithString: @"foo"];
+	STAssertTrue([[pat string] isEqualTo: @"foo"], @"initializer");
+
+    [pat setString: @"bar"];
+	STAssertTrue([[pat string] isEqualTo: @"bar"], @"setter");
+	[pat release];
+}
+
 - (void) testPlainMatch
 {
 	WildcardPattern* pat;

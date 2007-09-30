@@ -6,13 +6,26 @@
 #import "WildcardPattern.h"
 
 @implementation WildcardPattern
+- (void) setString: (NSString*) s
+{
+    if (pattern_)
+        [pattern_ release];
+    pattern_ = [s retain];
+}
+
+- (NSString*) string
+{
+    return pattern_;
+}
 
 - (id) initWithString: (NSString*) s
 {
 	self = [self init];
-	
-	pattern_ = [s retain];
-	
+    if (! self) {
+        return nil;
+    }
+
+    [self setString: s];
 	return self;
 }
 

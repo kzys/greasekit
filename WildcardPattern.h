@@ -12,4 +12,7 @@
 - (id) initWithString: (NSString*) s;
 - (BOOL) isMatch: (NSString*) s;
 
+- (NSString*) string;
+- (void) setString: (NSString*) s;
+
 @end
