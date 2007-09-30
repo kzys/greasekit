@@ -9,8 +9,8 @@
 	NSDictionary* metadata_;
 	NSString* script_;
 	
-	NSArray* include_;
-	NSArray* exclude_;
+	NSMutableArray* include_;
+	NSMutableArray* exclude_;
 	
 	NSString* fullPath_;
     NSURL* url_;
@@ -23,6 +23,10 @@
 - (id) initWithString: (NSString*) script;
 - (id) initWithContentsOfFile: (NSString*) path;
 - (id) initWithContentsOfURL: (NSURL*) url;
+- (NSXMLElement*) XMLElement;
+
+- (NSMutableArray*) include;
+- (NSMutableArray*) exclude;
 
 // Getter
 - (NSString*) name;
