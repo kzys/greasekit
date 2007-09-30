@@ -8,7 +8,6 @@
 #import <WebKit/WebKit.h>
 #import "CMUserScript.h"
 #import "XMLHttpRequest.h"
-#import "JSUtils.h"
 #import "Utils.h"
 
 #if 0
@@ -59,10 +58,26 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
     return scripts_;
 }
 
-- (NSDictionary*) scriptsConfig
+- (NSDictionary*) scriptElementsDictionary
 {
+    NSMutableDictionary* result = [NSMutableDictionary dictionary];
     NSString* path = [CONFIG_PATH stringByExpandingTildeInPath];
-    return [NSDictionary dictionaryWithContentsOfFile: path];
+    NSData* data = [NSData dataWithContentsOfFile: path];
+
+    NSXMLDocument* doc;
+    doc = [[NSXMLDocument alloc] initWithData: data
+                                      options: 0
+                                        error: nil];
+
+    NSArray* ary = [[doc rootElement] elementsForName: @"Script"];
+    size_t i;
+    for (i = 0; i < [ary count]; i++) {
+        NSXMLElement* script = [ary objectAtIndex: i];
+        [result setObject: script
+                   forKey: [script attributeValueForName: @"filename"]];
+    }
+
+    return result;
 }
 
 - (void) saveScriptsConfig
@@ -135,7 +150,7 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
         files = [manager directoryContentsAtPath: scriptDir_];
     }
 
-    NSDictionary* config = [self scriptsConfig];
+    NSDictionary* config = [self scriptElementsDictionary];
 
     [self willChangeValueForKey: @"scripts"];
 
@@ -151,7 +166,8 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
         CMUserScript* script;
         script = [[CMUserScript alloc] initWithContentsOfFile: path];
 
-        [script setEnabled: [[config objectForKey: [script basename]] intValue]];
+        NSXMLElement* element = [config objectForKey: [path lastPathComponent]];
+        [script configureWithXMLElement: element];
 
         [scripts_ addObject: script];
         [script release];
@@ -284,7 +300,7 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
                             withString: bridgeName];
         [ms replaceOccurrencesOfString: @"<body>"
                             withString: [s script]];
-        // DEBUG_LOG(@"ms = %@", ms);
+
         func = [scriptObject evaluateWebScript: ms];
 
         // eval on frame
@@ -423,6 +439,7 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
 
         CMUserScript* script;
         script = [[CMUserScript alloc] initWithString: s];
+        // NSLog(@"script = %@", [script name]);
         if (script) {
             [self showInstallAlertSheet: script webView: webView];
         }

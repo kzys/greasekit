@@ -29,10 +29,32 @@
     [exclude_ setArray: ary];
 }
 
+- (void) configureWithXMLElement: (NSXMLElement*) element
+{
+    BOOL flag;
+
+    // false or not ("true", nil -> true, "false" -> false)
+    flag = [[element attributeValueForName: @"enabled"] isEqualTo: @"false"];
+    [self setEnabled: ! flag];
+}
+
 - (NSXMLElement*) XMLElement
 {
     NSXMLElement* result;
     result = [[NSXMLElement alloc] initWithName: @"Script"];
+
+    [result setAttribute: [self name] forName: @"name"];
+    [result setAttribute: [self namespace] forName: @"namespace"];
+    [result setAttribute: [self description] forName: @"description"];
+
+    [result setAttribute: ([self isEnabled] ? @"true" : @"false")
+                 forName: @"enabled"];
+
+    if (fullPath_) {
+        [result setAttribute: [fullPath_ lastPathComponent]
+                     forName: @"filename"];
+    }
+
     return [result autorelease];
 }
 
@@ -45,7 +67,7 @@
 - (BOOL) isInstalled: (NSString*) scriptDir
 {
 	NSString* path;
-	path = [NSString stringWithFormat: @"%@/%@", scriptDir, [self basename]];
+	path = [NSString stringWithFormat: @"%@/%@", scriptDir, [self basenameFromName]];
     if (! [[NSFileManager defaultManager] fileExistsAtPath: path]) {
         return NO;
     }
@@ -62,7 +84,7 @@
     if ([metadata_ objectForKey: @"@name"])
         return [[metadata_ objectForKey: @"@name"] firstObject];
     else
-        return @"Unnamed";
+        return nil;
 }
 
 - (NSString*) description
@@ -105,14 +127,10 @@
     return [[NSString stringWithCharacters: dst length: j] lowercaseString];
 }
 
-- (NSString*) basename
+- (NSString*) basenameFromName
 {
-    if (fullPath_) {
-        return [fullPath_ lastPathComponent];
-    } else {
-        NSString* s = [[self class] fileNameFromString: [self name]];
-        return [NSString stringWithFormat: @"%@.user.js", s];
-    }
+    NSString* s = [[self class] fileNameFromString: [self name]];
+    return [NSString stringWithFormat: @"%@.user.js", s];
 }
 
 + (NSString*) uniqueName: (NSString*) name
@@ -130,7 +148,7 @@
 - (BOOL) install: (NSString*) dir
 {
 	[fullPath_ release];
-	fullPath_ = [[NSString alloc] initWithFormat: @"%@/%@", dir, [self basename]];
+	fullPath_ = [[NSString alloc] initWithFormat: @"%@/%@", dir, [self basenameFromName]];
 
     if ([[NSFileManager defaultManager] fileExistsAtPath: fullPath_]) {
         CMUserScript* other;
