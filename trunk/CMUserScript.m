@@ -22,6 +22,33 @@
 
 
 @implementation CMUserScript
+- (NSMutableArray*) include
+{
+    return include_;
+}
+
+- (void) setInclude: (NSArray*) ary
+{
+    [include_ setArray: ary];
+}
+
+- (NSMutableArray*) exclude
+{
+    return exclude_;
+}
+
+- (void) setExclude: (NSArray*) ary
+{
+    [exclude_ setArray: ary];
+}
+
+- (NSXMLElement*) XMLElement
+{
+    NSXMLElement* result;
+    result = [[NSXMLElement alloc] initWithName: @"Script"];
+    return [result autorelease];
+}
+
 - (BOOL) isInstalled: (NSString*) scriptDir
 {
 	NSString* path;
@@ -221,11 +248,12 @@
 	// include
 	NSArray* ary;
 	ary = [CMUserScript createPatterns: [metadata_ objectForKey: @"@include"]];
+    [self setInclude: ary];
 	include_ = [ary retain];
 	
 	// exclude
 	ary = [CMUserScript createPatterns: [metadata_ objectForKey: @"@exclude"]];
-    exclude_ = [ary retain];
+    [self setExclude: ary];
 	
 	return self;
 }
@@ -286,8 +314,9 @@
 	script_ = nil;
 
 	metadata_ = nil;
-	include_ = nil;
-	exclude_ = nil;
+
+	include_ = [[NSMutableArray alloc] init];
+	exclude_ = [[NSMutableArray alloc] init];
 	
 	fullPath_ = nil;
     url_ = nil;
@@ -304,7 +333,9 @@
 	[script_ release];
 
 	[metadata_ release];
+
 	[include_ release];
+	[exclude_ release];
 	
 	[fullPath_ release];
 	
