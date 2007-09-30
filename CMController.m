@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006 KATO Kazuyoshi <kzys@8-p.info>
+ * Copyright (c) 2006-2007 KATO Kazuyoshi <kzys@8-p.info>
  * This source code is released under the MIT license.
  */
 
@@ -17,8 +17,18 @@
 #endif
 
 static NSString* BUNDLE_IDENTIFIER = @"info.8-p.GreaseKit";
-static NSString* CONFIG_PATH = @"~/Library/Application Support/GreaseKit/config.plist";
+static NSString* CONFIG_PATH = @"~/Library/Application Support/GreaseKit/config.xml";
 static NSString* VALUES_PATH = @"~/Library/Application Support/GreaseKit/values.plist";
+static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
+
+// Safari
+@interface BrowserWebView
+- (void) openURLInNewTab: (NSURL*) url tabLocation: (id) loc;
+@end
+
+@interface BrowserWindowController
+- (BrowserWebView*) currentWebView;
+@end
 
 @interface NSMutableString(ReplaceOccurrencesOfStringWithString)
 - (unsigned int) replaceOccurrencesOfString: (NSString*) target
@@ -37,6 +47,43 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/GreaseKit/values.
 @end
 
 @implementation CMController
+- (BOOL) addApplication: (NSString*) identifier
+{
+    NSWorkspace* ws = [NSWorkspace sharedWorkspace];
+    NSString* path = [ws absolutePathForAppBundleWithIdentifier: identifier];
+    if (! path) {
+        return NO;
+    }
+    NSImage* icon = [ws iconForFile: path];
+    NSString* name = [[NSFileManager defaultManager] displayNameAtPath: path];
+
+    NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys: name, @"name", icon, @"icon", [NSNumber numberWithBool: YES], @"enabled", identifier, @"identifier", nil];
+    [applications addObject: dict];
+    return YES;
+}
+
+- (void) buildApplicationList
+{
+    NSArray* apps = [NSArray arrayWithObjects: @"com.apple.Safari", @"com.mailplaneapp.Mailplane", @"com.factorycity.DietPibb", nil];
+    int i;
+    for (i = 0; i < [apps count]; i++) {
+        [self addApplication: [apps objectAtIndex: i]];
+    }
+}
+
+- (BOOL) canInjectable: (NSString*) identifier
+{
+    int i;
+    for (i = 0; i < [applications count]; i++) {
+        NSDictionary* app = [applications objectAtIndex: i];
+        NSLog(@"app = %@", app);
+        if ([[app objectForKey: @"identifier"] isEqualTo: identifier]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (NSString*) loadScriptTemplate
 {
     NSBundle* bundle = [NSBundle bundleWithIdentifier: BUNDLE_IDENTIFIER];
@@ -321,7 +368,7 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/GreaseKit/values.
 - (id) gmOpenInTab: (NSString*) s
 {
     NSURL* url = [NSURL URLWithString: s];
-    NSWindowController* controller = [[NSApp keyWindow] windowController];
+    BrowserWindowController* controller = [[NSApp keyWindow] windowController];
     [[controller currentWebView] openURLInNewTab: url
                                      tabLocation: nil];
     return nil;
@@ -466,23 +513,21 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/GreaseKit/values.
 
 - (id) init
 {
-    // Safari?
-    NSString* identifier = [[NSBundle mainBundle] bundleIdentifier];
-    if (! [identifier isEqual: @"com.apple.Safari"]) {
-        return nil;
-    }
-
     NSLog(@"CMController %p - init", self);
+
     self = [super init];
     if (! self)
         return nil;
 
-    scriptDir_ = [@"~/Library/Application Support/GreaseKit/" stringByExpandingTildeInPath];
-    [scriptDir_ retain];
+    applications = [[NSMutableArray alloc] init];
+    [self buildApplicationList];
 
-    scripts_ = nil;
+    NSString* identifier = [[NSBundle mainBundle] bundleIdentifier];
+    if (! [self canInjectable: identifier]) {
+        return nil;
+    }
 
-    [NSBundle loadNibNamed: @"Menu.nib" owner: self];
+    scriptDir_ = [[SCRIPT_DIR_PATH stringByExpandingTildeInPath] retain];
 
     scriptTemplate_ = [[self loadScriptTemplate] retain];
 
@@ -493,6 +538,9 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/GreaseKit/values.
     } else {
         scriptValues_ = [[NSMutableDictionary alloc] init];
     }
+
+    scripts_ = nil;
+    [NSBundle loadNibNamed: @"Menu.nib" owner: self];
 
     return self;
 }
