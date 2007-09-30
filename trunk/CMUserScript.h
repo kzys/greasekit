@@ -43,5 +43,6 @@
 - (BOOL) isMatched: (NSURL*) url;
 
 + (NSString*) fileNameFromString: (NSString*) s;
++ (NSString*) uniqueName: (NSString*) name others: (NSArray*) others;
 
 @end

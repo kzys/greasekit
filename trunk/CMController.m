@@ -128,6 +128,8 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
     [s install: scriptDir_];
 
     [scripts_ addObject: s];
+    [s release];
+
     [self saveScriptsConfig];
     [self reloadUserScripts: nil];
 }
@@ -220,8 +222,9 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
     CMUserScript* script = (CMUserScript*) contextInfo;
     if (returnCode == NSAlertFirstButtonReturn) {
         [self installScript: script];
+    } else {
+        [script release];
     }
-    [script release];
 }
 
 - (void) showInstallAlertSheet: (CMUserScript*) script
@@ -246,7 +249,7 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
 
     // Message and Buttons
     if([script isInstalled: scriptDir_]) {
-        [alert setMessageText: @"This script is installed, Override?"];
+        [alert setMessageText: @"This script is installed, does it override the script?"];
         [alert addButtonWithTitle: @"Override"];
     } else {
         [alert setMessageText: @"Install this script?"];
@@ -448,16 +451,18 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
     WebDataSource* dataSource = [[webView mainFrame] dataSource];
     NSURL* url = [[dataSource request] URL];
 
+    [self evalScriptsInFrame: [webView mainFrame] force: YES];
+
     // User Script
     if ([[url absoluteString] hasSuffix: @".user.js"]) {
+        const char* bytes = (const char*) [[dataSource data] bytes];
+        NSString* s = [NSString stringWithUTF8String: bytes];
+
         CMUserScript* script;
-        script = [[CMUserScript alloc] initWithContentsOfURL: url];
+        script = [[CMUserScript alloc] initWithString: s];
         if (script) {
             [self showInstallAlertSheet: script webView: webView];
         }
-    } else {
-        [self evalScriptsInFrame: [webView mainFrame]
-                           force: YES];
     }
 }
 
