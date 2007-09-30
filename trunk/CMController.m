@@ -104,17 +104,17 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
 
 - (void) saveScriptsConfig
 {
-    NSMutableDictionary* dict = [NSMutableDictionary dictionary];
+    NSXMLElement* root = [[NSXMLElement alloc] initWithName: @"UserScriptConfig"];
 
-    NSEnumerator* enumerator = [scripts_ objectEnumerator];
-    CMUserScript* script;
-    while (script = [enumerator nextObject]) {
-        [dict setObject: [NSNumber numberWithBool: [script isEnabled]]
-                 forKey: [script basename]];
+    int i;
+    for (i = 0; i < [scripts_ count]; i++) {
+        CMUserScript* script = [scripts_ objectAtIndex: i];
+        [root addChild: [script XMLElement]];
     }
-
     NSString* path = [CONFIG_PATH stringByExpandingTildeInPath];
-    [dict writeToFile: path atomically: YES];
+    NSXMLDocument* doc;
+    doc = [[NSXMLDocument alloc] initWithRootElement: root];
+    [[doc XMLData] writeToFile: path atomically: YES];
 }
 
 - (void) saveScriptValues
@@ -506,11 +506,6 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
 }
 
 #pragma mark Override
-+ (void) load
-{
-    [[self alloc] init];
-}
-
 - (id) init
 {
     NSLog(@"CMController %p - init", self);
@@ -518,14 +513,6 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
     self = [super init];
     if (! self)
         return nil;
-
-    applications = [[NSMutableArray alloc] init];
-    [self buildApplicationList];
-
-    NSString* identifier = [[NSBundle mainBundle] bundleIdentifier];
-    if (! [self canInjectable: identifier]) {
-        return nil;
-    }
 
     scriptDir_ = [[SCRIPT_DIR_PATH stringByExpandingTildeInPath] retain];
 
