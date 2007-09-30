@@ -13,7 +13,6 @@
 	NSMutableArray* exclude_;
 	
 	NSString* fullPath_;
-    NSURL* url_;
     
     BOOL enabled_;
 }
@@ -22,7 +21,6 @@
 
 - (id) initWithString: (NSString*) script;
 - (id) initWithContentsOfFile: (NSString*) path;
-- (id) initWithContentsOfURL: (NSURL*) url;
 - (NSXMLElement*) XMLElement;
 
 - (NSMutableArray*) include;
@@ -43,5 +41,7 @@
 - (void) setEnabled: (BOOL) flag;
 
 - (BOOL) isMatched: (NSURL*) url;
+
++ (NSString*) fileNameFromString: (NSString*) s;
 
 @end

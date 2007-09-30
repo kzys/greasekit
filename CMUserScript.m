@@ -62,7 +62,7 @@
     if ([metadata_ objectForKey: @"@name"])
         return [[metadata_ objectForKey: @"@name"] firstObject];
     else
-        return [self basename];
+        return @"Unnamed";
 }
 
 - (NSString*) description
@@ -85,12 +85,32 @@
     }
 }
 
++ (NSString*) fileNameFromString: (NSString*) s
+{
+    size_t len = [s length];
+
+    unichar* src = (unichar*) malloc(len * sizeof(unichar));
+    [s getCharacters: src];
+
+    unichar* dst = (unichar*) malloc(len * sizeof(unichar));
+
+    NSCharacterSet* cs = [NSCharacterSet alphanumericCharacterSet];
+    size_t i, j = 0;
+    for (i = 0; i < len; i++) {
+        if ([cs characterIsMember: src[i]]) {
+            dst[j++] = src[i];
+        }
+    }
+
+    return [[NSString stringWithCharacters: dst length: j] lowercaseString];
+}
+
 - (NSString*) basename
 {
-    if (url_) {
-        return [[url_ path] lastPathComponent];
-    } else {
+    if (fullPath_) {
         return [fullPath_ lastPathComponent];
+    } else {
+        return [[self class] fileNameFromString: [self name]];
     }
 }
 
@@ -98,7 +118,7 @@
 {
 	[fullPath_ release];
 	fullPath_ = [[NSString alloc] initWithFormat: @"%@/%@", path, [self basename]];
-    
+
     NSData* data = [script_ dataUsingEncoding: NSUTF8StringEncoding];
 	return [data writeToFile: fullPath_ atomically: YES];
 }
@@ -283,27 +303,6 @@
 	return self;
 }
 
-- (id) initWithContentsOfURL: (NSURL*) url
-{
-    NSURLRequest* req = [NSURLRequest requestWithURL: url];
-    NSURLResponse* resp;
-    NSError* error;
-
-    NSData* data = [NSURLConnection sendSynchronousRequest: req
-                                         returningResponse: &resp
-                                                     error: &error];
-    if (! data)
-        return nil;
-    
-    self = [self initWithData: data];
-	if (! self)
-		return nil;
-	
-    url_ = [url retain];
-	
-	return self;
-}
-
 #pragma mark Override
 - (id) init
 {
@@ -319,8 +318,7 @@
 	exclude_ = [[NSMutableArray alloc] init];
 	
 	fullPath_ = nil;
-    url_ = nil;
-    
+
     enabled_ = YES;
 	
 	return self;

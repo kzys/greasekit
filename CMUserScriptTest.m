@@ -50,6 +50,20 @@
     STAssertFalse([script isMatched: url], @"exclude");
 }
 
+- (void) testFileName
+{
+    NSString* s;
+
+    s = [CMUserScript fileNameFromString: @"FooBar"];
+    STAssertTrue([s isEqualTo: @"foobar"], @"lower");
+
+    s = [CMUserScript fileNameFromString: @"Foo Bar Baz"];
+    STAssertTrue([s isEqualTo: @"foobarbaz"], @"space");
+
+    s = [CMUserScript fileNameFromString: @"Foo/Bar"];
+    STAssertTrue([s isEqualTo: @"foobar"], @"symbol");
+}
+
 - (void) testXMLElement
 {
     CMUserScript* script;
