@@ -14,6 +14,9 @@
 		4011730C0CAFD69300BBFE8D /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 401173090CAFD69300BBFE8D /* Utils.m */; };
 		401173110CAFD6DF00BBFE8D /* UtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4011730E0CAFD6DF00BBFE8D /* UtilsTest.m */; };
 		401173120CAFD98B00BBFE8D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4062459B09A325F40040CB9C /* WebKit.framework */; };
+		401173290CAFF00200BBFE8D /* GKGMObject.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 401173270CAFF00200BBFE8D /* GKGMObject.h */; };
+		4011732A0CAFF00200BBFE8D /* GKGMObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 401173280CAFF00200BBFE8D /* GKGMObject.m */; };
+		4011732B0CAFF00200BBFE8D /* GKGMObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 401173280CAFF00200BBFE8D /* GKGMObject.m */; };
 		402F816F0B9A68A9001EF155 /* template.js in Resources */ = {isa = PBXBuildFile; fileRef = 402F81010B9A5E3E001EF155 /* template.js */; };
 		4062458F09A325B00040CB9C /* CMController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062458809A325B00040CB9C /* CMController.m */; };
 		4062459009A325B10040CB9C /* CMUserScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062458A09A325B00040CB9C /* CMUserScript.m */; };
@@ -45,6 +48,7 @@
 				406245B509A3262B0040CB9C /* GreaseKit.bundle in CopyFiles */,
 				401172A80CAFA8D500BBFE8D /* GKLoader.h in CopyFiles */,
 				4011730A0CAFD69300BBFE8D /* Utils.h in CopyFiles */,
+				401173290CAFF00200BBFE8D /* GKGMObject.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +66,8 @@
 		401173090CAFD69300BBFE8D /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		4011730D0CAFD6DF00BBFE8D /* UtilsTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtilsTest.h; sourceTree = "<group>"; };
 		4011730E0CAFD6DF00BBFE8D /* UtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UtilsTest.m; sourceTree = "<group>"; };
+		401173270CAFF00200BBFE8D /* GKGMObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKGMObject.h; sourceTree = "<group>"; };
+		401173280CAFF00200BBFE8D /* GKGMObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKGMObject.m; sourceTree = "<group>"; };
 		402F81010B9A5E3E001EF155 /* template.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = template.js; sourceTree = "<group>"; };
 		404B82FC09C331FE00CBF32A /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4062458709A325B00040CB9C /* CMController.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMController.h; sourceTree = "<group>"; };
@@ -161,6 +167,8 @@
 				406EA0440B9A3932004C2A39 /* XMLHttpRequest.m */,
 				401172A60CAFA8D500BBFE8D /* GKLoader.h */,
 				401172A70CAFA8D500BBFE8D /* GKLoader.m */,
+				401173270CAFF00200BBFE8D /* GKGMObject.h */,
+				401173280CAFF00200BBFE8D /* GKGMObject.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -328,6 +336,7 @@
 				40A3E09B09A58AC60091278C /* WildcardPattern.m in Sources */,
 				4011730C0CAFD69300BBFE8D /* Utils.m in Sources */,
 				401173110CAFD6DF00BBFE8D /* UtilsTest.m in Sources */,
+				4011732B0CAFF00200BBFE8D /* GKGMObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +350,7 @@
 				406EA0460B9A3932004C2A39 /* XMLHttpRequest.m in Sources */,
 				401172A90CAFA8D500BBFE8D /* GKLoader.m in Sources */,
 				4011730B0CAFD69300BBFE8D /* Utils.m in Sources */,
+				4011732A0CAFF00200BBFE8D /* GKGMObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
