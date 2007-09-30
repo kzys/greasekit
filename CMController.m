@@ -148,6 +148,9 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
 
         CMUserScript* script;
         script = [[CMUserScript alloc] initWithContentsOfFile: path];
+        [script addObserver: self forKeyPath: @"enabled"
+                    options: NSKeyValueObservingOptionNew
+                    context: nil];
 
         NSXMLElement* element = [config objectForKey: [path lastPathComponent]];
         [script configureWithXMLElement: element];
@@ -158,6 +161,17 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
     [self didChangeValueForKey: @"scripts"];
 
     [self reloadMenu];
+}
+
+- (void) observeValueForKeyPath: (NSString*) path
+                       ofObject: (id) object
+                         change: (NSDictionary*) change
+                        context: (void*) context
+{
+    if ([path isEqualTo: @"enabled"]) {
+        [self reloadMenu];
+        [self saveScriptsConfig];
+    }
 }
 
 - (NSArray*) matchedScripts: (NSURL*) url
@@ -350,9 +364,10 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
     CMUserScript* script = [scripts_ objectAtIndex: [sender tag]];
 
     [script setEnabled: [sender state] != NSOnState];
+#if 0
     [sender setState: [script isEnabled] ? NSOnState : NSOffState];
-
     [self saveScriptsConfig];
+#endif
 }
 
 - (IBAction) uninstallSelected: (id) sender
