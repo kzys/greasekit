@@ -1,5 +1,4 @@
 #import "Utils.h"
-#import <WebKit/WebKit.h>
 
 @implementation NSArray(ArrayFirstObject)
 - (id) firstObject
@@ -65,5 +64,26 @@ NSArray* JSObjectKeys(WebScriptObject* obj)
     }
 
     return result;
+}
+@end
+
+@implementation NSXMLElement(SetAttributeForName)
+- (void) setAttribute: (NSString*) value forName: (NSString*) key
+{
+    if ([self attributeForName: key]) {
+        [self removeAttributeForName: key];
+    }
+    NSXMLNode* node;
+    node = [NSXMLNode attributeWithName: key stringValue: value];
+    [self addAttribute: node];
+}
+
+- (NSString*) attributeValueForName: (NSString*) key
+{
+    NSXMLNode* node = [self attributeForName: key];
+    if (node)
+        return [node stringValue];
+    else
+        return nil;
 }
 @end

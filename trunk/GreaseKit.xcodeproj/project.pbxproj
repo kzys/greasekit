@@ -12,8 +12,6 @@
 		4011730A0CAFD69300BBFE8D /* Utils.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 401173080CAFD69300BBFE8D /* Utils.h */; };
 		4011730B0CAFD69300BBFE8D /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 401173090CAFD69300BBFE8D /* Utils.m */; };
 		4011730C0CAFD69300BBFE8D /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 401173090CAFD69300BBFE8D /* Utils.m */; };
-		4011730F0CAFD6DF00BBFE8D /* UtilsTest.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4011730D0CAFD6DF00BBFE8D /* UtilsTest.h */; };
-		401173100CAFD6DF00BBFE8D /* UtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4011730E0CAFD6DF00BBFE8D /* UtilsTest.m */; };
 		401173110CAFD6DF00BBFE8D /* UtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4011730E0CAFD6DF00BBFE8D /* UtilsTest.m */; };
 		401173120CAFD98B00BBFE8D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4062459B09A325F40040CB9C /* WebKit.framework */; };
 		402F816F0B9A68A9001EF155 /* template.js in Resources */ = {isa = PBXBuildFile; fileRef = 402F81010B9A5E3E001EF155 /* template.js */; };
@@ -47,7 +45,6 @@
 				406245B509A3262B0040CB9C /* GreaseKit.bundle in CopyFiles */,
 				401172A80CAFA8D500BBFE8D /* GKLoader.h in CopyFiles */,
 				4011730A0CAFD69300BBFE8D /* Utils.h in CopyFiles */,
-				4011730F0CAFD6DF00BBFE8D /* UtilsTest.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,7 +341,6 @@
 				406EA0460B9A3932004C2A39 /* XMLHttpRequest.m in Sources */,
 				401172A90CAFA8D500BBFE8D /* GKLoader.m in Sources */,
 				4011730B0CAFD69300BBFE8D /* Utils.m in Sources */,
-				401173100CAFD6DF00BBFE8D /* UtilsTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

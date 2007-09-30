@@ -21,7 +21,9 @@
 
 - (id) initWithString: (NSString*) script;
 - (id) initWithContentsOfFile: (NSString*) path;
+
 - (NSXMLElement*) XMLElement;
+- (void) configureWithXMLElement: (NSXMLElement*) element;
 
 - (NSMutableArray*) include;
 - (NSMutableArray*) exclude;
@@ -31,7 +33,7 @@
 - (NSString*) namespace;
 - (NSString*) description;
 - (NSString*) script;
-- (NSString*) basename;
+- (NSString*) basenameFromName;
 
 - (BOOL) isInstalled: (NSString*) path;
 - (BOOL) install: (NSString*) path;

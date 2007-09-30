@@ -1,4 +1,5 @@
 #import <Cocoa/Cocoa.h>
+#import <WebKit/WebKit.h>
 
 @interface NSArray(ArrayFirstObject)
 - (id) firstObject;
@@ -9,8 +10,6 @@
                                  withString: (NSString*) replacement;
 @end
 
-@class WebScriptObject;
-
 WebScriptObject* JSFunctionCall(WebScriptObject* func, NSArray* args);
 NSArray* JSObjectKeys(WebScriptObject* obj);
 
@@ -18,4 +17,9 @@ NSArray* JSObjectKeys(WebScriptObject* obj);
 
 @interface NSObject(ValueForKeyJS)
 - (id) valueForKeyJS: (NSString*) key;
+@end
+
+@interface NSXMLElement(SetAttributeForName)
+- (void) setAttribute: (NSString*) value forName: (NSString*) key;
+- (NSString*) attributeValueForName: (NSString*) key;
 @end
