@@ -79,9 +79,11 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
         [root addChild: [script XMLElement]];
     }
     NSString* path = [CONFIG_PATH stringByExpandingTildeInPath];
+
     NSXMLDocument* doc;
     doc = [[NSXMLDocument alloc] initWithRootElement: root];
-    [[doc XMLData] writeToFile: path atomically: YES];
+    NSData* data = [doc XMLDataWithOptions: NSXMLNodePrettyPrint];
+    [data writeToFile: path atomically: YES];
 }
 
 - (void) installScript: (CMUserScript*) s
@@ -397,6 +399,12 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
 
 - (IBAction) reloadUserScripts: (id) sender
 {
+    // FIXME: dirty?
+    int i;
+    for (i = 0; i < [scripts_ count]; i++) {
+        CMUserScript* s = [scripts_ objectAtIndex: i];
+        [s removeObserver: self forKeyPath: @"enabled"];
+    }
     [scripts_ release];
 
     scripts_ = [[NSMutableArray alloc] init];

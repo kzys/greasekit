@@ -38,6 +38,19 @@
     [self setEnabled: ! flag];
 }
 
+- (void) addElementsFromArray: (NSArray*) ary
+                         name: (NSString*) name
+                       parent: (NSXMLElement*) parent
+{
+    int i, n;
+    for (i = 0, n = [ary count]; i < n; i++) {
+        WildcardPattern* pattern = [ary objectAtIndex: i];
+        NSXMLElement* e = [NSXMLElement elementWithName: name
+                                            stringValue: [pattern string]];
+        [parent addChild: e];
+    }
+}
+
 - (NSXMLElement*) XMLElement
 {
     NSXMLElement* result;
@@ -54,6 +67,9 @@
         [result setAttribute: [fullPath_ lastPathComponent]
                      forName: @"filename"];
     }
+
+    [self addElementsFromArray: include_ name: @"Include" parent: result];
+    [self addElementsFromArray: exclude_ name: @"Exclude" parent: result];
 
     return [result autorelease];
 }
@@ -283,7 +299,7 @@
 	}
 }
 
-+ (NSArray*) createPatterns: (NSArray*) ary
++ (NSArray*) patternsFromStrings: (NSArray*) ary
 {
     if (! ary)
         return nil;
@@ -315,12 +331,12 @@
 	
 	// include
 	NSArray* ary;
-	ary = [CMUserScript createPatterns: [metadata_ objectForKey: @"@include"]];
+	ary = [CMUserScript patternsFromStrings: [metadata_ objectForKey: @"@include"]];
     [self setInclude: ary];
 	include_ = [ary retain];
 	
 	// exclude
-	ary = [CMUserScript createPatterns: [metadata_ objectForKey: @"@exclude"]];
+	ary = [CMUserScript patternsFromStrings: [metadata_ objectForKey: @"@exclude"]];
     [self setExclude: ary];
 	
 	return self;
@@ -374,8 +390,7 @@
 
 - (void) dealloc
 {
-	// NSLog(@"CMUserScript %p - dealloc", self);
-
+	NSLog(@"CMUserScript %p - dealloc", self);
 	[script_ release];
 
 	[metadata_ release];
