@@ -1,5 +1,5 @@
 #import "XMLHttpRequest.h"
-#import "JSUtils.h"
+#import "Utils.h"
 
 @implementation XMLHttpRequest
 
