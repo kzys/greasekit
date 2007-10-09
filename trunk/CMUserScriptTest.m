@@ -99,4 +99,15 @@
     STAssertTrue([script isEnabled], @"default is true");
 }
 
+- (void) testPatternsFromStrings
+{
+    NSArray* src = [NSArray arrayWithObjects: @"foo", @"bar", nil];
+    NSArray* dst = [CMUserScript patternsFromStrings: src];
+
+    WildcardPattern* pattern = [dst objectAtIndex: 0];
+    STAssertTrue([pattern isMatch: @"foo"], @"match");
+    STAssertTrue([src count] == [dst count], @"size of array");
+    STAssertTrue([[src objectAtIndex: 0] isEqualTo: [pattern string]], @"pattern string");
+}
+
 @end

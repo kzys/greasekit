@@ -46,5 +46,6 @@
 
 + (NSString*) fileNameFromString: (NSString*) s;
 + (NSString*) uniqueName: (NSString*) name others: (NSArray*) others;
++ (NSArray*) patternsFromStrings: (NSArray*) src;
 
 @end
