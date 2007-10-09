@@ -406,7 +406,7 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
 #pragma mark Override
 - (id) init
 {
-    NSLog(@"CMController %p - init", self);
+    DEBUG_LOG(@"CMController %p - init", self);
 
     self = [super init];
     if (! self)
