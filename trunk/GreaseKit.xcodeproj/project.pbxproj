@@ -18,6 +18,10 @@
 		4011732A0CAFF00200BBFE8D /* GKGMObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 401173280CAFF00200BBFE8D /* GKGMObject.m */; };
 		4011732B0CAFF00200BBFE8D /* GKGMObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 401173280CAFF00200BBFE8D /* GKGMObject.m */; };
 		402F816F0B9A68A9001EF155 /* template.js in Resources */ = {isa = PBXBuildFile; fileRef = 402F81010B9A5E3E001EF155 /* template.js */; };
+		4050D4330CBE0E1B00826B97 /* Apps.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4050D4310CBE0E1B00826B97 /* Apps.nib */; };
+		4050D4370CBE102200826B97 /* GKAppsController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4050D4350CBE102200826B97 /* GKAppsController.h */; };
+		4050D4380CBE102200826B97 /* GKAppsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4050D4360CBE102200826B97 /* GKAppsController.m */; };
+		4050D4390CBE102200826B97 /* GKAppsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4050D4360CBE102200826B97 /* GKAppsController.m */; };
 		4062458F09A325B00040CB9C /* CMController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062458809A325B00040CB9C /* CMController.m */; };
 		4062459009A325B10040CB9C /* CMUserScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062458A09A325B00040CB9C /* CMUserScript.m */; };
 		4062459209A325B10040CB9C /* WildcardPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062458E09A325B00040CB9C /* WildcardPattern.m */; };
@@ -51,6 +55,7 @@
 				401172A80CAFA8D500BBFE8D /* GKLoader.h in CopyFiles */,
 				4011730A0CAFD69300BBFE8D /* Utils.h in CopyFiles */,
 				401173290CAFF00200BBFE8D /* GKGMObject.h in CopyFiles */,
+				4050D4370CBE102200826B97 /* GKAppsController.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +77,9 @@
 		401173280CAFF00200BBFE8D /* GKGMObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKGMObject.m; sourceTree = "<group>"; };
 		402F81010B9A5E3E001EF155 /* template.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = template.js; sourceTree = "<group>"; };
 		404B82FC09C331FE00CBF32A /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		4050D4320CBE0E1B00826B97 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Apps.nib; sourceTree = "<group>"; };
+		4050D4350CBE102200826B97 /* GKAppsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKAppsController.h; sourceTree = "<group>"; };
+		4050D4360CBE102200826B97 /* GKAppsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKAppsController.m; sourceTree = "<group>"; };
 		4062458709A325B00040CB9C /* CMController.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMController.h; sourceTree = "<group>"; };
 		4062458809A325B00040CB9C /* CMController.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = CMController.m; sourceTree = "<group>"; };
 		4062458909A325B00040CB9C /* CMUserScript.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMUserScript.h; sourceTree = "<group>"; };
@@ -153,6 +161,7 @@
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 				402F81010B9A5E3E001EF155 /* template.js */,
+				4050D4310CBE0E1B00826B97 /* Apps.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -160,6 +169,8 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				4050D4350CBE102200826B97 /* GKAppsController.h */,
+				4050D4360CBE102200826B97 /* GKAppsController.m */,
 				4062458709A325B00040CB9C /* CMController.h */,
 				4062458809A325B00040CB9C /* CMController.m */,
 				4062458909A325B00040CB9C /* CMUserScript.h */,
@@ -307,6 +318,7 @@
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				406245B709A326440040CB9C /* Info in Resources */,
 				4062461709A3282B0040CB9C /* Menu.nib in Resources */,
+				4050D4330CBE0E1B00826B97 /* Apps.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +353,7 @@
 				401173110CAFD6DF00BBFE8D /* UtilsTest.m in Sources */,
 				4011732B0CAFF00200BBFE8D /* GKGMObject.m in Sources */,
 				407EBF3C0CBB687100043FA9 /* XMLHttpRequest.m in Sources */,
+				4050D4390CBE102200826B97 /* GKAppsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,6 +368,7 @@
 				401172A90CAFA8D500BBFE8D /* GKLoader.m in Sources */,
 				4011730B0CAFD69300BBFE8D /* Utils.m in Sources */,
 				4011732A0CAFF00200BBFE8D /* GKGMObject.m in Sources */,
+				4050D4380CBE102200826B97 /* GKAppsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,6 +383,14 @@
 				40F6844809CA6CD2004C4C61 /* Spanish */,
 			);
 			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		4050D4310CBE0E1B00826B97 /* Apps.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4050D4320CBE0E1B00826B97 /* English */,
+			);
+			name = Apps.nib;
 			sourceTree = "<group>";
 		};
 		4062461509A3282B0040CB9C /* Menu.nib */ = {

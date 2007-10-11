@@ -6,22 +6,24 @@
 #import <Cocoa/Cocoa.h>
 #import "GKGMObject.h"
 
+@class GKAppsController;
+
 @interface CMController : NSObject {
-	IBOutlet NSPopUpButton* applicationsButton;
 	IBOutlet NSMenu* topMenu;
 	IBOutlet NSArrayController* scriptsController;
 	
 	NSMutableArray* scripts_;
 	NSString* scriptDir_;
-    NSMutableArray* applications_;
     
     NSString* scriptTemplate_;
     GKGMObject* gmObject_;
+    GKAppsController* appsController_;
 }
 
 - (IBAction) toggleScriptEnable: (id) sender;
 - (IBAction) uninstallSelected: (id) sender;
 - (IBAction) orderFrontAboutPanel: (id) sender;
+- (IBAction) orderFrontAppsPanel: (id) sender;
 - (IBAction) reloadUserScripts: (id) sender;
 - (NSArray*) scripts;
 
