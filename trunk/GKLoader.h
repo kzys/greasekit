@@ -1,16 +1,11 @@
-//
-//  GKLoader.h
-//  GreaseKit
-//
-//  Created by Kazuyoshi on 07/09/30.
-//  Copyright 2007 __MyCompanyName__. All rights reserved.
-//
-
+/* -*- objc -*-
+ *
+ * Copyright (c) 2006 KATO Kazuyoshi <kzys@8-p.info>
+ * This source code is released under the MIT license.
+ */
 #import <Cocoa/Cocoa.h>
 
-
 @interface GKLoader : NSObject {
-
 }
-
++ (void) saveApplicationList: (NSArray*) apps;
 @end

@@ -64,6 +64,12 @@
     return self;
 }
 
+- (void) saveApplicationList
+{
+    [applicationTableView noteNumberOfRowsChanged];
+    [GKLoader saveApplicationList: applications_];
+}
+
 #pragma mark Action
 - (IBAction) addApplication: (id) sender
 {
@@ -75,16 +81,19 @@
 
     NSString* path = [[panel filenames] firstObject];
     NSBundle* bundle = [NSBundle bundleWithPath: path];
+
     [applications_ addObject: [bundle bundleIdentifier]];
-
-    NSLog(@"apps = %@", applications_);
-
-    [applicationTableView noteNumberOfRowsChanged];
+    [self saveApplicationList];
 }
 
 - (IBAction) removeApplication: (id) sender
 {
-    
+    int row = [applicationTableView selectedRow];
+    if (row == -1)
+        return;
+
+    [applications_ removeObjectAtIndex: row];
+    [self saveApplicationList];
 }
 
 #pragma mark Override
