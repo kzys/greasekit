@@ -38,8 +38,8 @@
 - (NSString*) namespace;
 - (void) setNamespace: (NSString*) ns;
 
-- (NSString*) description;
-- (void) setDescription: (NSString*) desc;
+- (NSString*) scriptDescription;
+- (void) setScriptDescription: (NSString*) desc;
 
 
 - (NSString*) script;
