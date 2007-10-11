@@ -100,8 +100,11 @@
 
 - (BOOL) isEqualTo: (CMUserScript*) other
 {
-    return ([[self name] isEqualTo: [other name]] &&
-            [[self namespace] isEqualTo: [other namespace]]);
+    // not same namespace
+    if ([self namespace] && ! [[self namespace] isEqualTo: [other namespace]])
+        return false;
+
+    return [[self name] isEqualTo: [other name]];
 }
 
 - (BOOL) isInstalled: (NSString*) scriptDir
