@@ -113,7 +113,8 @@
     }
 
     CMUserScript* other;
-    other = [[CMUserScript alloc] initWithContentsOfFile: path];
+    other = [[CMUserScript alloc] initWithContentsOfFile: path
+                                                 element: nil];
     [other autorelease];
 
     return [self isEqualTo: other];
@@ -127,7 +128,7 @@
 - (void) setName: (NSString*) name
 {
     [name_ release];
-    name_ = name;
+    name_ = [name retain];
 }
 
 - (NSString*) scriptDescription
@@ -207,7 +208,8 @@
 
     if ([[NSFileManager defaultManager] fileExistsAtPath: fullPath_]) {
         CMUserScript* other;
-        other = [[CMUserScript alloc] initWithContentsOfFile: fullPath_];
+        other = [[CMUserScript alloc] initWithContentsOfFile: fullPath_
+                                                     element: nil];
 
         // same filename, but not same script
         if (! [self isEqualTo: other]) {
@@ -363,7 +365,6 @@
 		return nil;
 		
 	script_ = [script retain];
-    // NSLog(@"script_ = %@", script_);
 
     if (element) {
         [self configureWithXMLElement: element];
