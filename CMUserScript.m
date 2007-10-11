@@ -67,7 +67,7 @@
 
     [self setName: [element attributeValueForName: @"name"]];
     [self setNamespace: [element attributeValueForName: @"namespace"]];
-    [self setDescription: [element attributeValueForName: @"description"]];
+    [self setScriptDescription: [element attributeValueForName: @"description"]];
 
     [self elements: [element elementsForName: @"Include"]
         toPatterns: include_];
@@ -82,7 +82,7 @@
 
     [result setAttribute: [self name] forName: @"name"];
     [result setAttribute: [self namespace] forName: @"namespace"];
-    [result setAttribute: [self description] forName: @"description"];
+    [result setAttribute: [self scriptDescription] forName: @"description"];
 
     [result setAttribute: ([self isEnabled] ? @"true" : @"false")
                  forName: @"enabled"];
@@ -130,12 +130,12 @@
     name_ = name;
 }
 
-- (NSString*) description
+- (NSString*) scriptDescription
 {
     return description_;
 }
 
-- (void) setDescription: (NSString*) desc
+- (void) setScriptDescription: (NSString*) desc
 {
     [description_ release];
     description_ = [desc retain];
@@ -372,7 +372,7 @@
         NSDictionary* md = [CMUserScript parseMetadata: script];
         [self setName: [[md objectForKey: @"@name"] firstObject]];
         [self setNamespace: [[md objectForKey: @"@namespace"] firstObject]];
-        [self setDescription: [[md objectForKey: @"@description"] firstObject]];
+        [self setScriptDescription: [[md objectForKey: @"@description"] firstObject]];
 
         // include
         NSArray* ary;
