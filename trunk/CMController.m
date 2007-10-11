@@ -38,7 +38,11 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
 {
     NSMutableDictionary* result = [NSMutableDictionary dictionary];
     NSString* path = [CONFIG_PATH stringByExpandingTildeInPath];
+
     NSData* data = [NSData dataWithContentsOfFile: path];
+    if (! data) {
+        return result;
+    }
 
     NSXMLDocument* doc;
     doc = [[NSXMLDocument alloc] initWithData: data
@@ -76,11 +80,6 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
 - (void) installScript: (CMUserScript*) s
 {
     [s install: scriptDir_];
-
-    [scripts_ addObject: s];
-    [s release];
-
-    [self saveScriptsConfig];
     [self reloadUserScripts: nil];
 }
 
@@ -368,7 +367,6 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
 
 - (IBAction) orderFrontAppsPanel: (id) sender
 {
-    NSLog(@"window = %@", [appsController_ window]);
     [[appsController_ window] makeKeyAndOrderFront: nil];
 }
 
