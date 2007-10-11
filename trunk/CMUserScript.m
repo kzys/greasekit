@@ -29,26 +29,50 @@
     [exclude_ setArray: ary];
 }
 
-- (void) configureWithXMLElement: (NSXMLElement*) element
+- (void) elements: (NSArray*) elements
+       toPatterns: (NSMutableArray*) result
 {
-    BOOL flag;
+    size_t i, n;
 
-    // false or not ("true", nil -> true, "false" -> false)
-    flag = [[element attributeValueForName: @"enabled"] isEqualTo: @"false"];
-    [self setEnabled: ! flag];
+    for (i = 0, n = [elements count]; i < n; i++) {
+        NSXMLElement* e = [elements objectAtIndex: i];
+
+        WildcardPattern* pattern;
+        pattern = [[WildcardPattern alloc] initWithString: [e stringValue]];
+
+        [result addObject: pattern];
+    }
 }
 
-- (void) addElementsFromArray: (NSArray*) ary
-                         name: (NSString*) name
-                       parent: (NSXMLElement*) parent
+- (void) patterns: (NSArray*) patterns
+       toElements: (NSXMLElement*) parent
+             name: (NSString*) name
 {
     int i, n;
-    for (i = 0, n = [ary count]; i < n; i++) {
-        WildcardPattern* pattern = [ary objectAtIndex: i];
+    for (i = 0, n = [patterns count]; i < n; i++) {
+        WildcardPattern* pattern = [patterns objectAtIndex: i];
         NSXMLElement* e = [NSXMLElement elementWithName: name
                                             stringValue: [pattern string]];
         [parent addChild: e];
     }
+}
+
+- (void) configureWithXMLElement: (NSXMLElement*) element
+{
+    BOOL flag;
+
+    // false or not ("true" or nil -> true, "false" -> false)
+    flag = [[element attributeValueForName: @"enabled"] isEqualTo: @"false"];
+    [self setEnabled: ! flag];
+
+    [self setName: [element attributeValueForName: @"name"]];
+    [self setNamespace: [element attributeValueForName: @"namespace"]];
+    [self setDescription: [element attributeValueForName: @"description"]];
+
+    [self elements: [element elementsForName: @"Include"]
+        toPatterns: include_];
+    [self elements: [element elementsForName: @"Exclude"]
+        toPatterns: exclude_];
 }
 
 - (NSXMLElement*) XMLElement
@@ -68,8 +92,8 @@
                      forName: @"filename"];
     }
 
-    [self addElementsFromArray: include_ name: @"Include" parent: result];
-    [self addElementsFromArray: exclude_ name: @"Exclude" parent: result];
+    [self patterns: include_ toElements: result name: @"Include"];
+    [self patterns: exclude_ toElements: result name: @"Exclude"];
 
     return [result autorelease];
 }
@@ -97,20 +121,35 @@
 
 - (NSString*) name
 {
-    if ([metadata_ objectForKey: @"@name"])
-        return [[metadata_ objectForKey: @"@name"] firstObject];
-    else
-        return nil;
+    return name_;
+}
+
+- (void) setName: (NSString*) name
+{
+    [name_ release];
+    name_ = name;
 }
 
 - (NSString*) description
 {
-	return [[metadata_ objectForKey: @"@description"] firstObject];
+    return description_;
+}
+
+- (void) setDescription: (NSString*) desc
+{
+    [description_ release];
+    description_ = [desc retain];
 }
 
 - (NSString*) namespace
 {
-	return [[metadata_ objectForKey: @"@namespace"] firstObject];
+    return namespace_;
+}
+
+- (void) setNamespace: (NSString*) ns
+{
+    [namespace_ release];
+    namespace_ = [ns retain];
 }
 
 - (NSString*) script
@@ -317,6 +356,7 @@
 }
 
 - (id) initWithString: (NSString*) script
+              element: (NSXMLElement*) element
 {
 	self = [self init];
 	if (! self)
@@ -324,30 +364,38 @@
 		
 	script_ = [script retain];
     // NSLog(@"script_ = %@", script_);
+
+    if (element) {
+        [self configureWithXMLElement: element];
+    } else {
+        // metadata
+        NSDictionary* md = [CMUserScript parseMetadata: script];
+        [self setName: [[md objectForKey: @"@name"] firstObject]];
+        [self setNamespace: [[md objectForKey: @"@namespace"] firstObject]];
+        [self setDescription: [[md objectForKey: @"@description"] firstObject]];
+
+        // include
+        NSArray* ary;
+        ary = [CMUserScript patternsFromStrings: [md objectForKey: @"@include"]];
+        [self setInclude: ary];
+        include_ = [ary retain];
 	
-	// metadata
-	metadata_ = [[CMUserScript parseMetadata: script] retain];
-	// NSLog(@"metadata_ = %@", metadata_);
-	
-	// include
-	NSArray* ary;
-	ary = [CMUserScript patternsFromStrings: [metadata_ objectForKey: @"@include"]];
-    [self setInclude: ary];
-	include_ = [ary retain];
-	
-	// exclude
-	ary = [CMUserScript patternsFromStrings: [metadata_ objectForKey: @"@exclude"]];
-    [self setExclude: ary];
+        // exclude
+        ary = [CMUserScript patternsFromStrings: [md objectForKey: @"@exclude"]];
+        [self setExclude: ary];
+    }
 	
 	return self;
 }
 
 - (id) initWithData: (NSData*) data
+            element: (NSXMLElement*) element
 {
     NSString* str = [[NSString alloc] initWithData: data
                                           encoding: NSUTF8StringEncoding];
     
-	self = [self initWithString: str];
+	self = [self initWithString: str
+                        element: element];
 	if (! self)
 		return nil;
 	
@@ -356,8 +404,10 @@
 
 
 - (id) initWithContentsOfFile: (NSString*) path
+                      element: (NSXMLElement*) element
 {
-    self = [self initWithData: [NSData dataWithContentsOfFile: path]];
+    self = [self initWithData: [NSData dataWithContentsOfFile: path]
+                      element: element];
 
 	if (! self)
 		return nil;
@@ -376,13 +426,14 @@
 	
 	script_ = nil;
 
-	metadata_ = nil;
-
 	include_ = [[NSMutableArray alloc] init];
 	exclude_ = [[NSMutableArray alloc] init];
 	
 	fullPath_ = nil;
 
+    name_ = nil;
+    namespace_ = nil;
+    description_ = nil;
     enabled_ = YES;
 	
 	return self;
@@ -392,8 +443,6 @@
 {
 	NSLog(@"CMUserScript %p - dealloc", self);
 	[script_ release];
-
-	[metadata_ release];
 
 	[include_ release];
 	[exclude_ release];

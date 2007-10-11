@@ -148,14 +148,13 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
             continue;
         }
 
+        NSXMLElement* element = [config objectForKey: [path lastPathComponent]];
         CMUserScript* script;
-        script = [[CMUserScript alloc] initWithContentsOfFile: path];
+        script = [[CMUserScript alloc] initWithContentsOfFile: path
+                                                      element: element];
         [script addObserver: self forKeyPath: @"enabled"
                     options: NSKeyValueObservingOptionNew
                     context: nil];
-
-        NSXMLElement* element = [config objectForKey: [path lastPathComponent]];
-        [script configureWithXMLElement: element];
 
         [scripts_ addObject: script];
         [script release];
@@ -352,8 +351,8 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
         NSString* s = [NSString stringWithUTF8String: bytes];
 
         CMUserScript* script;
-        script = [[CMUserScript alloc] initWithString: s];
-        // NSLog(@"script = %@", [script name]);
+        script = [[CMUserScript alloc] initWithString: s
+                                              element: nil];
         if (script) {
             [self showInstallAlertSheet: script webView: webView];
         }
@@ -475,6 +474,11 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
                selector: @selector(progressFinished:)
                    name: WebViewProgressFinishedNotification
                  object: nil];
+}
+
+- (void) windowWillClose: (NSNotification*) n
+{
+    [self saveScriptsConfig];
 }
 
 
