@@ -7,6 +7,7 @@
 
 #import <WebKit/WebKit.h>
 #import "GKLoader.h"
+#import "GKAppsController.h"
 #import "CMUserScript.h"
 #import "Utils.h"
 
@@ -365,6 +366,12 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
     [self reloadUserScripts: sender];
 }
 
+- (IBAction) orderFrontAppsPanel: (id) sender
+{
+    NSLog(@"window = %@", [appsController_ window]);
+    [[appsController_ window] makeKeyAndOrderFront: nil];
+}
+
 - (IBAction) orderFrontAboutPanel: (id) sender
 {
     NSImage* icon = [[NSWorkspace sharedWorkspace] iconForFileType: @"bundle"];
@@ -396,43 +403,13 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
     [self loadUserScripts];
 }
 
-- (void) setupApplicationsButton
-{
-    [applicationsButton removeAllItems];
-
-    NSWorkspace* ws = [NSWorkspace sharedWorkspace];
-    NSFileManager* fm = [NSFileManager defaultManager];
-    size_t i, n;
-    for (i = 0, n = [applications_ count]; i < n; i++) {
-        NSString* bundleId = [applications_ objectAtIndex: i];
-
-        NSString* path = [ws absolutePathForAppBundleWithIdentifier: bundleId];
-        NSLog(@"path = %@", path);
-        if (! path) {
-            continue;
-        }
-
-        NSMenuItem* item = [[NSMenuItem alloc] init];
-        [item setTitle: [fm displayNameAtPath: path]];
-
-        NSImage* icon = [ws iconForFile: path];
-        [icon setSize: NSMakeSize(16, 16)];
-        [item setImage: icon];
-
-        [[applicationsButton menu] addItem: item];
-        [item release];
-    }
-}
-
 - (id) initWithApplications: (NSArray*) apps
 {
-    applications_ = [[NSMutableArray alloc] init];
-    [applications_ addObjectsFromArray: apps];
-    NSLog(@"applications_ = %@", applications_);
-
     self = [self init];
     if (! self)
         return nil;
+
+    appsController_ = [[GKAppsController alloc] initWithApplications: apps];
 
     return self;
 }
@@ -462,8 +439,8 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
 {
     NSLog(@"CMController - dealloc");
 
+    [appsController_ release];
     [gmObject_ release];
-
     [scripts_ release];
 
     [super dealloc];
@@ -483,8 +460,6 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
 
     [[NSApp mainMenu] addItem: item];
     [item release];
-
-    [self setupApplicationsButton];
 
     // Notification
     NSNotificationCenter* center = [NSNotificationCenter defaultCenter];

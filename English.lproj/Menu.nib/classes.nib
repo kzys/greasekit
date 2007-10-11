@@ -3,17 +3,14 @@
         {
             ACTIONS = {
                 orderFrontAboutPanel = id; 
+                orderFrontAppsPanel = id; 
                 reloadUserScripts = id; 
                 toggleScriptEnable = id; 
                 uninstallSelected = id; 
             }; 
             CLASS = CMController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {
-                applicationsButton = NSPopUpButton; 
-                scriptsController = NSArrayController; 
-                topMenu = NSMenu; 
-            }; 
+            OUTLETS = {scriptsController = NSArrayController; topMenu = NSMenu; }; 
             SUPERCLASS = NSObject; 
         }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
