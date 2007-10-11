@@ -7,12 +7,13 @@
 #import "GKGMObject.h"
 
 @interface CMController : NSObject {
-	IBOutlet NSMenu* menu;
+	IBOutlet NSPopUpButton* applicationsButton;
+	IBOutlet NSMenu* topMenu;
 	IBOutlet NSArrayController* scriptsController;
 	
 	NSMutableArray* scripts_;
 	NSString* scriptDir_;
-    NSMutableArray* applications;
+    NSMutableArray* applications_;
     
     NSString* scriptTemplate_;
     GKGMObject* gmObject_;
@@ -23,5 +24,7 @@
 - (IBAction) orderFrontAboutPanel: (id) sender;
 - (IBAction) reloadUserScripts: (id) sender;
 - (NSArray*) scripts;
+
+- (id) initWithApplications: (NSArray*) apps;
 
 @end

@@ -6,6 +6,7 @@
 #import "CMController.h"
 
 #import <WebKit/WebKit.h>
+#import "GKLoader.h"
 #import "CMUserScript.h"
 #import "Utils.h"
 
@@ -20,21 +21,6 @@ static NSString* CONFIG_PATH = @"~/Library/Application Support/GreaseKit/config.
 static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
 
 @implementation CMController
-- (BOOL) addApplication: (NSString*) identifier
-{
-    NSWorkspace* ws = [NSWorkspace sharedWorkspace];
-    NSString* path = [ws absolutePathForAppBundleWithIdentifier: identifier];
-    if (! path) {
-        return NO;
-    }
-    NSImage* icon = [ws iconForFile: path];
-    NSString* name = [[NSFileManager defaultManager] displayNameAtPath: path];
-
-    NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys: name, @"name", icon, @"icon", [NSNumber numberWithBool: YES], @"enabled", identifier, @"identifier", nil];
-    [applications addObject: dict];
-    return YES;
-}
-
 - (NSString*) loadScriptTemplate
 {
     NSBundle* bundle = [NSBundle bundleWithIdentifier: BUNDLE_IDENTIFIER];
@@ -101,9 +87,9 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
 {
     int i;
 
-    int count = [menu indexOfItemWithTag: -1];
+    int count = [topMenu indexOfItemWithTag: -1];
     for (i = 0; i < count; i++) {
-        [menu removeItemAtIndex: 0];
+        [topMenu removeItemAtIndex: 0];
     }
 
     for (i = 0; i < [scripts_ count]; i++) {
@@ -117,7 +103,7 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
         [item setState: [script isEnabled] ? NSOnState : NSOffState];
 
         [item setTitle: [script name]];
-        [menu insertItem: item atIndex: i];
+        [topMenu insertItem: item atIndex: i];
     }
 }
 
@@ -410,6 +396,47 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
     [self loadUserScripts];
 }
 
+- (void) setupApplicationsButton
+{
+    [applicationsButton removeAllItems];
+
+    NSWorkspace* ws = [NSWorkspace sharedWorkspace];
+    NSFileManager* fm = [NSFileManager defaultManager];
+    size_t i, n;
+    for (i = 0, n = [applications_ count]; i < n; i++) {
+        NSString* bundleId = [applications_ objectAtIndex: i];
+
+        NSString* path = [ws absolutePathForAppBundleWithIdentifier: bundleId];
+        NSLog(@"path = %@", path);
+        if (! path) {
+            continue;
+        }
+
+        NSMenuItem* item = [[NSMenuItem alloc] init];
+        [item setTitle: [fm displayNameAtPath: path]];
+
+        NSImage* icon = [ws iconForFile: path];
+        [icon setSize: NSMakeSize(16, 16)];
+        [item setImage: icon];
+
+        [[applicationsButton menu] addItem: item];
+        [item release];
+    }
+}
+
+- (id) initWithApplications: (NSArray*) apps
+{
+    applications_ = [[NSMutableArray alloc] init];
+    [applications_ addObjectsFromArray: apps];
+    NSLog(@"applications_ = %@", applications_);
+
+    self = [self init];
+    if (! self)
+        return nil;
+
+    return self;
+}
+
 #pragma mark Override
 - (id) init
 {
@@ -450,12 +477,14 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
     NSMenuItem* item;
 
     item = [[NSMenuItem alloc] init];
-    [item setSubmenu: menu];
+    [item setSubmenu: topMenu];
 
-    [menu setTitle: @":)"];
+    [topMenu setTitle: @":)"];
 
     [[NSApp mainMenu] addItem: item];
     [item release];
+
+    [self setupApplicationsButton];
 
     // Notification
     NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
