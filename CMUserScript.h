@@ -1,4 +1,5 @@
-/*
+/* -*- objc -*-
+ *
  * Copyright (c) 2006 KATO Kazuyoshi <kzys@8-p.info>
  * This source code is released under the MIT license.
  */
@@ -6,32 +7,41 @@
 #import <Cocoa/Cocoa.h>
 
 @interface CMUserScript : NSObject {
-	NSDictionary* metadata_;
 	NSString* script_;
 	
 	NSMutableArray* include_;
 	NSMutableArray* exclude_;
 	
 	NSString* fullPath_;
-    
+
+    NSString *name_, *namespace_, *description_;
     BOOL enabled_;
 }
 
 + (NSDictionary*) parseMetadata: (NSString*) script;
 
-- (id) initWithString: (NSString*) script;
-- (id) initWithContentsOfFile: (NSString*) path;
+- (id) initWithString: (NSString*) script
+              element: (NSXMLElement*) element;
+- (id) initWithContentsOfFile: (NSString*) path
+                      element: (NSXMLElement*) element;
 
 - (NSXMLElement*) XMLElement;
 - (void) configureWithXMLElement: (NSXMLElement*) element;
 
+// accessor
 - (NSMutableArray*) include;
 - (NSMutableArray*) exclude;
 
-// Getter
 - (NSString*) name;
+- (void) setName: (NSString*) name;
+
 - (NSString*) namespace;
+- (void) setNamespace: (NSString*) ns;
+
 - (NSString*) description;
+- (void) setDescription: (NSString*) desc;
+
+
 - (NSString*) script;
 - (NSString*) basenameFromName;
 
