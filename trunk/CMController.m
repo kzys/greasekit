@@ -199,13 +199,13 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
     // Informative Text
     NSMutableString* text = [[NSMutableString alloc] init];
 
-    if ([script name] && [script description]) {
-        [text appendFormat: @"%@ - %@", [script name], [script description]];
+    if ([script name] && [script scriptDescription]) {
+        [text appendFormat: @"%@ - %@", [script name], [script scriptDescription]];
     } else {
         if ([script name])
             [text appendString: [script name]];
-        else if ([script description])
-            [text appendString: [script description]];
+        else if ([script scriptDescription])
+            [text appendString: [script scriptDescription]];
     }
 
     [alert setInformativeText: text];
