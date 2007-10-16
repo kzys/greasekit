@@ -380,8 +380,8 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
                                 @"GreaseKit",  @"ApplicationName",
                             icon,  @"ApplicationIcon",
                             @"",  @"Version",
-                            @"Version 1.1",  @"ApplicationVersion",
-                            @"Copyright (c) 2006-2007 KATO Kazuyoshi",  @"Copyright",
+                            @"Version 0.1",  @"ApplicationVersion",
+                            @"Copyright (c) 2007 KATO Kazuyoshi",  @"Copyright",
                             nil];
     [NSApp orderFrontStandardAboutPanelWithOptions: options];
 }
