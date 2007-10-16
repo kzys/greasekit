@@ -44,15 +44,14 @@
     }
 }
 
-- (void) patterns: (NSArray*) patterns
-       toElements: (NSXMLElement*) parent
-             name: (NSString*) name
+- (void) array: (NSArray*) ary
+    toElements: (NSXMLElement*) parent
+          name: (NSString*) name
 {
     int i, n;
-    for (i = 0, n = [patterns count]; i < n; i++) {
-        WildcardPattern* pattern = [patterns objectAtIndex: i];
+    for (i = 0, n = [ary count]; i < n; i++) {
         NSXMLElement* e = [NSXMLElement elementWithName: name
-                                            stringValue: [pattern string]];
+                                            stringValue: [ary objectAtIndex: i]];
         [parent addChild: e];
     }
 }
@@ -60,10 +59,6 @@
 - (void) configureWithXMLElement: (NSXMLElement*) element
 {
     BOOL flag;
-
-    // false or not ("true" or nil -> true, "false" -> false)
-    flag = [[element attributeValueForName: @"enabled"] isEqualTo: @"false"];
-    [self setEnabled: ! flag];
 
     [self setName: [element attributeValueForName: @"name"]];
     [self setNamespace: [element attributeValueForName: @"namespace"]];
@@ -73,6 +68,10 @@
         toPatterns: include_];
     [self elements: [element elementsForName: @"Exclude"]
         toPatterns: exclude_];
+
+    NSArray* ary;
+    ary = [[element elementsForName: @"Application"] valueForKey: @"stringValue"];
+    [applications_ addObjectsFromArray: ary];
 }
 
 - (NSXMLElement*) XMLElement
@@ -84,16 +83,18 @@
     [result setAttribute: [self namespace] forName: @"namespace"];
     [result setAttribute: [self scriptDescription] forName: @"description"];
 
-    [result setAttribute: ([self isEnabled] ? @"true" : @"false")
-                 forName: @"enabled"];
-
     if (fullPath_) {
         [result setAttribute: [fullPath_ lastPathComponent]
                      forName: @"filename"];
     }
 
-    [self patterns: include_ toElements: result name: @"Include"];
-    [self patterns: exclude_ toElements: result name: @"Exclude"];
+    [self array: [include_ valueForKey: @"string"] toElements: result
+           name: @"Include"];
+    [self array: [exclude_ valueForKey: @"string"] toElements: result
+           name: @"Exclude"];
+
+    [self array: [applications_ allObjects] toElements: result
+           name: @"Application"];
 
     return [result autorelease];
 }
@@ -242,12 +243,18 @@
 
 - (BOOL) isEnabled
 {
-    return enabled_;
+    NSString* appId = [[NSBundle mainBundle] bundleIdentifier];
+    return [applications_ containsObject: appId];
 }
 
 - (void) setEnabled: (BOOL) flag
 {
-    enabled_ = flag;
+    NSString* appId = [[NSBundle mainBundle] bundleIdentifier];
+    if (flag) {
+        [applications_ addObject: appId];
+    } else {
+        [applications_ removeObject: appId];
+    }
 }
 
 - (BOOL) isMatched: (NSURL*) url
@@ -432,13 +439,13 @@
 
 	include_ = [[NSMutableArray alloc] init];
 	exclude_ = [[NSMutableArray alloc] init];
+    applications_ = [[NSMutableSet alloc] init];
 	
 	fullPath_ = nil;
 
     name_ = nil;
     namespace_ = nil;
     description_ = nil;
-    enabled_ = YES;
 	
 	return self;
 }
