@@ -79,7 +79,7 @@
         return;
     }
 
-    NSString* path = [[panel filenames] firstObject];
+    NSString* path = ArrayFirstObject([panel filenames]);
     NSBundle* bundle = [NSBundle bundleWithPath: path];
 
     [applications_ addObject: [bundle bundleIdentifier]];

@@ -5,6 +5,7 @@
  */
 #import <Cocoa/Cocoa.h>
 
+#define GKLoader Info8_pGKLoader
 @interface GKLoader : NSObject {
 }
 + (void) saveApplicationList: (NSArray*) apps;

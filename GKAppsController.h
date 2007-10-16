@@ -6,6 +6,7 @@
 #import <Cocoa/Cocoa.h>
 #import "GKGMObject.h"
 
+#define GKAppsController Info8_pGKAppsController
 @interface GKAppsController : NSObject {
     NSMutableArray* applications_;
     IBOutlet NSWindow* window;

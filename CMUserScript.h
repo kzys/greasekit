@@ -6,6 +6,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+#define CMUserScript Info8_pCMUserScript
 @interface CMUserScript : NSObject {
 	NSString* script_;
 	
@@ -18,6 +19,7 @@
     NSString *name_, *namespace_, *description_;
 }
 
++ (void) setDummyBundleIdentifier: (NSString*) bundleId;
 + (NSDictionary*) parseMetadata: (NSString*) script;
 
 - (id) initWithString: (NSString*) script

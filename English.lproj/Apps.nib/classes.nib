@@ -3,7 +3,7 @@
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             ACTIONS = {addApplication = id; removeApplication = id; }; 
-            CLASS = GKAppsController; 
+            CLASS = "Info8_pGKAppsController"; 
             LANGUAGE = ObjC; 
             OUTLETS = {applicationTableView = NSTableView; window = NSWindow; }; 
             SUPERCLASS = NSObject; 

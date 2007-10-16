@@ -1,25 +1,21 @@
 #import "Utils.h"
 
-@implementation NSArray(ArrayFirstObject)
-- (id) firstObject
+id ArrayFirstObject(NSArray* self)
 {
 	if ([self count] > 0)
 		return [self objectAtIndex: 0];
 	else
 		return nil;
 }
-@end
 
-@implementation NSMutableString(ReplaceOccurrencesOfStringWithString)
-- (unsigned int) replaceOccurrencesOfString: (NSString*) target
-                                 withString: (NSString*) replacement
+unsigned int StringReplace(NSMutableString* self,
+                           NSString* target, NSString* replacement)
 {
     return [self replaceOccurrencesOfString: target
                                  withString: replacement
                                     options: 0
                                       range: NSMakeRange(0, [self length])];
 }
-@end
 
 WebScriptObject* JSFunctionCall(WebScriptObject* func, NSArray* args)
 {
@@ -49,8 +45,7 @@ NSArray* JSObjectKeys(WebScriptObject* obj)
     return result;
 }
 
-@implementation NSObject(ValueForKeyJS)
-- (id) valueForKeyJS: (NSString*) key
+id JSValueForKey(NSObject* self, NSString* key)
 {
     id result;
     @try {
@@ -65,10 +60,8 @@ NSArray* JSObjectKeys(WebScriptObject* obj)
 
     return result;
 }
-@end
 
-@implementation NSXMLElement(SetAttributeForName)
-- (void) setAttribute: (NSString*) value forName: (NSString*) key
+void ElementSetAttribute(NSXMLElement* self, NSString* key, NSString* value)
 {
     if ([self attributeForName: key]) {
         [self removeAttributeForName: key];
@@ -78,7 +71,7 @@ NSArray* JSObjectKeys(WebScriptObject* obj)
     [self addAttribute: node];
 }
 
-- (NSString*) attributeValueForName: (NSString*) key
+NSString* ElementAttribute(NSXMLElement* self, NSString* key)
 {
     NSXMLNode* node = [self attributeForName: key];
     if (node)
@@ -86,4 +79,3 @@ NSArray* JSObjectKeys(WebScriptObject* obj)
     else
         return nil;
 }
-@end

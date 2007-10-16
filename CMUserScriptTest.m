@@ -87,6 +87,9 @@
     CMUserScript* script;
     NSXMLElement* element;
 
+    // for test
+    [CMUserScript setDummyBundleIdentifier: @"com.example.Dummy"];
+
     script = [[CMUserScript alloc] init];
 
     element = [script XMLElement];

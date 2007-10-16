@@ -8,7 +8,15 @@
 
 #import "Utils.h"
 
+static NSString* dummyBundleId_ = nil;
+
 @implementation CMUserScript
++ (void) setDummyBundleIdentifier: (NSString*) bundleId
+{
+    [dummyBundleId_ release];
+    dummyBundleId_ = [bundleId retain];
+}
+
 - (NSMutableArray*) include
 {
     return include_;
@@ -60,9 +68,9 @@
 {
     BOOL flag;
 
-    [self setName: [element attributeValueForName: @"name"]];
-    [self setNamespace: [element attributeValueForName: @"namespace"]];
-    [self setScriptDescription: [element attributeValueForName: @"description"]];
+    [self setName: ElementAttribute(element, @"name")];
+    [self setNamespace: ElementAttribute(element, @"namespace")];
+    [self setScriptDescription: ElementAttribute(element, @"description")];
 
     [self elements: [element elementsForName: @"Include"]
         toPatterns: include_];
@@ -71,7 +79,12 @@
 
     NSArray* ary;
     ary = [[element elementsForName: @"Application"] valueForKey: @"stringValue"];
-    [applications_ addObjectsFromArray: ary];
+    NSLog(@"ary = %@", ary);
+    if ([ary count] > 0) {
+        [applications_ addObjectsFromArray: ary];
+    } else {
+        [self setEnabled: YES];
+    }
 }
 
 - (NSXMLElement*) XMLElement
@@ -79,13 +92,12 @@
     NSXMLElement* result;
     result = [[NSXMLElement alloc] initWithName: @"Script"];
 
-    [result setAttribute: [self name] forName: @"name"];
-    [result setAttribute: [self namespace] forName: @"namespace"];
-    [result setAttribute: [self scriptDescription] forName: @"description"];
+    ElementSetAttribute(result, @"name", [self name]);
+    ElementSetAttribute(result, @"namespace", [self namespace]);
+    ElementSetAttribute(result, @"description", [self scriptDescription]);
 
     if (fullPath_) {
-        [result setAttribute: [fullPath_ lastPathComponent]
-                     forName: @"filename"];
+        ElementSetAttribute(result, @"filename", [fullPath_ lastPathComponent]);
     }
 
     [self array: [include_ valueForKey: @"string"] toElements: result
@@ -244,12 +256,18 @@
 - (BOOL) isEnabled
 {
     NSString* appId = [[NSBundle mainBundle] bundleIdentifier];
+    if (! appId) {
+        appId = dummyBundleId_;
+    }
     return [applications_ containsObject: appId];
 }
 
 - (void) setEnabled: (BOOL) flag
 {
     NSString* appId = [[NSBundle mainBundle] bundleIdentifier];
+    if (! appId) {
+        appId = dummyBundleId_;
+    }
     if (flag) {
         [applications_ addObject: appId];
     } else {
@@ -381,9 +399,9 @@
     } else {
         // metadata
         NSDictionary* md = [CMUserScript parseMetadata: script];
-        [self setName: [[md objectForKey: @"@name"] firstObject]];
-        [self setNamespace: [[md objectForKey: @"@namespace"] firstObject]];
-        [self setScriptDescription: [[md objectForKey: @"@description"] firstObject]];
+        [self setName: ArrayFirstObject([md objectForKey: @"@name"])];
+        [self setNamespace: ArrayFirstObject([md objectForKey: @"@namespace"])];
+        [self setScriptDescription: ArrayFirstObject([md objectForKey: @"@description"])];
 
         // include
         NSArray* ary;
