@@ -79,7 +79,6 @@ static NSString* dummyBundleId_ = nil;
 
     NSArray* ary;
     ary = [[element elementsForName: @"Application"] valueForKey: @"stringValue"];
-    NSLog(@"ary = %@", ary);
     if ([ary count] > 0) {
         [applications_ addObjectsFromArray: ary];
     } else {
