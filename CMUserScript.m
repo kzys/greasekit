@@ -66,8 +66,6 @@ static NSString* dummyBundleId_ = nil;
 
 - (void) configureWithXMLElement: (NSXMLElement*) element
 {
-    BOOL flag;
-
     [self setName: ElementAttribute(element, @"name")];
     [self setNamespace: ElementAttribute(element, @"namespace")];
     [self setScriptDescription: ElementAttribute(element, @"description")];
