@@ -11,11 +11,11 @@
 	
 	NSMutableArray* include_;
 	NSMutableArray* exclude_;
+    NSMutableSet* applications_;
 	
 	NSString* fullPath_;
 
     NSString *name_, *namespace_, *description_;
-    BOOL enabled_;
 }
 
 + (NSDictionary*) parseMetadata: (NSString*) script;
