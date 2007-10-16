@@ -98,8 +98,6 @@
 		40A3E05509A57CEF0091278C /* WildcardPatternTest.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = WildcardPatternTest.h; sourceTree = "<group>"; };
 		40A3E05609A57CEF0091278C /* WildcardPatternTest.m */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.objc; path = WildcardPatternTest.m; sourceTree = "<group>"; };
 		40A3E0A309A58AF40091278C /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
-		40A95AF609BDAF27001C0447 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/Menu.nib; sourceTree = "<group>"; };
-		40F6844609CA6CBD004C4C61 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = Spanish; path = Spanish.lproj/Menu.nib; sourceTree = "<group>"; };
 		40F6844809CA6CD2004C4C61 /* Spanish */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Spanish; path = Spanish.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* GreaseKit.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GreaseKit.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -397,8 +395,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				4062461609A3282B0040CB9C /* English */,
-				40A95AF609BDAF27001C0447 /* German */,
-				40F6844609CA6CBD004C4C61 /* Spanish */,
 			);
 			name = Menu.nib;
 			sourceTree = "<group>";
