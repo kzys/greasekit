@@ -6,13 +6,13 @@
 - (void) testArrayFirstObject
 {
     NSArray* ary = [NSArray arrayWithObjects: @"foo", @"bar", @"baz", nil];
-    STAssertTrue([[ary firstObject] isEqualTo: @"foo"], @"first");
+    STAssertTrue([ArrayFirstObject(ary) isEqualTo: @"foo"], @"first");
 }
 
 - (void) testStringReplace
 {
     NSMutableString* s = [NSMutableString stringWithString: @"foo bar foo bar"];
-    [s replaceOccurrencesOfString: @"bar" withString: @"baz"];
+    StringReplace(s, @"bar", @"baz");
     STAssertTrue([s isEqualTo: @"foo baz foo baz"], @"replace");
 }
 
@@ -23,8 +23,8 @@
 
     id obj = [wso evaluateWebScript: @"new Object({foo: 'FOO'})"];
 
-    STAssertTrue([[obj valueForKeyJS: @"foo"] isEqualTo: @"FOO"], @"exist");
-    STAssertTrue([obj valueForKeyJS: @"bar"] == nil, @"not exist");
+    STAssertTrue([JSValueForKey(obj, @"foo") isEqualTo: @"FOO"], @"exist");
+    STAssertTrue(JSValueForKey(obj, @"bar") == nil, @"not exist");
 
     [webView release];
 }
@@ -32,11 +32,11 @@
 - (void) testXMLElementAttribute
 {
     NSXMLElement* element = [NSXMLElement elementWithName: @"foo"];
-    [element setAttribute: @"BAR" forName: @"bar"];
+    ElementSetAttribute(element, @"bar", @"BAR");
 
     STAssertTrue([[element XMLString] isEqualTo: @"<foo bar=\"BAR\"></foo>"], @"str");
 
-    STAssertTrue([[element attributeValueForName: @"bar"] isEqualTo: @"BAR"], @"attr");
+    STAssertTrue([ElementAttribute(element, @"bar") isEqualTo: @"BAR"], @"attr");
 }
 
 @end

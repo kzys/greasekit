@@ -4,10 +4,11 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "GKGMObject.h"
 
-@class GKAppsController;
+@class Info8_pGKGMObject;
+@class Info8_pGKAppsController;
 
+#define CMController Info8_pCMController
 @interface CMController : NSObject {
 	IBOutlet NSMenu* topMenu;
 	IBOutlet NSArrayController* scriptsController;
@@ -16,8 +17,8 @@
 	NSString* scriptDir_;
     
     NSString* scriptTemplate_;
-    GKGMObject* gmObject_;
-    GKAppsController* appsController_;
+    Info8_pGKGMObject* gmObject_;
+    Info8_pGKAppsController* appsController_;
 }
 
 - (IBAction) toggleScriptEnable: (id) sender;

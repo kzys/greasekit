@@ -1,5 +1,6 @@
 {
     IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
             ACTIONS = {
                 orderFrontAboutPanel = id; 
@@ -8,12 +9,11 @@
                 toggleScriptEnable = id; 
                 uninstallSelected = id; 
             }; 
-            CLASS = CMController; 
+            CLASS = "Info8_pCMController"; 
             LANGUAGE = ObjC; 
             OUTLETS = {scriptsController = NSArrayController; topMenu = NSMenu; }; 
             SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+        }
     ); 
     IBVersion = 1; 
 }

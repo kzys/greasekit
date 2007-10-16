@@ -29,13 +29,13 @@
         return nil;
     
     // url
-    NSURL* url = [NSURL URLWithString: [details valueForKeyJS: @"url"]];
+    NSURL* url = [NSURL URLWithString: JSValueForKey(details, @"url")];
     NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL: url];
     
     // method
-    [req setHTTPMethod: [[details valueForKeyJS: @"method"] uppercaseString]];
+    [req setHTTPMethod: [JSValueForKey(details, @"method") uppercaseString]];
     if ([[req HTTPMethod] isEqualTo: @"POST"]) {
-        NSString* s = [details valueForKeyJS: @"data"];
+        NSString* s = JSValueForKey(details, @"data");
         if (! s)
             s = @"";
         [req setHTTPBody: [s dataUsingEncoding: NSUTF8StringEncoding]];
@@ -43,13 +43,13 @@
 
     // encoding
     encoding_ = NSUTF8StringEncoding;
-    if ([details valueForKeyJS: @"overrideMimeType"]) {
-        NSString* s = [details valueForKeyJS: @"overrideMimeType"];
+    if (JSValueForKey(details, @"overrideMimeType")) {
+        NSString* s = JSValueForKey(details, @"overrideMimeType");
         encoding_ = [[self class] encodingFromMimeType: s];
     }
 
     // headers
-    WebScriptObject* headers = [details valueForKeyJS: @"headers"];
+    WebScriptObject* headers = JSValueForKey(details, @"headers");
     
     if (headers) {
         NSArray* keys = JSObjectKeys(headers);
@@ -62,11 +62,11 @@
     }
     
     // onload
-    onLoad_ = [[details valueForKeyJS: @"onload"] retain];
+    onLoad_ = [JSValueForKey(details, @"onload") retain];
     // onerror
-    onError_ = [[details valueForKeyJS: @"onerror"] retain];
+    onError_ = [JSValueForKey(details, @"onerror") retain];
     // onreadystatechange
-    onReadyStateChange_ = [[details valueForKeyJS: @"onreadystatechange"] retain];
+    onReadyStateChange_ = [JSValueForKey(details, @"onreadystatechange") retain];
     
     data_ = [[NSMutableData alloc] init];
     response_ = [[details evaluateWebScript: @"new Object"] retain];

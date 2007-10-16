@@ -54,7 +54,7 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
     for (i = 0; i < [ary count]; i++) {
         NSXMLElement* script = [ary objectAtIndex: i];
         [result setObject: script
-                   forKey: [script attributeValueForName: @"filename"]];
+                   forKey: ElementAttribute(script, @"filename")];
     }
 
     return result;
@@ -251,10 +251,10 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
     WebScriptObject* func;
     id result;
 
-    result = [[frame DOMDocument] valueForKeyJS: @"readyState"];
+    result = JSValueForKey([frame DOMDocument], @"readyState");
     if (force || [result isEqualToString: @"loaded"]) {
-        id body = [[frame DOMDocument] valueForKeyJS: @"body"];
-        if ([[body valueForKeyJS: @"__creammonkeyed__"] intValue]) {
+        id body = JSValueForKey([frame DOMDocument], @"body");
+        if ([(NSString*) JSValueForKey(body, @"__creammonkeyed__") intValue]) {
             return;
         } else {
             [body setValue: [NSNumber numberWithBool: YES]
@@ -275,15 +275,11 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
 
         // create function!
         if ([s namespace]) {
-            [ms replaceOccurrencesOfString: @"<namespace>"
-                                withString: [s namespace]];
+            StringReplace(ms, @"<namespace>", [s namespace]);
         }
-        [ms replaceOccurrencesOfString: @"<name>"
-                            withString: [s name]];
-        [ms replaceOccurrencesOfString: @"<bridge>"
-                            withString: bridgeName];
-        [ms replaceOccurrencesOfString: @"<body>"
-                            withString: [s script]];
+        StringReplace(ms, @"<name>", [s name]);
+        StringReplace(ms, @"<bridge>", bridgeName);
+        StringReplace(ms, @"<body>", [s script]);
 
         func = [scriptObject evaluateWebScript: ms];
 

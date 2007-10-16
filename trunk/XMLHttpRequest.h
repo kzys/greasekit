@@ -1,6 +1,7 @@
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
 
+#define XMLHttpRequest Info8_pXMLHttpRequest
 @interface XMLHttpRequest : NSObject {
     NSMutableData* data_;
     id delegate_;

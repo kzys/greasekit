@@ -5,6 +5,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+#define WildcardPattern Info8_pWildcardPattern
 @interface WildcardPattern : NSObject {
 	NSString* pattern_;
 }
