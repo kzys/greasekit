@@ -5,6 +5,7 @@ id ArrayFirstObject(NSArray* ary);
 
 unsigned int StringReplace(NSMutableString* self,
                            NSString* target, NSString* replacement);
+NSString* StringWithContentsOfURL(NSURL* url);
 
 WebScriptObject* JSFunctionCall(WebScriptObject* func, NSArray* args);
 NSArray* JSObjectKeys(WebScriptObject* obj);
