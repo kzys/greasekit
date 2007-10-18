@@ -168,12 +168,15 @@ static NSString* dummyBundleId_ = nil;
 
 - (NSString*) script
 {
+    NSString* result;
     if (fullPath_) {
-        return [[NSString alloc] initWithData: [NSData dataWithContentsOfFile: fullPath_]
-                                     encoding: NSUTF8StringEncoding];        
+        result = [[NSString alloc] initWithData: [NSData dataWithContentsOfFile: fullPath_]
+                                       encoding: NSUTF8StringEncoding];
+        [result autorelease];
     } else {
-        return script_;
+        result = script_;
     }
+    return result;
 }
 
 + (NSString*) fileNameFromString: (NSString*) s
@@ -419,7 +422,6 @@ static NSString* dummyBundleId_ = nil;
 {
     NSString* str = [[NSString alloc] initWithData: data
                                           encoding: NSUTF8StringEncoding];
-    
 	self = [self initWithString: str
                         element: element];
 	if (! self)
