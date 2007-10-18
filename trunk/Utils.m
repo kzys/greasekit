@@ -17,6 +17,26 @@ unsigned int StringReplace(NSMutableString* self,
                                       range: NSMakeRange(0, [self length])];
 }
 
+/*
+  NSString + stringWithContentsOfURL: don't work with
+  compressed responce (like gzip or deflate)
+ */
+NSString* StringWithContentsOfURL(NSURL* url)
+{
+    NSURLResponse* resp;
+    NSError* error;
+    NSData* data;
+    NSURLRequest* req = [NSURLRequest requestWithURL: url];
+    data = [NSURLConnection sendSynchronousRequest: req
+                                 returningResponse: &resp
+                                             error: &error];
+    [data writeToFile: @"/dev/stderr" atomically: NO];
+
+    NSString* result = [[NSString alloc] initWithData: data
+                                             encoding: NSUTF8StringEncoding];
+    return [result autorelease];
+}
+
 WebScriptObject* JSFunctionCall(WebScriptObject* func, NSArray* args)
 {
     if (IS_JS_UNDEF(func)) {

@@ -77,9 +77,28 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
     [data writeToFile: path atomically: YES];
 }
 
+- (void) addScript: (CMUserScript*) s
+{
+    [s addObserver: self forKeyPath: @"enabled"
+           options: NSKeyValueObservingOptionNew
+           context: nil];
+    [scripts_ addObject: s];
+}
+
 - (void) installScript: (CMUserScript*) s
 {
+    // write to local fs
     [s install: scriptDir_];
+
+    // add
+    [self addScript: s];
+    [s release];
+
+    // enable and save config
+    [s setEnabled: YES];
+    [self saveScriptsConfig];
+
+    // reload all
     [self reloadUserScripts: nil];
 }
 
@@ -138,11 +157,7 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
         CMUserScript* script;
         script = [[CMUserScript alloc] initWithContentsOfFile: path
                                                       element: element];
-        [script addObserver: self forKeyPath: @"enabled"
-                    options: NSKeyValueObservingOptionNew
-                    context: nil];
-
-        [scripts_ addObject: script];
+        [self addScript: script];
         [script release];
     }
     [self didChangeValueForKey: @"scripts"];
@@ -329,8 +344,7 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
 
     // User Script
     if ([[url absoluteString] hasSuffix: @".user.js"]) {
-        const char* bytes = (const char*) [[dataSource data] bytes];
-        NSString* s = [NSString stringWithUTF8String: bytes];
+        NSString* s = StringWithContentsOfURL(url);
 
         CMUserScript* script;
         script = [[CMUserScript alloc] initWithString: s
