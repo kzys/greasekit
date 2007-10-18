@@ -30,7 +30,6 @@ NSString* StringWithContentsOfURL(NSURL* url)
     data = [NSURLConnection sendSynchronousRequest: req
                                  returningResponse: &resp
                                              error: &error];
-    [data writeToFile: @"/dev/stderr" atomically: NO];
 
     NSString* result = [[NSString alloc] initWithData: data
                                              encoding: NSUTF8StringEncoding];
