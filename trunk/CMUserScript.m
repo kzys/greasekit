@@ -471,7 +471,7 @@ static NSString* dummyBundleId_ = nil;
 
 - (void) dealloc
 {
-	NSLog(@"CMUserScript %p - dealloc", self);
+	// NSLog(@"CMUserScript %p - dealloc", self);
 	[script_ release];
 
 	[include_ release];
