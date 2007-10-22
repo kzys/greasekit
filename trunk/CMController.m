@@ -20,6 +20,7 @@
 static NSString* BUNDLE_IDENTIFIER = @"info.8-p.GreaseKit";
 static NSString* CONFIG_PATH = @"~/Library/Application Support/GreaseKit/config.xml";
 static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
+static NSString* CM_SCRIPT_DIR_PATH = @"~/Library/Application Support/Creammonkey/";
 
 @implementation CMController
 - (NSString*) loadScriptTemplate
@@ -126,42 +127,72 @@ static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
     }
 }
 
+- (NSArray*) scriptsAtDir: (NSString*) dir
+{
+    NSArray* files;
+    files = [[NSFileManager defaultManager] directoryContentsAtPath: dir];
+    if (! files)
+        return nil;
+
+    NSMutableArray* result = [NSMutableArray array];
+    size_t i;
+    for (i = 0; i < [files count]; i++) {
+        NSString* path;
+        path = [NSString stringWithFormat: @"%@/%@", dir, [files objectAtIndex: i]];
+        if ([path hasSuffix: @".user.js"]) {
+            [result addObject: path];
+        }
+    }
+    return result;
+}
+
+- (void) installCreammonkeyScripts
+{
+    NSFileManager* manager;
+    manager = [NSFileManager defaultManager];
+
+    NSString* dir = [CM_SCRIPT_DIR_PATH stringByExpandingTildeInPath];
+    NSArray* files = [self scriptsAtDir: dir];
+    if (! files)
+        return;
+
+    size_t i;
+    for (i = 0; i < [files count]; i++) {
+        NSString* path = [files objectAtIndex: i];
+        CMUserScript* s = [[CMUserScript alloc] initWithContentsOfFile: path
+                                                               element: nil];
+        [self installScript: s];
+    }
+}
+
 - (void) loadUserScripts
 {
     NSFileManager* manager;
     manager = [NSFileManager defaultManager];
 
-    NSArray* files;
-    files = [manager directoryContentsAtPath: scriptDir_];
-
-    if (! files) {
-        [manager createDirectoryAtPath: scriptDir_
-                            attributes: nil];
-        files = [manager directoryContentsAtPath: scriptDir_];
-    }
-
-    NSDictionary* config = [self scriptElementsDictionary];
+    NSString* dir = [SCRIPT_DIR_PATH stringByExpandingTildeInPath];
+    NSArray* files = [self scriptsAtDir: dir];
 
     [self willChangeValueForKey: @"scripts"];
+    if (files) {
+        NSDictionary* config = [self scriptElementsDictionary];
+        size_t i;
+        for (i = 0; i < [files count]; i++) {
+            NSString* path;
+            path = [files objectAtIndex: i];
 
-    int i;
-    for (i = 0; i < [files count]; i++) {
-        NSString* path;
-        path = [NSString stringWithFormat: @"%@/%@", scriptDir_, [files objectAtIndex: i]];
-
-        if (! [path hasSuffix: @".user.js"]) {
-            continue;
+            NSXMLElement* element = [config objectForKey: [path lastPathComponent]];
+            CMUserScript* script;
+            script = [[CMUserScript alloc] initWithContentsOfFile: path
+                                                          element: element];
+            [self addScript: script];
+            [script release];
         }
-
-        NSXMLElement* element = [config objectForKey: [path lastPathComponent]];
-        CMUserScript* script;
-        script = [[CMUserScript alloc] initWithContentsOfFile: path
-                                                      element: element];
-        [self addScript: script];
-        [script release];
+    } else {
+        [manager createDirectoryAtPath: dir attributes: nil];
+        [self installCreammonkeyScripts];
     }
     [self didChangeValueForKey: @"scripts"];
-
     [self reloadMenu];
 }
 

@@ -15,12 +15,6 @@ static NSString* APPS_PATH = @"~/Library/Application Support/GreaseKit/apps.plis
 {
     NSString* path = [APPS_PATH stringByExpandingTildeInPath];
 
-    // create folder on "Application Support".
-    NSFileManager* manager;
-    manager = [NSFileManager defaultManager];
-    [manager createDirectoryAtPath: [path stringByDeletingLastPathComponent]
-                        attributes: nil];
-
     // load application list
     NSArray* apps = [[NSArray alloc] initWithContentsOfFile: path];
     if (apps && [apps count] > 0) {
