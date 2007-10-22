@@ -22,7 +22,7 @@
 - (id) initWithDetails: (WebScriptObject*) details
               delegate: (id) delegate
 {
-    NSLog(@"%@ - init", self);
+    // NSLog(@"%@ - init", self);
 
     self = [super init];
     if (! self)
@@ -142,7 +142,7 @@
     [onError_ release];
     [onReadyStateChange_ release];
     
-    NSLog(@"%@ - dealloc", self);
+    // NSLog(@"%@ - dealloc", self);
     [super dealloc];
 }
 

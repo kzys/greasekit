@@ -21,6 +21,7 @@ static NSString* BUNDLE_IDENTIFIER = @"info.8-p.GreaseKit";
 static NSString* CONFIG_PATH = @"~/Library/Application Support/GreaseKit/config.xml";
 static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
 static NSString* CM_SCRIPT_DIR_PATH = @"~/Library/Application Support/Creammonkey/";
+static NSString* CM_BUNDLE_PATH = @"~/Library/InputManagers/Creammonkey/";
 
 @implementation CMController
 - (NSString*) loadScriptTemplate
@@ -144,6 +145,20 @@ static NSString* CM_SCRIPT_DIR_PATH = @"~/Library/Application Support/Creammonke
         }
     }
     return result;
+}
+
+- (void) showWarningAboutCreammonkey
+{
+    NSString* path = [CM_BUNDLE_PATH stringByExpandingTildeInPath];
+    NSArray* dir = [[NSFileManager defaultManager] directoryContentsAtPath: path];
+    if (! dir) {
+        return;
+    }
+    NSAlert* alert = [[NSAlert alloc] init];
+    [alert setMessageText: @"Please remove Creammonkey"];
+    [alert setInformativeText: @"GreaseKit can't work with Creammonkey. Please remove Creammonkey from your InputManager folder and relaunch this application."];
+    [alert addButtonWithTitle: @"Ok"];
+    [[alert autorelease] runModal];
 }
 
 - (void) installCreammonkeyScripts
@@ -421,7 +436,7 @@ static NSString* CM_SCRIPT_DIR_PATH = @"~/Library/Application Support/Creammonke
                                 @"GreaseKit",  @"ApplicationName",
                             icon,  @"ApplicationIcon",
                             @"",  @"Version",
-                            @"Version 0.1",  @"ApplicationVersion",
+                            @"Version 1.2",  @"ApplicationVersion",
                             @"Copyright (c) 2007 KATO Kazuyoshi",  @"Copyright",
                             nil];
     [NSApp orderFrontStandardAboutPanelWithOptions: options];
@@ -463,9 +478,7 @@ static NSString* CM_SCRIPT_DIR_PATH = @"~/Library/Application Support/Creammonke
         return nil;
 
     scriptDir_ = [[SCRIPT_DIR_PATH stringByExpandingTildeInPath] retain];
-
     scriptTemplate_ = [[self loadScriptTemplate] retain];
-
     gmObject_ = [[GKGMObject alloc] init];
 
     scripts_ = nil;
@@ -502,21 +515,19 @@ static NSString* CM_SCRIPT_DIR_PATH = @"~/Library/Application Support/Creammonke
 
     // Notification
     NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
-#if 0
-    [center addObserver: self
-               selector: @selector(progressChanged:)
-                   name: WebViewProgressEstimateChangedNotification
-                 object: nil];
-#else
     [center addObserver: self
                selector: @selector(progressStarted:)
                    name: WebViewProgressStartedNotification
                  object: nil];
-#endif
     [center addObserver: self
                selector: @selector(progressFinished:)
                    name: WebViewProgressFinishedNotification
                  object: nil];
+
+    [center addObserver: self
+               selector: @selector(applicationDidFinishLaunching:)
+                   name: NSApplicationDidFinishLaunchingNotification
+                 object: NSApp];
 }
 
 - (void) windowWillClose: (NSNotification*) n
@@ -524,5 +535,9 @@ static NSString* CM_SCRIPT_DIR_PATH = @"~/Library/Application Support/Creammonke
     [self saveScriptsConfig];
 }
 
+- (void) applicationDidFinishLaunching: (NSNotification*) n
+{
+    [self showWarningAboutCreammonkey];
+}
 
 @end
