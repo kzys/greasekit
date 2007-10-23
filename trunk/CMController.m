@@ -217,8 +217,8 @@ static NSString* CM_BUNDLE_PATH = @"~/Library/InputManagers/Creammonkey/";
                         context: (void*) context
 {
     if ([path isEqualTo: @"enabled"]) {
-        [self reloadMenu];
         [self saveScriptsConfig];
+        [self reloadMenu];
     }
 }
 
