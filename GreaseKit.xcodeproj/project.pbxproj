@@ -7,19 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		401172A80CAFA8D500BBFE8D /* GKLoader.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 401172A60CAFA8D500BBFE8D /* GKLoader.h */; };
 		401172A90CAFA8D500BBFE8D /* GKLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 401172A70CAFA8D500BBFE8D /* GKLoader.m */; };
-		4011730A0CAFD69300BBFE8D /* Utils.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 401173080CAFD69300BBFE8D /* Utils.h */; };
 		4011730B0CAFD69300BBFE8D /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 401173090CAFD69300BBFE8D /* Utils.m */; };
 		4011730C0CAFD69300BBFE8D /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 401173090CAFD69300BBFE8D /* Utils.m */; };
 		401173110CAFD6DF00BBFE8D /* UtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4011730E0CAFD6DF00BBFE8D /* UtilsTest.m */; };
 		401173120CAFD98B00BBFE8D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4062459B09A325F40040CB9C /* WebKit.framework */; };
-		401173290CAFF00200BBFE8D /* GKGMObject.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 401173270CAFF00200BBFE8D /* GKGMObject.h */; };
 		4011732A0CAFF00200BBFE8D /* GKGMObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 401173280CAFF00200BBFE8D /* GKGMObject.m */; };
 		4011732B0CAFF00200BBFE8D /* GKGMObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 401173280CAFF00200BBFE8D /* GKGMObject.m */; };
 		402F816F0B9A68A9001EF155 /* template.js in Resources */ = {isa = PBXBuildFile; fileRef = 402F81010B9A5E3E001EF155 /* template.js */; };
 		4050D4330CBE0E1B00826B97 /* Apps.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4050D4310CBE0E1B00826B97 /* Apps.nib */; };
-		4050D4370CBE102200826B97 /* GKAppsController.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4050D4350CBE102200826B97 /* GKAppsController.h */; };
 		4050D4380CBE102200826B97 /* GKAppsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4050D4360CBE102200826B97 /* GKAppsController.m */; };
 		4050D4390CBE102200826B97 /* GKAppsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4050D4360CBE102200826B97 /* GKAppsController.m */; };
 		4062458F09A325B00040CB9C /* CMController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062458809A325B00040CB9C /* CMController.m */; };
@@ -54,10 +50,6 @@
 			files = (
 				406245D909A327590040CB9C /* Info in CopyFiles */,
 				406245B509A3262B0040CB9C /* GreaseKit.bundle in CopyFiles */,
-				401172A80CAFA8D500BBFE8D /* GKLoader.h in CopyFiles */,
-				4011730A0CAFD69300BBFE8D /* Utils.h in CopyFiles */,
-				401173290CAFF00200BBFE8D /* GKGMObject.h in CopyFiles */,
-				4050D4370CBE102200826B97 /* GKAppsController.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
