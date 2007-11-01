@@ -436,7 +436,7 @@ static NSString* CM_BUNDLE_PATH = @"~/Library/InputManagers/Creammonkey/";
                                 @"GreaseKit",  @"ApplicationName",
                             icon,  @"ApplicationIcon",
                             @"",  @"Version",
-                            @"Version 1.2",  @"ApplicationVersion",
+                            @"Version 1.3",  @"ApplicationVersion",
                             @"Copyright (c) 2007 KATO Kazuyoshi",  @"Copyright",
                             nil];
     [NSApp orderFrontStandardAboutPanelWithOptions: options];
