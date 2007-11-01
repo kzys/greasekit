@@ -22,6 +22,7 @@ static NSString* CONFIG_PATH = @"~/Library/Application Support/GreaseKit/config.
 static NSString* SCRIPT_DIR_PATH = @"~/Library/Application Support/GreaseKit/";
 static NSString* CM_SCRIPT_DIR_PATH = @"~/Library/Application Support/Creammonkey/";
 static NSString* CM_BUNDLE_PATH = @"~/Library/InputManagers/Creammonkey/";
+static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 
 @implementation CMController
 - (NSString*) loadScriptTemplate
@@ -157,6 +158,20 @@ static NSString* CM_BUNDLE_PATH = @"~/Library/InputManagers/Creammonkey/";
     NSAlert* alert = [[NSAlert alloc] init];
     [alert setMessageText: @"Please remove Creammonkey"];
     [alert setInformativeText: @"GreaseKit can't work with Creammonkey. Please remove Creammonkey from your InputManager folder and relaunch this application."];
+    [alert addButtonWithTitle: @"Ok"];
+    [[alert autorelease] runModal];
+}
+
+- (void) showWarningAboutGreaseKit_1_2
+{
+    NSString* path = [GK_INPUT_MANAGER_PATH stringByExpandingTildeInPath];
+    NSArray* dir = [[NSFileManager defaultManager] directoryContentsAtPath: path];
+    if (! dir) {
+        return;
+    }
+    NSAlert* alert = [[NSAlert alloc] init];
+    [alert setMessageText: @"Please remove GreaseKit 1.2"];
+    [alert setInformativeText: @"GreaseKit 1.3 is implemented as a SIMBL plugin. Please remove GreaseKit 1.2 from your InputManager folder and relaunch this application."];
     [alert addButtonWithTitle: @"Ok"];
     [[alert autorelease] runModal];
 }
@@ -538,6 +553,7 @@ static NSString* CM_BUNDLE_PATH = @"~/Library/InputManagers/Creammonkey/";
 - (void) applicationDidFinishLaunching: (NSNotification*) n
 {
     [self showWarningAboutCreammonkey];
+    [self showWarningAboutGreaseKit_1_2];
 }
 
 @end
