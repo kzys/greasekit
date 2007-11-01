@@ -22,9 +22,7 @@
 		4062459009A325B10040CB9C /* CMUserScript.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062458A09A325B00040CB9C /* CMUserScript.m */; };
 		4062459209A325B10040CB9C /* WildcardPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062458E09A325B00040CB9C /* WildcardPattern.m */; };
 		4062459C09A325F40040CB9C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4062459B09A325F40040CB9C /* WebKit.framework */; };
-		406245B509A3262B0040CB9C /* GreaseKit.bundle in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D5B49B6048680CD000E48DA /* GreaseKit.bundle */; };
 		406245B709A326440040CB9C /* Info in Resources */ = {isa = PBXBuildFile; fileRef = 406245B609A326440040CB9C /* Info */; };
-		406245D909A327590040CB9C /* Info in CopyFiles */ = {isa = PBXBuildFile; fileRef = 406245B609A326440040CB9C /* Info */; };
 		4062461709A3282B0040CB9C /* Menu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4062461509A3282B0040CB9C /* Menu.nib */; };
 		406EA0460B9A3932004C2A39 /* XMLHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 406EA0440B9A3932004C2A39 /* XMLHttpRequest.m */; };
 		407EBF3C0CBB687100043FA9 /* XMLHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 406EA0440B9A3932004C2A39 /* XMLHttpRequest.m */; };
@@ -40,20 +38,6 @@
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		406245A609A3261A0040CB9C /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = GreaseKit;
-			dstSubfolderSpec = 16;
-			files = (
-				406245D909A327590040CB9C /* Info in CopyFiles */,
-				406245B509A3262B0040CB9C /* GreaseKit.bundle in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -257,7 +241,6 @@
 				8D5B49AF048680CD000E48DA /* Resources */,
 				8D5B49B1048680CD000E48DA /* Sources */,
 				8D5B49B3048680CD000E48DA /* Frameworks */,
-				406245A609A3261A0040CB9C /* CopyFiles */,
 			);
 			buildRules = (
 			);
