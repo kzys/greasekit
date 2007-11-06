@@ -82,6 +82,13 @@
 	STAssertFalse([pat isMatch: @"abcdefgh"], 
 				  @"'*' at middle, but pattern is too short.");
 	[pat release];
+
+	STAssertFalse([[WildcardPattern patternWithString: @"a.c"] isMatch: @"abc"],
+                 @"'.' is not meta char.");
+
+	STAssertTrue([[WildcardPattern patternWithString: @"google.tld"]
+                     isMatch: @"google.com"],
+                 @"'.tld' match '.com'.");
 }
 
 @end

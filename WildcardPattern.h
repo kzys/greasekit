@@ -13,6 +13,7 @@
 }
 
 - (id) initWithString: (NSString*) s;
++ (id) patternWithString: (NSString*) s;
 - (BOOL) isMatch: (NSString*) s;
 
 - (NSString*) string;
