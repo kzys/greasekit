@@ -5,6 +5,7 @@
 
 #import "WildcardPattern.h"
 
+static NSCharacterSet* REGEXP_META_CHAR_SET = NULL;
 #define TLD_PATTERN @"\\.(com|org|net)"
 
 @implementation WildcardPattern
@@ -17,18 +18,16 @@
 + (NSString*) escapeRegexpMetaCharactors: (NSString*) src
 {
     NSMutableString* result = [NSMutableString string];
-    const char* ptr;
-    for (ptr = [src UTF8String]; *ptr != '\0'; ptr++) {
-        switch (*ptr) {
-        case '*':
+    size_t i, n;
+    for (i = 0, n = [src length]; i < n; i++) {
+        unichar c = [src characterAtIndex: i];
+        if (c == (unichar)'*') {
             [result appendString: @".*"];
-            break;
-        case '.':
-            [result appendString: @"\\."];
-            break;
-        default:
-            [result appendFormat: @"%c", *ptr];
-            break;
+        } else {
+            if ([REGEXP_META_CHAR_SET characterIsMember: c]) {
+                [result appendString: @"\\"];
+            }
+            [result appendFormat: @"%C", c];
         }
     }
     return result;
@@ -68,7 +67,6 @@
     source_ = [s retain];
 
     NSString* tmp = [[self class] regexpFromURIGlob: source_];
-    NSLog(@"tmp = %@", tmp);
     regcomp(&pattern_,
             [[NSString stringWithFormat: @"^%@$", tmp] UTF8String],
             REG_NOSUB | REG_EXTENDED);
@@ -81,6 +79,12 @@
 
 - (id) initWithString: (NSString*) s
 {
+    if (! REGEXP_META_CHAR_SET) {
+        REGEXP_META_CHAR_SET =
+            [NSCharacterSet characterSetWithCharactersInString: @".*+?^$()[]{}"];
+        [REGEXP_META_CHAR_SET retain];
+    }
+
 	self = [self init];
     if (! self) {
         return nil;
