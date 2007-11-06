@@ -16,4 +16,6 @@ id JSValueForKey(NSObject* self, NSString* key);
 void ElementSetAttribute(NSXMLElement* self, NSString* key, NSString* value);
 NSString* ElementAttribute(NSXMLElement* self, NSString* key);
 
+NSURL* WebFrameRequestURL(WebFrame* frame);
+
 void DebugLog(NSString* format, ...);

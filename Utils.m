@@ -117,3 +117,12 @@ void DebugLog(NSString* format, ...)
 
     fflush(log);
 }
+
+NSURL* WebFrameRequestURL(WebFrame* frame)
+{
+    WebDataSource* dataSource = [frame dataSource];
+    if (! dataSource) {
+        return nil;
+    }
+    return [[dataSource request] URL];
+}
