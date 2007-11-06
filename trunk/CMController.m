@@ -313,7 +313,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
                            force: force];
     }
 
-    NSURL* url = [[[frame dataSource] request] URL];
+    NSURL* url = WebFrameRequestURL(frame);
     if (url && (! [[url scheme] isEqualToString: @"about"]) &&
         [frame DOMDocument]) {
         ;
@@ -398,8 +398,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 - (void) progressFinished: (NSNotification*) n
 {
     WebView* webView = [n object];
-    WebDataSource* dataSource = [[webView mainFrame] dataSource];
-    NSURL* url = [[dataSource request] URL];
+    NSURL* url = WebFrameRequestURL([webView mainFrame]);
 
     [self evalScriptsInFrame: [webView mainFrame] force: YES];
 
