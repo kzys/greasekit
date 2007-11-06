@@ -86,9 +86,21 @@
 	STAssertFalse([[WildcardPattern patternWithString: @"a.c"] isMatch: @"abc"],
                  @"'.' is not meta char.");
 
-	STAssertTrue([[WildcardPattern patternWithString: @"google.tld"]
-                     isMatch: @"google.com"],
-                 @"'.tld' match '.com'.");
+    pat = [WildcardPattern patternWithString: @"google.tld"];
+	STAssertTrue([pat isMatch: @"google.com"], @"'google.tld' match '.com'.");
+
+	STAssertTrue([pat isMatch: @"google.co.jp"],
+                 @"'google.tld' match '.co.jp'. it's not TLD...");
+
+    pat = [WildcardPattern patternWithString: @"example.tld"];
+	STAssertTrue([pat isMatch: @"example.jp"],
+                 @"'.tld' match '.jp'.");
+	STAssertTrue([pat isMatch: @"example.tokyo.jp"],
+                 @"'.tld' match '.tokyo.jp'.");
+	STAssertTrue([pat isMatch: @"example.nottokyo.jp"],
+                 @"'.tld' match '.nottokyo.jp'.");
+	STAssertFalse([pat isMatch: @"example.not-tokyo.jp"],
+                 @"'.tld' don't match '.not-tokyo.jp'.");
 }
 
 @end
