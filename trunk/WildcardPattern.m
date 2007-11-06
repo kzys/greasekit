@@ -5,7 +5,56 @@
 
 #import "WildcardPattern.h"
 
+#define TLD_PATTERN @"\\.(com|org|net)"
+
 @implementation WildcardPattern
++ (id) patternWithString: (NSString*) s
+{
+    id obj = [[self alloc] initWithString: s];
+    return [obj autorelease];
+}
+
++ (NSString*) escapeRegexpMetaCharactors: (NSString*) src
+{
+    NSMutableString* result = [NSMutableString string];
+    const char* ptr;
+    for (ptr = [src UTF8String]; *ptr != '\0'; ptr++) {
+        switch (*ptr) {
+        case '*':
+            [result appendString: @".*"];
+            break;
+        case '.':
+            [result appendString: @"\\."];
+            break;
+        default:
+            [result appendFormat: @"%c", *ptr];
+            break;
+        }
+    }
+    return result;
+}
+
++ (NSString*) regexpFromURIGlob: (NSString*) src
+{
+    // .tld
+    NSRange range = [src rangeOfString: @".tld"];
+    if (range.length > 0) {
+        NSMutableString* result = [NSMutableString string];
+        NSString* s;
+
+        s = [src substringToIndex: range.location];
+        [result appendString: [self escapeRegexpMetaCharactors: s]];
+
+        [result appendString: TLD_PATTERN];
+
+        s = [src substringFromIndex: range.location + range.length];
+        [result appendString: [self regexpFromURIGlob: s]]; // recursive
+        return result;
+    } else {
+        return [self escapeRegexpMetaCharactors: src];
+    }
+}
+
 - (void) setString: (NSString*) s
 {
     if (source_) {
@@ -18,22 +67,11 @@
     }
     source_ = [s retain];
 
-    NSMutableString* tmp = [NSMutableString string];
-    const char* ptr;
-    [tmp appendString: @"^"];
-    for (ptr = [s UTF8String]; *ptr != '\0'; ptr++) {
-        switch (*ptr) {
-        case '*':
-            [tmp appendString: @".*"];
-            break;
-        default:
-            [tmp appendFormat: @"%c", *ptr];
-            break;
-        }
-    }
-    [tmp appendString: @"$"];
-
-    regcomp(&pattern_, [tmp UTF8String], REG_NOSUB);
+    NSString* tmp = [[self class] regexpFromURIGlob: source_];
+    NSLog(@"tmp = %@", tmp);
+    regcomp(&pattern_,
+            [[NSString stringWithFormat: @"^%@$", tmp] UTF8String],
+            REG_NOSUB | REG_EXTENDED);
 }
 
 - (NSString*) string
