@@ -8,14 +8,37 @@
 @implementation WildcardPattern
 - (void) setString: (NSString*) s
 {
-    if (pattern_)
-        [pattern_ release];
-    pattern_ = [s retain];
+    if (source_) {
+        [source_ release];
+        regfree(&pattern_);
+    }
+
+    if (! s) {
+        return;
+    }
+    source_ = [s retain];
+
+    NSMutableString* tmp = [NSMutableString string];
+    const char* ptr;
+    [tmp appendString: @"^"];
+    for (ptr = [s UTF8String]; *ptr != '\0'; ptr++) {
+        switch (*ptr) {
+        case '*':
+            [tmp appendString: @".*"];
+            break;
+        default:
+            [tmp appendFormat: @"%c", *ptr];
+            break;
+        }
+    }
+    [tmp appendString: @"$"];
+
+    regcomp(&pattern_, [tmp UTF8String], REG_NOSUB);
 }
 
 - (NSString*) string
 {
-    return pattern_;
+    return source_;
 }
 
 - (id) initWithString: (NSString*) s
@@ -31,41 +54,13 @@
 
 - (BOOL) isMatch: (NSString*) s
 {
-	// NSLog(@"pattern_ = %@, s = %@", pattern_, s);
-	
-	const char* str = [s UTF8String];
-	const char* pat = [pattern_ UTF8String];
-	BOOL isStar = NO;
-	
-	while (*str != '\0') {
-		if (*str == *pat) {
-			str++;
-			pat++;
-			isStar = NO;
-		} else {
-			if (isStar) {
-				str++;
-			} else {
-				if (*pat == '*') {
-					str++;
-					pat++;
-					isStar = YES;
-				} else {
-					return NO;
-				}
-			}
-		}
-	}
+    return regexec(&pattern_, [s UTF8String], 0, NULL, 0) == 0;
+}
 
-	while (*pat != '\0') {
-		if (*pat != '*') {
-			return NO;
-		} else {
-			pat++;
-		}
-	}
-
-	return *str == '\0' && *pat == '\0';
+- (void) dealloc
+{
+    [self setString: nil];
+    [super dealloc];
 }
 
 @end

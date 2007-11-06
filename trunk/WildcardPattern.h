@@ -4,10 +4,12 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#include <regex.h>
 
 #define WildcardPattern Info8_pWildcardPattern
 @interface WildcardPattern : NSObject {
-	NSString* pattern_;
+	NSString* source_;
+    regex_t pattern_;
 }
 
 - (id) initWithString: (NSString*) s;
