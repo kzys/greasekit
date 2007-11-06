@@ -15,3 +15,5 @@ id JSValueForKey(NSObject* self, NSString* key);
 
 void ElementSetAttribute(NSXMLElement* self, NSString* key, NSString* value);
 NSString* ElementAttribute(NSXMLElement* self, NSString* key);
+
+void DebugLog(NSString* format, ...);
