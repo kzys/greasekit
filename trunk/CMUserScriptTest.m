@@ -94,12 +94,6 @@
 
     element = [script XMLElement];
     STAssertTrue([[element name] isEqualTo: @"Script"], @"element name");
-
-    element = [NSXMLElement elementWithName: @"Script"];
-    [script setEnabled: NO];
-    [script configureWithXMLElement: element];
-
-    STAssertTrue([script isEnabled], @"default is true");
 }
 
 - (void) testPatternsFromStrings
