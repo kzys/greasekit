@@ -409,6 +409,9 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
         CMUserScript* script;
         script = [[CMUserScript alloc] initWithString: s
                                               element: nil];
+        if (! [script name]) {
+            [script setName: [[url path] lastPathComponent]];
+        }
         if (script) {
             [self showInstallAlertSheet: script webView: webView];
         }
