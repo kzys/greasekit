@@ -322,7 +322,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
     }
 
     // Eval!
-    id scriptObject = [safeWindow_ windowScriptObject];
+    WebScriptObject* scriptObject = [[frame webView] windowScriptObject];
 
     WebScriptObject* func;
     id result;
@@ -359,9 +359,8 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 
         func = [scriptObject evaluateWebScript: ms];
 
-        WebScriptObject* unsafeWindow = [[frame webView] windowScriptObject];
         NSArray* args = [NSArray arrayWithObjects:
-                                     gmObject_, [frame DOMDocument], unsafeWindow, nil];
+                                     [frame DOMDocument], nil];
         // eval on frame
         JSFunctionCall(func, args);
     }
@@ -369,7 +368,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 
 - (BOOL) isSandboxView: (WebView*) webView
 {
-    return webView == safeWindow_;
+    return NO;
 }
 
 - (void) progressStarted: (NSNotification*) n
@@ -385,9 +384,6 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
     }
     NSURL* url = [[source request] URL];
 
-    NSLog(@"safeWindow_ = %@", url);
-    [[safeWindow_ mainFrame] loadHTMLString: @"<html></html>"
-                                    baseURL: url];
     DEBUG_LOG(@"url = %@, matchedScripts = %d",
               url, [[self matchedScripts: url] count]);
     if ([[self matchedScripts: url] count] == 0) {
@@ -514,9 +510,6 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 
     scriptDir_ = [[SCRIPT_DIR_PATH stringByExpandingTildeInPath] retain];
     scriptTemplate_ = [[self loadScriptTemplate] retain];
-    gmObject_ = [[GKGMObject alloc] init];
-
-    safeWindow_ = nil;
 
     scripts_ = nil;
     [NSBundle loadNibNamed: @"Menu.nib" owner: self];
@@ -529,7 +522,6 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
     NSLog(@"CMController - dealloc");
 
     [appsController_ release];
-    [gmObject_ release];
     [scripts_ release];
 
     [super dealloc];
@@ -537,7 +529,6 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 
 - (void) awakeFromNib
 {
-    safeWindow_ = [[WebView alloc] init];
     [self reloadUserScripts: nil];
 
     // Menu

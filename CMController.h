@@ -18,9 +18,7 @@
 	NSString* scriptDir_;
     
     NSString* scriptTemplate_;
-    Info8_pGKGMObject* gmObject_;
     Info8_pGKAppsController* appsController_;
-    WebView* safeWindow_;
 }
 
 - (IBAction) toggleScriptEnable: (id) sender;
