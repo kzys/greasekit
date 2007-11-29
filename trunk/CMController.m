@@ -322,7 +322,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
     }
 
     // Eval!
-    id scriptObject = [[frame webView] windowScriptObject];
+    id scriptObject = [safeWindow_ windowScriptObject];
 
     WebScriptObject* func;
     id result;
@@ -359,9 +359,10 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 
         func = [scriptObject evaluateWebScript: ms];
 
+        WebScriptObject* obj = [[frame webView] windowScriptObject];
         // eval on frame
         JSFunctionCall(func,
-                       [NSArray arrayWithObjects: gmObject_, [frame DOMDocument], nil]);
+                       [NSArray arrayWithObjects: gmObject_, [frame DOMDocument], obj, nil]);
     }
 }
 
@@ -369,11 +370,16 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 {
     // DEBUG_LOG(@"CMController %@ - progressStarted: %@", self, n);
     WebView* webView = [n object];
+    if (webView == safeWindow_) {
+        return;
+    }
     WebDataSource* source = [[webView mainFrame] provisionalDataSource];
     if (! source) {
         // source = [[webView mainFrame] provisionalDataSource];
     }
     NSURL* url = [[source request] URL];
+    [[safeWindow_ mainFrame] loadHTMLString: @"<html></html>"
+                                    baseURL: url];
     DEBUG_LOG(@"url = %@, matchedScripts = %d",
               url, [[self matchedScripts: url] count]);
     if ([[self matchedScripts: url] count] == 0) {
@@ -391,6 +397,8 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
     // DEBUG_LOG(@"CMController %p - progressChanged: %@", self, n);
 
     WebView* webView = [n object];
+    if (webView == safeWindow_)
+        return;
     [self evalScriptsInFrame: [webView mainFrame]
                        force: NO];
 }
@@ -398,6 +406,8 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 - (void) progressFinished: (NSNotification*) n
 {
     WebView* webView = [n object];
+    if (webView == safeWindow_)
+        return;
     NSURL* url = WebFrameRequestURL([webView mainFrame]);
 
     [self evalScriptsInFrame: [webView mainFrame] force: YES];
@@ -498,6 +508,8 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
     scriptTemplate_ = [[self loadScriptTemplate] retain];
     gmObject_ = [[GKGMObject alloc] init];
 
+    safeWindow_ = nil;
+
     scripts_ = nil;
     [NSBundle loadNibNamed: @"Menu.nib" owner: self];
 
@@ -517,6 +529,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 
 - (void) awakeFromNib
 {
+    safeWindow_ = [[WebView alloc] init];
     [self reloadUserScripts: nil];
 
     // Menu
