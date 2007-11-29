@@ -1,6 +1,18 @@
 #import "XMLHttpRequest.h"
 #import "Utils.h"
 #import "TEC.h"
+#import "JapaneseString.h"
+
+static NSString*
+japaneseStringFromData(NSData* data)
+{
+    NSStringEncoding from = [JapaneseString detectEncoding: data];
+    TECConverter* converter = [[TECConverter alloc] initWithEncoding: from];
+    NSString* s = [converter convertToString: data];
+    [converter release];
+
+    return s;
+}
 
 static NSString*
 stringFromData(NSData* data)
@@ -8,6 +20,8 @@ stringFromData(NSData* data)
     static TECSniffer* sniffer = NULL;
     if (! sniffer) {
         sniffer = [[TECSniffer alloc] init];
+    } else {
+        [sniffer clear];
     }
 
     NSArray* ary = [sniffer sniff: data];
@@ -16,6 +30,7 @@ stringFromData(NSData* data)
     }
 
     NSStringEncoding from = [[ary objectAtIndex: 0] intValue];
+
     TECConverter* converter = [[TECConverter alloc] initWithEncoding: from];
     NSString* s = [converter convertToString: data];
     [converter release];
@@ -139,12 +154,13 @@ stringFromData(NSData* data)
 {
     NSString* s = [[NSString alloc] initWithData: data_
                                         encoding: encoding_];
+    [s autorelease];
+
     if (! s) {
-        s = stringFromData(data_);
+        s = japaneseStringFromData(data_);
     }
     [response_ setValue: s
                   forKey: @"responseText"];
-    [s release];
     
     [response_ setValue: [NSNumber numberWithInt: 4]
                   forKey: @"readyState"];
@@ -160,6 +176,8 @@ stringFromData(NSData* data)
 
 - (void) dealloc
 {
+    NSLog(@"%@ - dealloc", self);
+
     [response_ release];
     [data_ release];
 
@@ -167,7 +185,6 @@ stringFromData(NSData* data)
     [onError_ release];
     [onReadyStateChange_ release];
     
-    // NSLog(@"%@ - dealloc", self);
     [super dealloc];
 }
 
