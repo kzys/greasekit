@@ -1,5 +1,27 @@
 #import "XMLHttpRequest.h"
 #import "Utils.h"
+#import "TEC.h"
+
+static NSString*
+stringFromData(NSData* data)
+{
+    static TECSniffer* sniffer = NULL;
+    if (! sniffer) {
+        sniffer = [[TECSniffer alloc] init];
+    }
+
+    NSArray* ary = [sniffer sniff: data];
+    if ([ary count] == 0) {
+        return nil;
+    }
+
+    NSStringEncoding from = [[ary objectAtIndex: 0] intValue];
+    TECConverter* converter = [[TECConverter alloc] initWithEncoding: from];
+    NSString* s = [converter convertToString: data];
+    [converter release];
+
+    return s;
+}
 
 @implementation XMLHttpRequest
 
@@ -117,6 +139,9 @@
 {
     NSString* s = [[NSString alloc] initWithData: data_
                                         encoding: encoding_];
+    if (! s) {
+        s = stringFromData(data_);
+    }
     [response_ setValue: s
                   forKey: @"responseText"];
     [s release];
