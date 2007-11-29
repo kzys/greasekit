@@ -24,6 +24,7 @@
 		4062459C09A325F40040CB9C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4062459B09A325F40040CB9C /* WebKit.framework */; };
 		406245B709A326440040CB9C /* Info in Resources */ = {isa = PBXBuildFile; fileRef = 406245B609A326440040CB9C /* Info */; };
 		4062461709A3282B0040CB9C /* Menu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4062461509A3282B0040CB9C /* Menu.nib */; };
+		4062B3B30CFE8D1800E29564 /* TEC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062B3B20CFE8D1800E29564 /* TEC.m */; };
 		406EA0460B9A3932004C2A39 /* XMLHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 406EA0440B9A3932004C2A39 /* XMLHttpRequest.m */; };
 		407EBF3C0CBB687100043FA9 /* XMLHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 406EA0440B9A3932004C2A39 /* XMLHttpRequest.m */; };
 		407EBF4E0CBB690B00043FA9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
@@ -66,6 +67,8 @@
 		4062459B09A325F40040CB9C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 		406245B609A326440040CB9C /* Info */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text.xml; path = Info; sourceTree = "<group>"; };
 		4062461609A3282B0040CB9C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Menu.nib; sourceTree = "<group>"; };
+		4062B3B10CFE8D1800E29564 /* TEC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TEC.h; sourceTree = "<group>"; };
+		4062B3B20CFE8D1800E29564 /* TEC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TEC.m; sourceTree = "<group>"; };
 		406EA0430B9A3932004C2A39 /* XMLHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLHttpRequest.h; sourceTree = "<group>"; };
 		406EA0440B9A3932004C2A39 /* XMLHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLHttpRequest.m; sourceTree = "<group>"; };
 		40A3E04D09A57CCA0091278C /* Test.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -143,6 +146,8 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				4062B3B10CFE8D1800E29564 /* TEC.h */,
+				4062B3B20CFE8D1800E29564 /* TEC.m */,
 				4050D4350CBE102200826B97 /* GKAppsController.h */,
 				4050D4360CBE102200826B97 /* GKAppsController.m */,
 				4062458709A325B00040CB9C /* CMController.h */,
@@ -344,6 +349,7 @@
 				4011730B0CAFD69300BBFE8D /* Utils.m in Sources */,
 				4011732A0CAFF00200BBFE8D /* GKGMObject.m in Sources */,
 				4050D4380CBE102200826B97 /* GKAppsController.m in Sources */,
+				4062B3B30CFE8D1800E29564 /* TEC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
