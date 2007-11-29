@@ -359,18 +359,24 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 
         func = [scriptObject evaluateWebScript: ms];
 
-        WebScriptObject* obj = [[frame webView] windowScriptObject];
+        WebScriptObject* unsafeWindow = [[frame webView] windowScriptObject];
+        NSArray* args = [NSArray arrayWithObjects:
+                                     gmObject_, [frame DOMDocument], unsafeWindow, nil];
         // eval on frame
-        JSFunctionCall(func,
-                       [NSArray arrayWithObjects: gmObject_, [frame DOMDocument], obj, nil]);
+        JSFunctionCall(func, args);
     }
+}
+
+- (BOOL) isSandboxView: (WebView*) webView
+{
+    return webView == safeWindow_;
 }
 
 - (void) progressStarted: (NSNotification*) n
 {
     // DEBUG_LOG(@"CMController %@ - progressStarted: %@", self, n);
     WebView* webView = [n object];
-    if (webView == safeWindow_) {
+    if ([self isSandboxView: webView]) {
         return;
     }
     WebDataSource* source = [[webView mainFrame] provisionalDataSource];
@@ -378,6 +384,8 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
         // source = [[webView mainFrame] provisionalDataSource];
     }
     NSURL* url = [[source request] URL];
+
+    NSLog(@"safeWindow_ = %@", url);
     [[safeWindow_ mainFrame] loadHTMLString: @"<html></html>"
                                     baseURL: url];
     DEBUG_LOG(@"url = %@, matchedScripts = %d",
@@ -397,7 +405,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
     // DEBUG_LOG(@"CMController %p - progressChanged: %@", self, n);
 
     WebView* webView = [n object];
-    if (webView == safeWindow_)
+    if ([self isSandboxView: webView])
         return;
     [self evalScriptsInFrame: [webView mainFrame]
                        force: NO];
@@ -406,7 +414,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 - (void) progressFinished: (NSNotification*) n
 {
     WebView* webView = [n object];
-    if (webView == safeWindow_)
+    if ([self isSandboxView: webView])
         return;
     NSURL* url = WebFrameRequestURL([webView mainFrame]);
 
