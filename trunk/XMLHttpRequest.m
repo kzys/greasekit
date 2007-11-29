@@ -89,6 +89,9 @@ stringFromData(NSData* data, NSStringEncoding encoding)
     
     // url
     NSURL* url = [NSURL URLWithString: JSValueForKey(details, @"url")];
+    if (! [[url scheme] isEqualTo: @"http"]) {
+        return nil;
+    }
     NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL: url];
     
     // method
