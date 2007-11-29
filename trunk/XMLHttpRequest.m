@@ -15,7 +15,7 @@ japaneseStringFromData(NSData* data)
 }
 
 static NSString*
-stringFromData(NSData* data)
+stringFromDataByTEC(NSData* data)
 {
     static TECSniffer* sniffer = NULL;
     if (! sniffer) {
@@ -34,6 +34,28 @@ stringFromData(NSData* data)
     TECConverter* converter = [[TECConverter alloc] initWithEncoding: from];
     NSString* s = [converter convertToString: data];
     [converter release];
+
+    return s;
+}
+
+static NSString*
+stringFromData(NSData* data, NSStringEncoding encoding)
+{
+    NSString* s = [[NSString alloc] initWithData: data
+                                        encoding: encoding];
+    if (s) {
+        return [s autorelease];
+    }
+
+    NSArray* ary =
+        [[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"];
+    if ([ary count] > 0 && [[ary objectAtIndex: 0] isEqualTo: @"ja"]) {
+        s = japaneseStringFromData(data);
+    }
+
+    if (! s) {
+        s = stringFromDataByTEC(data);
+    }
 
     return s;
 }
@@ -152,13 +174,10 @@ stringFromData(NSData* data)
 
 - (void) connectionDidFinishLoading: (NSURLConnection*) connection
 {
-    NSString* s = [[NSString alloc] initWithData: data_
-                                        encoding: encoding_];
-    [s autorelease];
+    NSString* s = stringFromData(data_, encoding_);
+    [data_ release];
+    data_ = nil;
 
-    if (! s) {
-        s = japaneseStringFromData(data_);
-    }
     [response_ setValue: s
                   forKey: @"responseText"];
     
