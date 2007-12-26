@@ -171,7 +171,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
     }
     NSAlert* alert = [[NSAlert alloc] init];
     [alert setMessageText: @"Please remove GreaseKit 1.2"];
-    [alert setInformativeText: @"GreaseKit 1.4 is implemented as a SIMBL plugin. Please remove GreaseKit 1.2 from your InputManager folder and relaunch this application."];
+    [alert setInformativeText: @"GreaseKit 1.3 is implemented as a SIMBL plugin. Please remove GreaseKit 1.2 from your InputManager folder and relaunch this application."];
     [alert addButtonWithTitle: @"Ok"];
     [[alert autorelease] runModal];
 }
@@ -322,7 +322,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
     }
 
     // Eval!
-    WebScriptObject* scriptObject = [[frame webView] windowScriptObject];
+    id scriptObject = [[frame webView] windowScriptObject];
 
     WebScriptObject* func;
     id result;
@@ -359,31 +359,21 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 
         func = [scriptObject evaluateWebScript: ms];
 
-        NSArray* args = [NSArray arrayWithObjects:
-                                     [frame DOMDocument], nil];
         // eval on frame
-        JSFunctionCall(func, args);
+        JSFunctionCall(func,
+                       [NSArray arrayWithObjects: gmObject_, [frame DOMDocument], nil]);
     }
-}
-
-- (BOOL) isSandboxView: (WebView*) webView
-{
-    return NO;
 }
 
 - (void) progressStarted: (NSNotification*) n
 {
     // DEBUG_LOG(@"CMController %@ - progressStarted: %@", self, n);
     WebView* webView = [n object];
-    if ([self isSandboxView: webView]) {
-        return;
-    }
     WebDataSource* source = [[webView mainFrame] provisionalDataSource];
     if (! source) {
         // source = [[webView mainFrame] provisionalDataSource];
     }
     NSURL* url = [[source request] URL];
-
     DEBUG_LOG(@"url = %@, matchedScripts = %d",
               url, [[self matchedScripts: url] count]);
     if ([[self matchedScripts: url] count] == 0) {
@@ -401,8 +391,6 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
     // DEBUG_LOG(@"CMController %p - progressChanged: %@", self, n);
 
     WebView* webView = [n object];
-    if ([self isSandboxView: webView])
-        return;
     [self evalScriptsInFrame: [webView mainFrame]
                        force: NO];
 }
@@ -410,8 +398,6 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 - (void) progressFinished: (NSNotification*) n
 {
     WebView* webView = [n object];
-    if ([self isSandboxView: webView])
-        return;
     NSURL* url = WebFrameRequestURL([webView mainFrame]);
 
     [self evalScriptsInFrame: [webView mainFrame] force: YES];
@@ -467,7 +453,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
                                 @"GreaseKit",  @"ApplicationName",
                             icon,  @"ApplicationIcon",
                             @"",  @"Version",
-                            @"Version 1.4",  @"ApplicationVersion",
+                            @"Version 1.3",  @"ApplicationVersion",
                             @"Copyright (c) 2007 KATO Kazuyoshi",  @"Copyright",
                             nil];
     [NSApp orderFrontStandardAboutPanelWithOptions: options];
@@ -510,6 +496,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 
     scriptDir_ = [[SCRIPT_DIR_PATH stringByExpandingTildeInPath] retain];
     scriptTemplate_ = [[self loadScriptTemplate] retain];
+    gmObject_ = [[GKGMObject alloc] init];
 
     scripts_ = nil;
     [NSBundle loadNibNamed: @"Menu.nib" owner: self];
@@ -522,6 +509,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
     NSLog(@"CMController - dealloc");
 
     [appsController_ release];
+    [gmObject_ release];
     [scripts_ release];
 
     [super dealloc];

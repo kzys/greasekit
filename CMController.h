@@ -7,7 +7,6 @@
 
 @class Info8_pGKGMObject;
 @class Info8_pGKAppsController;
-@class WebView;
 
 #define CMController Info8_pCMController
 @interface CMController : NSObject {
@@ -18,6 +17,7 @@
 	NSString* scriptDir_;
     
     NSString* scriptTemplate_;
+    Info8_pGKGMObject* gmObject_;
     Info8_pGKAppsController* appsController_;
 }
 

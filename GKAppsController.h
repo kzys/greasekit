@@ -1,9 +1,10 @@
 /*
- * Copyright (c) 2006-2007 KATO Kazuyoshi <kzys@8-p.info>
+ * Copyright (c) 2006 KATO Kazuyoshi <kzys@8-p.info>
  * This source code is released under the MIT license.
  */
 
 #import <Cocoa/Cocoa.h>
+#import "GKGMObject.h"
 
 #define GKAppsController Info8_pGKAppsController
 @interface GKAppsController : NSObject {
