@@ -12,8 +12,6 @@
 		4011730C0CAFD69300BBFE8D /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 401173090CAFD69300BBFE8D /* Utils.m */; };
 		401173110CAFD6DF00BBFE8D /* UtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4011730E0CAFD6DF00BBFE8D /* UtilsTest.m */; };
 		401173120CAFD98B00BBFE8D /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4062459B09A325F40040CB9C /* WebKit.framework */; };
-		4011732A0CAFF00200BBFE8D /* GKGMObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 401173280CAFF00200BBFE8D /* GKGMObject.m */; };
-		4011732B0CAFF00200BBFE8D /* GKGMObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 401173280CAFF00200BBFE8D /* GKGMObject.m */; };
 		402F816F0B9A68A9001EF155 /* template.js in Resources */ = {isa = PBXBuildFile; fileRef = 402F81010B9A5E3E001EF155 /* template.js */; };
 		4050D4330CBE0E1B00826B97 /* Apps.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4050D4310CBE0E1B00826B97 /* Apps.nib */; };
 		4050D4380CBE102200826B97 /* GKAppsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4050D4360CBE102200826B97 /* GKAppsController.m */; };
@@ -24,11 +22,6 @@
 		4062459C09A325F40040CB9C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4062459B09A325F40040CB9C /* WebKit.framework */; };
 		406245B709A326440040CB9C /* Info in Resources */ = {isa = PBXBuildFile; fileRef = 406245B609A326440040CB9C /* Info */; };
 		4062461709A3282B0040CB9C /* Menu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4062461509A3282B0040CB9C /* Menu.nib */; };
-		4062B3B30CFE8D1800E29564 /* TEC.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062B3B20CFE8D1800E29564 /* TEC.m */; };
-		4062B3B90CFE90B600E29564 /* guess.c in Sources */ = {isa = PBXBuildFile; fileRef = 4062B3B60CFE90B600E29564 /* guess.c */; };
-		4062B3BA0CFE90B600E29564 /* JapaneseString.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062B3B80CFE90B600E29564 /* JapaneseString.m */; };
-		406EA0460B9A3932004C2A39 /* XMLHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 406EA0440B9A3932004C2A39 /* XMLHttpRequest.m */; };
-		407EBF3C0CBB687100043FA9 /* XMLHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 406EA0440B9A3932004C2A39 /* XMLHttpRequest.m */; };
 		407EBF4E0CBB690B00043FA9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		409E7E340CC4781D008DB590 /* GKLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 401172A70CAFA8D500BBFE8D /* GKLoader.m */; };
 		409E7E3F0CC4782D008DB590 /* CMController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062458809A325B00040CB9C /* CMController.m */; };
@@ -54,8 +47,6 @@
 		401173090CAFD69300BBFE8D /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		4011730D0CAFD6DF00BBFE8D /* UtilsTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtilsTest.h; sourceTree = "<group>"; };
 		4011730E0CAFD6DF00BBFE8D /* UtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UtilsTest.m; sourceTree = "<group>"; };
-		401173270CAFF00200BBFE8D /* GKGMObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKGMObject.h; sourceTree = "<group>"; };
-		401173280CAFF00200BBFE8D /* GKGMObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GKGMObject.m; sourceTree = "<group>"; };
 		402F81010B9A5E3E001EF155 /* template.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = template.js; sourceTree = "<group>"; };
 		4050D4320CBE0E1B00826B97 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Apps.nib; sourceTree = "<group>"; };
 		4050D4350CBE102200826B97 /* GKAppsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GKAppsController.h; sourceTree = "<group>"; };
@@ -69,14 +60,6 @@
 		4062459B09A325F40040CB9C /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = /System/Library/Frameworks/WebKit.framework; sourceTree = "<absolute>"; };
 		406245B609A326440040CB9C /* Info */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = text.xml; path = Info; sourceTree = "<group>"; };
 		4062461609A3282B0040CB9C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Menu.nib; sourceTree = "<group>"; };
-		4062B3B10CFE8D1800E29564 /* TEC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TEC.h; sourceTree = "<group>"; };
-		4062B3B20CFE8D1800E29564 /* TEC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TEC.m; sourceTree = "<group>"; };
-		4062B3B50CFE90B600E29564 /* guess_tab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = guess_tab.h; sourceTree = "<group>"; };
-		4062B3B60CFE90B600E29564 /* guess.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = guess.c; sourceTree = "<group>"; };
-		4062B3B70CFE90B600E29564 /* JapaneseString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JapaneseString.h; sourceTree = "<group>"; };
-		4062B3B80CFE90B600E29564 /* JapaneseString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JapaneseString.m; sourceTree = "<group>"; };
-		406EA0430B9A3932004C2A39 /* XMLHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLHttpRequest.h; sourceTree = "<group>"; };
-		406EA0440B9A3932004C2A39 /* XMLHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLHttpRequest.m; sourceTree = "<group>"; };
 		40A3E04D09A57CCA0091278C /* Test.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40A3E04E09A57CCA0091278C /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
 		40A3E05309A57CEF0091278C /* CMUserScriptTest.h */ = {isa = PBXFileReference; fileEncoding = "-2147483647"; lastKnownFileType = sourcecode.c.h; path = CMUserScriptTest.h; sourceTree = "<group>"; };
@@ -152,12 +135,6 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				4062B3B50CFE90B600E29564 /* guess_tab.h */,
-				4062B3B60CFE90B600E29564 /* guess.c */,
-				4062B3B70CFE90B600E29564 /* JapaneseString.h */,
-				4062B3B80CFE90B600E29564 /* JapaneseString.m */,
-				4062B3B10CFE8D1800E29564 /* TEC.h */,
-				4062B3B20CFE8D1800E29564 /* TEC.m */,
 				4050D4350CBE102200826B97 /* GKAppsController.h */,
 				4050D4360CBE102200826B97 /* GKAppsController.m */,
 				4062458709A325B00040CB9C /* CMController.h */,
@@ -166,12 +143,8 @@
 				4062458A09A325B00040CB9C /* CMUserScript.m */,
 				4062458D09A325B00040CB9C /* WildcardPattern.h */,
 				4062458E09A325B00040CB9C /* WildcardPattern.m */,
-				406EA0430B9A3932004C2A39 /* XMLHttpRequest.h */,
-				406EA0440B9A3932004C2A39 /* XMLHttpRequest.m */,
 				401172A60CAFA8D500BBFE8D /* GKLoader.h */,
 				401172A70CAFA8D500BBFE8D /* GKLoader.m */,
-				401173270CAFF00200BBFE8D /* GKGMObject.h */,
-				401173280CAFF00200BBFE8D /* GKGMObject.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -339,8 +312,6 @@
 				40A3E09B09A58AC60091278C /* WildcardPattern.m in Sources */,
 				4011730C0CAFD69300BBFE8D /* Utils.m in Sources */,
 				401173110CAFD6DF00BBFE8D /* UtilsTest.m in Sources */,
-				4011732B0CAFF00200BBFE8D /* GKGMObject.m in Sources */,
-				407EBF3C0CBB687100043FA9 /* XMLHttpRequest.m in Sources */,
 				4050D4390CBE102200826B97 /* GKAppsController.m in Sources */,
 				409E7E340CC4781D008DB590 /* GKLoader.m in Sources */,
 				409E7E3F0CC4782D008DB590 /* CMController.m in Sources */,
@@ -354,14 +325,9 @@
 				4062458F09A325B00040CB9C /* CMController.m in Sources */,
 				4062459009A325B10040CB9C /* CMUserScript.m in Sources */,
 				4062459209A325B10040CB9C /* WildcardPattern.m in Sources */,
-				406EA0460B9A3932004C2A39 /* XMLHttpRequest.m in Sources */,
 				401172A90CAFA8D500BBFE8D /* GKLoader.m in Sources */,
 				4011730B0CAFD69300BBFE8D /* Utils.m in Sources */,
-				4011732A0CAFF00200BBFE8D /* GKGMObject.m in Sources */,
 				4050D4380CBE102200826B97 /* GKAppsController.m in Sources */,
-				4062B3B30CFE8D1800E29564 /* TEC.m in Sources */,
-				4062B3B90CFE90B600E29564 /* guess.c in Sources */,
-				4062B3BA0CFE90B600E29564 /* JapaneseString.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
