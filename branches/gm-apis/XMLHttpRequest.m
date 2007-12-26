@@ -92,8 +92,9 @@ stringFromData(NSData* data, NSStringEncoding encoding)
     NSMutableURLRequest* req = [NSMutableURLRequest requestWithURL: url];
     
     // method
-    [req setHTTPMethod: [JSValueForKey(details, @"method") uppercaseString]];
-    if ([[req HTTPMethod] isEqualTo: @"POST"]) {
+    NSString* method = [JSValueForKey(details, @"method") uppercaseString];
+    [req setHTTPMethod: method];
+    if ([method isEqualTo: @"POST"] || [method isEqualTo: @"PUT"]) {
         NSString* s = JSValueForKey(details, @"data");
         if (! s)
             s = @"";
