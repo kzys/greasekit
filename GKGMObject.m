@@ -54,20 +54,27 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/GreaseKit/values.
     return nil;
 }
 
+
 - (id) gmValueForKey: (NSString*) key
         defaultValue: (NSString*) defaultValue
           scriptName: (NSString*) name
            namespace: (NSString*) ns
-{
+{	
+	NSString* value = nil;
     NSMutableDictionary* namespace = [scriptValues_ objectForKey: ns];
-    if (! namespace) {
-        return defaultValue;
-    }
-    NSMutableDictionary* dict = [namespace objectForKey: name];
-    if (! dict) {
-        return defaultValue;
-    }
-    return [dict objectForKey: key];
+    if (namespace) {
+		NSMutableDictionary* dict = [namespace objectForKey: name];
+
+		if (dict) {
+		    value = [dict objectForKey: key];
+		}
+	}
+	
+	if(!value){
+		value = defaultValue;
+	}
+	
+	return value;
 }
 
 - (id) gmSetValue: (NSString*) value
@@ -75,7 +82,7 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/GreaseKit/values.
        scriptName: (NSString*) name
         namespace: (NSString*) ns
 {
-    NSMutableDictionary* namespace = [scriptValues_ objectForKey: ns];
+	NSMutableDictionary* namespace = [scriptValues_ objectForKey: ns];
     if (! namespace) {
         namespace = [NSMutableDictionary dictionary];
         [scriptValues_ setObject: namespace
@@ -89,9 +96,7 @@ static NSString* VALUES_PATH = @"~/Library/Application Support/GreaseKit/values.
     }
     [dict setObject: value forKey: key];
 
-#if 0 // FIXME
     [self saveScriptValues];
-#endif
 
     return nil;
 }
