@@ -3,6 +3,7 @@
 #import "WildcardPattern.h"
 
 @implementation CMUserScriptTest
+
 #if 0
 - (void) testEmptyScript
 {
@@ -30,6 +31,41 @@
 	[s release];
 }
 #endif
+
+- (void) testMetadataWithNamespace
+{
+	CMUserScript* s;
+		
+	s = [[CMUserScript alloc] initWithString: @"// ==UserScript==\n// @name testscript \n //@namespace http://www.jjjj.com \n //@description a description \n // @include http://www.google.com \n // @include http://www.yahoo.com \n //@exclude http://www.microsoft.com \n // @exclude http://www.ibm.com\n ==/UserScript==\n" element: nil];	
+	STAssertEqualObjects([s namespace], @"http://www.jjjj.com", @"wrong namespace");
+	STAssertEqualObjects([s scriptDescription], @"a description", @"wrong script description");
+	
+	STAssertEqualObjects([[[s include] objectAtIndex:0] string], @"http://www.google.com", @"wrong include list");
+	STAssertEqualObjects([[[s include] objectAtIndex:1] string], @"http://www.yahoo.com", @"wrong include list");
+
+    STAssertEqualObjects([[[s exclude] objectAtIndex:0] string], @"http://www.microsoft.com", @"wrong exclude list");
+	STAssertEqualObjects([[[s exclude] objectAtIndex:1] string], @"http://www.ibm.com", @"wrong exclude list");
+	
+	[s release];
+}
+
+- (void) testMetadataWithoutNamespace
+{
+	CMUserScript* s;
+		
+	s = [[CMUserScript alloc] initWithString: @"// ==UserScript==\n// @name testscript \n //@description a description \n // @include http://www.google.com \n // @include http://www.yahoo.com \n //@exclude http://www.microsoft.com \n // @exclude http://www.ibm.com\n ==/UserScript==\n" element: nil];	
+	STAssertEqualObjects([s namespace], @"no_namespace", @"wrong namespace");
+	STAssertEqualObjects([s scriptDescription], @"a description", @"wrong script description");
+	
+	STAssertEqualObjects([[[s include] objectAtIndex:0] string], @"http://www.google.com", @"wrong include list");
+	STAssertEqualObjects([[[s include] objectAtIndex:1] string], @"http://www.yahoo.com", @"wrong include list");
+
+    STAssertEqualObjects([[[s exclude] objectAtIndex:0] string], @"http://www.microsoft.com", @"wrong exclude list");
+	STAssertEqualObjects([[[s exclude] objectAtIndex:1] string], @"http://www.ibm.com", @"wrong exclude list");
+	
+	[s release];
+}
+
 
 - (void) testMatch
 {
