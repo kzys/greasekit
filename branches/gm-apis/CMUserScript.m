@@ -9,6 +9,8 @@
 #import "Utils.h"
 
 static NSString* dummyBundleId_ = nil;
+static NSString* DEFAULT_NAMESPACE = @"no_namespace";
+
 
 @implementation CMUserScript
 + (void) setDummyBundleIdentifier: (NSString*) bundleId
@@ -333,7 +335,7 @@ static NSString* dummyBundleId_ = nil;
 		[result setObject: ary forKey: key];
 		[ary release];
 	}
-	[ary addObject: value];
+	[ary addObject: [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]]];
 }
 
 + (NSDictionary*) parseMetadata: (NSString*) script
@@ -398,8 +400,14 @@ static NSString* dummyBundleId_ = nil;
         // metadata
         NSDictionary* md = [CMUserScript parseMetadata: script];
         [self setName: ArrayFirstObject([md objectForKey: @"@name"])];
-        [self setNamespace: ArrayFirstObject([md objectForKey: @"@namespace"])];
         [self setScriptDescription: ArrayFirstObject([md objectForKey: @"@description"])];
+		NSString* namespace = ArrayFirstObject([md objectForKey: @"@namespace"]);
+		
+		// if the namespace is not set in script, set it to the default value
+		if(!namespace){
+			namespace = DEFAULT_NAMESPACE;
+		} 
+        [self setNamespace: namespace];
 
         // include
         NSArray* ary;
