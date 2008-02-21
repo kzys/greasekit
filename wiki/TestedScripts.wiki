@@ -1,4 +1,0 @@
-#summary scripts that works on GreaseKit
-
-= Introduction =
-GreaseKit is not quite compatible with Firefox + Greasemonkey.
