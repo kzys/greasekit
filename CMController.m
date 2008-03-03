@@ -343,41 +343,22 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
               force, url, [frame DOMDocument],
               [[self matchedScripts: url] count]);
 
-    NSString* bridgeName = [NSString stringWithFormat: @"__bridge%u__", rand()];
     NSArray* ary = [self matchedScripts: url];
     for (i = 0; i < [ary count]; i++) {
         CMUserScript* s = [ary objectAtIndex: i];
-        NSMutableString* ms = [NSMutableString stringWithString: scriptTemplate_];
-
-        // create function!
-        if ([s namespace]) {
-            StringReplace(ms, @"<namespace>", [s namespace]);
-        }
-        StringReplace(ms, @"<name>", [s name]);
-        StringReplace(ms, @"<bridge>", bridgeName);
-        StringReplace(ms, @"<body>", [s script]);
-
+        NSMutableString* ms = [NSMutableString stringWithFormat: scriptTemplate_, [s script]];
         func = [scriptObject evaluateWebScript: ms];
 
-        NSArray* args = [NSArray arrayWithObjects:
-                                     [frame DOMDocument], nil];
+        NSArray* args = [NSArray arrayWithObjects: [frame DOMDocument], nil];
         // eval on frame
         JSFunctionCall(func, args);
     }
-}
-
-- (BOOL) isSandboxView: (WebView*) webView
-{
-    return NO;
 }
 
 - (void) progressStarted: (NSNotification*) n
 {
     // DEBUG_LOG(@"CMController %@ - progressStarted: %@", self, n);
     WebView* webView = [n object];
-    if ([self isSandboxView: webView]) {
-        return;
-    }
     WebDataSource* source = [[webView mainFrame] provisionalDataSource];
     if (! source) {
         // source = [[webView mainFrame] provisionalDataSource];
@@ -401,8 +382,6 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
     // DEBUG_LOG(@"CMController %p - progressChanged: %@", self, n);
 
     WebView* webView = [n object];
-    if ([self isSandboxView: webView])
-        return;
     [self evalScriptsInFrame: [webView mainFrame]
                        force: NO];
 }
@@ -410,8 +389,6 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 - (void) progressFinished: (NSNotification*) n
 {
     WebView* webView = [n object];
-    if ([self isSandboxView: webView])
-        return;
     NSURL* url = WebFrameRequestURL([webView mainFrame]);
 
     [self evalScriptsInFrame: [webView mainFrame] force: YES];
