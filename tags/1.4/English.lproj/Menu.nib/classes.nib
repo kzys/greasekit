@@ -1,0 +1,19 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                orderFrontAboutPanel = id; 
+                orderFrontAppsPanel = id; 
+                reloadUserScripts = id; 
+                toggleScriptEnable = id; 
+                uninstallSelected = id; 
+            }; 
+            CLASS = "Info8_pCMController"; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {scriptsController = NSArrayController; topMenu = NSMenu; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}
