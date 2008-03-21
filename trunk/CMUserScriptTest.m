@@ -3,6 +3,27 @@
 #import "WildcardPattern.h"
 
 @implementation CMUserScriptTest
+- (void) testInitWithString
+{
+    NSString* s;
+    CMUserScript* script;
+
+    script = [[CMUserScript alloc] initWithString: @"hello\rworld\r"
+                                          element: nil];
+    STAssertTrue([@"hello\nworld\n" isEqualTo: [script script]], nil);
+    [script release];
+
+    script = [[CMUserScript alloc] initWithString: @"hello\r\nworld\r\n"
+                                          element: nil];
+    STAssertTrue([@"hello\nworld\n" isEqualTo: [script script]], nil);
+    [script release];
+
+    script = [[CMUserScript alloc] initWithString: @"hello\nworld\n"
+                                          element: nil];
+    STAssertTrue([@"hello\nworld\n" isEqualTo: [script script]], nil);
+    [script release];
+}
+
 #if 0
 - (void) testEmptyScript
 {
