@@ -383,20 +383,30 @@ static NSString* dummyBundleId_ = nil;
 	return [result autorelease];
 }
 
-- (id) initWithString: (NSString*) script
+- (id) initWithString: (NSString*) s
               element: (NSXMLElement*) element
 {
 	self = [self init];
 	if (! self)
 		return nil;
-		
-	script_ = [script retain];
+
+    NSMutableString* ms = [NSMutableString stringWithString: s];
+    NSString* replacement;
+    if ([ms rangeOfString: @"\n"].length) {
+        replacement = @"";
+    } else {
+        replacement = @"\n";
+    }
+    [ms replaceOccurrencesOfString: @"\r" withString: replacement
+                           options: 0 range: NSMakeRange(0, [ms length])];
+
+	script_ = [ms retain];
 
     if (element) {
         [self configureWithXMLElement: element];
     } else {
         // metadata
-        NSDictionary* md = [CMUserScript parseMetadata: script];
+        NSDictionary* md = [CMUserScript parseMetadata: script_];
         [self setName: ArrayFirstObject([md objectForKey: @"@name"])];
         [self setNamespace: ArrayFirstObject([md objectForKey: @"@namespace"])];
         [self setScriptDescription: ArrayFirstObject([md objectForKey: @"@description"])];
