@@ -548,3 +548,26 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 }
 
 @end
+
+// Workaround for PAC (Proxy Auto Config) by hetima-san <http://hetima.com>
+@implementation DOMHTMLBodyElement(Info8_pCMUndefinedKeySupport)
+- (id) valueForUndefinedKey: (NSString*) key
+{
+    NSLog(@"DOMHTMLBodyElement %p valueForUndefinedKey: %@", self, key);
+    if ([key isEqualToString:@"__creammonkeyed__"]) {
+        return nil;
+    }
+    return [super valueForUndefinedKey: key];
+}
+@end
+
+@implementation DOMHTMLFrameSetElement(Info8_pCMUndefinedKeySupport)
+- (id) valueForUndefinedKey: (NSString*) key
+{
+    NSLog(@"DOMHTMLFrameElement %p valueForUndefinedKey: %@", self, key);
+    if ([key isEqualToString:@"__creammonkeyed__"]) {
+        return nil;
+    }
+    return [super valueForUndefinedKey: key];
+}
+@end
