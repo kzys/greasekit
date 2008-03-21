@@ -31,6 +31,7 @@
 		40A3E09B09A58AC60091278C /* WildcardPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 4062458E09A325B00040CB9C /* WildcardPattern.m */; };
 		40A3E09F09A58ADA0091278C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 089C1672FE841209C02AAC07 /* Foundation.framework */; };
 		40A3E0A409A58AF40091278C /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A3E0A309A58AF40091278C /* SenTestingKit.framework */; };
+		40A4DB850D9417DF000566B3 /* hello.user.js in Resources */ = {isa = PBXBuildFile; fileRef = 40A4DB840D9417DF000566B3 /* hello.user.js */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -40,7 +41,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 40A3E04C09A57CCA0091278C /* Test */;
+			remoteGlobalIDString = 40A3E04C09A57CCA0091278C;
 			remoteInfo = Test;
 		};
 /* End PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		40A3E05509A57CEF0091278C /* WildcardPatternTest.h */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.h; path = WildcardPatternTest.h; sourceTree = "<group>"; };
 		40A3E05609A57CEF0091278C /* WildcardPatternTest.m */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = sourcecode.c.objc; path = WildcardPatternTest.m; sourceTree = "<group>"; };
 		40A3E0A309A58AF40091278C /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
+		40A4DB840D9417DF000566B3 /* hello.user.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = hello.user.js; path = scripts/hello.user.js; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* GreaseKit.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GreaseKit.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -109,6 +111,7 @@
 		089C166AFE841209C02AAC07 /* Creammonkey */ = {
 			isa = PBXGroup;
 			children = (
+				40A4DB830D9417CA000566B3 /* Scripts */,
 				40A3E05909A57CF60091278C /* Test */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
@@ -211,6 +214,14 @@
 			name = Test;
 			sourceTree = "<group>";
 		};
+		40A4DB830D9417CA000566B3 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				40A4DB840D9417DF000566B3 /* hello.user.js */,
+			);
+			name = Scripts;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -281,6 +292,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40A4DB850D9417DF000566B3 /* hello.user.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -55,6 +55,7 @@
 - (void) setEnabled: (BOOL) flag;
 
 - (BOOL) isMatched: (NSURL*) url;
+- (NSString*) filename;
 
 + (NSString*) fileNameFromString: (NSString*) s;
 + (NSString*) uniqueName: (NSString*) name others: (NSArray*) others;

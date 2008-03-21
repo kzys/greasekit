@@ -11,6 +11,11 @@
 static NSString* dummyBundleId_ = nil;
 
 @implementation CMUserScript
+- (NSString*) filename
+{
+    return fullPath_;
+}
+
 + (void) setDummyBundleIdentifier: (NSString*) bundleId
 {
     [dummyBundleId_ release];

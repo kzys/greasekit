@@ -21,6 +21,7 @@
     Info8_pGKAppsController* appsController_;
 }
 
+- (IBAction) editSelected: (id) sender;
 - (IBAction) toggleScriptEnable: (id) sender;
 - (IBAction) uninstallSelected: (id) sender;
 - (IBAction) orderFrontAboutPanel: (id) sender;

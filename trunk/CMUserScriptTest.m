@@ -3,6 +3,17 @@
 #import "WildcardPattern.h"
 
 @implementation CMUserScriptTest
+- (void) testFilename
+{
+    CMUserScript* script;
+    NSString* path = [NSString stringWithFormat: @"%s/%s/Resources/hello.user.js", getenv("BUILD_PRODUCTS_DIR"), getenv("CONTENTS_FOLDER_PATH")];
+
+    script = [[CMUserScript alloc] initWithContentsOfFile: path
+                                                  element: nil];
+    STAssertEquals(path, [script filename], nil);
+    [script release];
+}
+
 - (void) testInitWithString
 {
     NSString* s;

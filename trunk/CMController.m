@@ -421,6 +421,12 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 #endif
 }
 
+- (IBAction) editSelected: (id) sender
+{
+    CMUserScript* script = [[scriptsController selectedObjects] objectAtIndex: 0];
+    [[NSWorkspace sharedWorkspace] openFile: [script filename]];
+}
+
 - (IBAction) uninstallSelected: (id) sender
 {
     CMUserScript* script = [[scriptsController selectedObjects] objectAtIndex: 0];
