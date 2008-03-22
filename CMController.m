@@ -171,7 +171,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
     }
     NSAlert* alert = [[NSAlert alloc] init];
     [alert setMessageText: @"Please remove GreaseKit 1.2"];
-    [alert setInformativeText: @"GreaseKit 1.4 is implemented as a SIMBL plugin. Please remove GreaseKit 1.2 from your InputManager folder and relaunch this application."];
+    [alert setInformativeText: @"GreaseKit 1.5 is implemented as a SIMBL plugin. Please remove GreaseKit 1.2 from your InputManager folder and relaunch this application."];
     [alert addButtonWithTitle: @"Ok"];
     [[alert autorelease] runModal];
 }
@@ -450,7 +450,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
                                 @"GreaseKit",  @"ApplicationName",
                             icon,  @"ApplicationIcon",
                             @"",  @"Version",
-                            @"Version 1.4",  @"ApplicationVersion",
+                            @"Version 1.5",  @"ApplicationVersion",
                             @"Copyright (c) 2007 KATO Kazuyoshi",  @"Copyright",
                             nil];
     [NSApp orderFrontStandardAboutPanelWithOptions: options];
@@ -559,7 +559,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 @implementation DOMHTMLBodyElement(Info8_pCMUndefinedKeySupport)
 - (id) valueForUndefinedKey: (NSString*) key
 {
-    NSLog(@"DOMHTMLBodyElement %p valueForUndefinedKey: %@", self, key);
+    // NSLog(@"DOMHTMLBodyElement %p valueForUndefinedKey: %@", self, key);
     if ([key isEqualToString:@"__creammonkeyed__"]) {
         return nil;
     }
@@ -570,7 +570,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 @implementation DOMHTMLFrameSetElement(Info8_pCMUndefinedKeySupport)
 - (id) valueForUndefinedKey: (NSString*) key
 {
-    NSLog(@"DOMHTMLFrameElement %p valueForUndefinedKey: %@", self, key);
+    // NSLog(@"DOMHTMLFrameElement %p valueForUndefinedKey: %@", self, key);
     if ([key isEqualToString:@"__creammonkeyed__"]) {
         return nil;
     }
