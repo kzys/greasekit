@@ -16,7 +16,6 @@
 
 - (void) testInitWithString
 {
-    NSString* s;
     CMUserScript* script;
 
     script = [[CMUserScript alloc] initWithString: @"hello\rworld\r"
