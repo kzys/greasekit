@@ -19,11 +19,11 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.4</string>
+	<string>1.5</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.4</string>
+	<string>1.5</string>
 	<key>CFBundleGetInfoString</key>
-	<string>${PRODUCT_NAME} 1.4, Copyright (c) 2006-2007 KATO Kazuyoshi, All Rights Reserved.</string>
+	<string>${PRODUCT_NAME} 1.5, Copyright (c) 2006-2008 KATO Kazuyoshi, All Rights Reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string></string>
     <key>SIMBLTargetApplications</key>
