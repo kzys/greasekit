@@ -29,7 +29,10 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 {
     NSBundle* bundle = [NSBundle bundleWithIdentifier: BUNDLE_IDENTIFIER];
     NSString* path = [NSString stringWithFormat: @"%@/template.js", [bundle resourcePath]];
-    return [NSString stringWithContentsOfFile: path];
+	NSError* error;
+    return [NSString stringWithContentsOfFile: path
+									 encoding: NSUTF8StringEncoding
+										error: &error];
 }
 
 - (NSArray*) scripts
@@ -131,16 +134,13 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 
 - (NSArray*) scriptsAtDir: (NSString*) dir
 {
-    NSArray* files;
-    files = [[NSFileManager defaultManager] directoryContentsAtPath: dir];
-    if (! files)
-        return nil;
+    NSDirectoryEnumerator* files;
+    files = [[NSFileManager defaultManager] enumeratorAtPath: dir];
 
     NSMutableArray* result = [NSMutableArray array];
-    size_t i;
-    for (i = 0; i < [files count]; i++) {
-        NSString* path;
-        path = [NSString stringWithFormat: @"%@/%@", dir, [files objectAtIndex: i]];
+	NSString* s;
+	while (s = [files nextObject]) {
+        NSString* path = [NSString stringWithFormat: @"%@/%@", dir, s];
         if ([path hasSuffix: @".user.js"]) {
             [result addObject: path];
         }
@@ -151,8 +151,11 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 - (void) showWarningAboutCreammonkey
 {
     NSString* path = [CM_BUNDLE_PATH stringByExpandingTildeInPath];
-    NSArray* dir = [[NSFileManager defaultManager] directoryContentsAtPath: path];
-    if (! dir) {
+
+	BOOL isDir;
+    [[NSFileManager defaultManager] fileExistsAtPath: path
+										 isDirectory: &isDir];
+    if (! isDir) {
         return;
     }
     NSAlert* alert = [[NSAlert alloc] init];
@@ -165,8 +168,11 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 - (void) showWarningAboutGreaseKit_1_2
 {
     NSString* path = [GK_INPUT_MANAGER_PATH stringByExpandingTildeInPath];
-    NSArray* dir = [[NSFileManager defaultManager] directoryContentsAtPath: path];
-    if (! dir) {
+
+	BOOL isDir;
+    [[NSFileManager defaultManager] fileExistsAtPath: path
+										 isDirectory: &isDir];
+    if (! isDir) {
         return;
     }
     NSAlert* alert = [[NSAlert alloc] init];
