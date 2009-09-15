@@ -105,14 +105,14 @@ void DebugLog(NSString* format, ...)
 {
     static FILE* log = NULL;
     if (! log) {
-        log = fopen("/Users/kzys/debug.log", "a");
+        log = fopen("/tmp/greasekit_debug.log", "a");
         fprintf(log, "--\n");
     }
 
     va_list args;
     va_start(args, format);
     NSString* s = [NSString stringWithFormat: format, args];
-    fprintf(log, [[NSString stringWithFormat: @"%@\n", s] UTF8String]);
+    fprintf(log, "%s", [[NSString stringWithFormat: @"%@\n", s] UTF8String]);
     va_end(args);
 
     fflush(log);

@@ -20,6 +20,7 @@ static NSString* APPS_PATH = @"~/Library/Application Support/GreaseKit/apps.plis
     if (apps && [apps count] > 0) {
         ;
     } else {
+		[apps release];
         apps = [[NSArray alloc] initWithObjects: @"com.apple.Safari", @"com.factorycity.DietPibb", @"com.mailplaneapp.Mailplane", nil];
     }
 

@@ -50,8 +50,7 @@ static NSString* dummyBundleId_ = nil;
     for (i = 0, n = [elements count]; i < n; i++) {
         NSXMLElement* e = [elements objectAtIndex: i];
 
-        WildcardPattern* pattern;
-        pattern = [[WildcardPattern alloc] initWithString: [e stringValue]];
+        WildcardPattern* pattern = [WildcardPattern patternWithString: [e stringValue]];
 
         [result addObject: pattern];
     }
@@ -380,8 +379,7 @@ static NSString* dummyBundleId_ = nil;
 	
 	int i;
 	for (i = 0; i < [ary count]; i++) {
-		WildcardPattern* pat;
-		pat = [[WildcardPattern alloc] initWithString: [ary objectAtIndex: i]];
+		WildcardPattern* pat = [WildcardPattern patternWithString: [ary objectAtIndex: i]];
 		[result addObject: pat];
 	}
 	
