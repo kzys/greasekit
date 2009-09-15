@@ -29,10 +29,10 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 {
     NSBundle* bundle = [NSBundle bundleWithIdentifier: BUNDLE_IDENTIFIER];
     NSString* path = [NSString stringWithFormat: @"%@/template.js", [bundle resourcePath]];
-	NSError* error;
+    NSError* error;
     return [NSString stringWithContentsOfFile: path
-									 encoding: NSUTF8StringEncoding
-										error: &error];
+                                     encoding: NSUTF8StringEncoding
+                                        error: &error];
 }
 
 - (NSArray*) scripts
@@ -62,7 +62,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
         [result setObject: script
                    forKey: ElementAttribute(script, @"filename")];
     }
-	[doc release];
+    [doc release];
     return result;
 }
 
@@ -79,10 +79,10 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 
     NSXMLDocument* doc;
     doc = [[NSXMLDocument alloc] initWithRootElement: root];
-	[root release];
+    [root release];
 
     NSData* data = [doc XMLDataWithOptions: NSXMLNodePrettyPrint];
-	[doc release];
+    [doc release];
 
     [data writeToFile: path atomically: YES];
 }
@@ -134,7 +134,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
         [item setTitle: [script name]];
 
         [topMenu insertItem: item atIndex: i];
-		[item release];
+        [item release];
     }
 }
 
@@ -144,8 +144,8 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
     files = [[NSFileManager defaultManager] enumeratorAtPath: dir];
 
     NSMutableArray* result = [NSMutableArray array];
-	NSString* s;
-	while (s = [files nextObject]) {
+    NSString* s;
+    while (s = [files nextObject]) {
         NSString* path = [NSString stringWithFormat: @"%@/%@", dir, s];
         if ([path hasSuffix: @".user.js"]) {
             [result addObject: path];
@@ -158,9 +158,9 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 {
     NSString* path = [CM_BUNDLE_PATH stringByExpandingTildeInPath];
 
-	BOOL isDir;
+    BOOL isDir;
     [[NSFileManager defaultManager] fileExistsAtPath: path
-										 isDirectory: &isDir];
+                                         isDirectory: &isDir];
     if (! isDir) {
         return;
     }
@@ -175,9 +175,9 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 {
     NSString* path = [GK_INPUT_MANAGER_PATH stringByExpandingTildeInPath];
 
-	BOOL isDir;
+    BOOL isDir;
     [[NSFileManager defaultManager] fileExistsAtPath: path
-										 isDirectory: &isDir];
+                                         isDirectory: &isDir];
     if (! isDir) {
         return;
     }

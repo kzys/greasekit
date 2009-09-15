@@ -4,10 +4,10 @@
 
 id ArrayFirstObject(NSArray* self)
 {
-	if ([self count] > 0)
-		return [self objectAtIndex: 0];
-	else
-		return nil;
+    if ([self count] > 0)
+        return [self objectAtIndex: 0];
+    else
+        return nil;
 }
 
 unsigned int StringReplace(NSMutableString* self,

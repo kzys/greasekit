@@ -121,8 +121,8 @@ static NSString* dummyBundleId_ = nil;
 
 - (BOOL) isInstalled: (NSString*) scriptDir
 {
-	NSString* path;
-	path = [NSString stringWithFormat: @"%@/%@", scriptDir, [self basenameFromName]];
+    NSString* path;
+    path = [NSString stringWithFormat: @"%@/%@", scriptDir, [self basenameFromName]];
     if (! [[NSFileManager defaultManager] fileExistsAtPath: path]) {
         return NO;
     }
@@ -221,8 +221,8 @@ static NSString* dummyBundleId_ = nil;
 
 - (BOOL) install: (NSString*) dir
 {
-	[fullPath_ release];
-	fullPath_ = [[NSString alloc] initWithFormat: @"%@/%@", dir, [self basenameFromName]];
+    [fullPath_ release];
+    fullPath_ = [[NSString alloc] initWithFormat: @"%@/%@", dir, [self basenameFromName]];
 
     if ([[NSFileManager defaultManager] fileExistsAtPath: fullPath_]) {
         CMUserScript* other;
@@ -248,11 +248,11 @@ static NSString* dummyBundleId_ = nil;
 
 - (BOOL) uninstall
 {
-	if (fullPath_) {
-		return [[NSFileManager defaultManager] removeFileAtPath: fullPath_
-														handler: nil];
-	}
-	return NO;
+    if (fullPath_) {
+        return [[NSFileManager defaultManager] removeFileAtPath: fullPath_
+                                                        handler: nil];
+    }
+    return NO;
 }
 
 - (BOOL) isEnabled
@@ -278,19 +278,19 @@ static NSString* dummyBundleId_ = nil;
 }
 
 - (BOOL) isMatched: (NSURL*) url
-		  patterns: (NSArray*) ary
+          patterns: (NSArray*) ary
 {
-	NSString* str = [url absoluteString];
-	
-	int i;
-	for (i = 0; i < [ary count]; i++) {
-		WildcardPattern* pat = [ary objectAtIndex: i];
-		if ([pat isMatch: str]) {
-			return YES;
-		}
-	}
-	
-	return NO;
+    NSString* str = [url absoluteString];
+    
+    int i;
+    for (i = 0; i < [ary count]; i++) {
+        WildcardPattern* pat = [ary objectAtIndex: i];
+        if ([pat isMatch: str]) {
+            return YES;
+        }
+    }
+    
+    return NO;
 }
 
 - (BOOL) isMatched: (NSURL*) url
@@ -298,76 +298,76 @@ static NSString* dummyBundleId_ = nil;
     if (! include_)
         return YES;
     
-	if ([self isMatched: url patterns: include_]) {
-		if (! [self isMatched: url patterns: exclude_]) {
-			return YES;
-		}
-	}
-	return NO;
+    if ([self isMatched: url patterns: include_]) {
+        if (! [self isMatched: url patterns: exclude_]) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 + (void) parseMetadataLine: (NSString*) line
-					result: (NSMutableDictionary*) result
+                    result: (NSMutableDictionary*) result
 {
-	NSString* key;
-	NSString* value;
-	
-	NSScanner* scanner = [[NSScanner alloc] initWithString: line];
-	[scanner autorelease];
-	
-	// Skip to "@"
-	[scanner scanUpToCharactersFromSet: [NSCharacterSet characterSetWithCharactersInString: @"@"]
-							intoString: NULL];
-	
-	// Read key until whitespace
-	if ([scanner isAtEnd])
-		return;
-	[scanner scanUpToCharactersFromSet: [NSCharacterSet whitespaceCharacterSet]
-							intoString: &key];
+    NSString* key;
+    NSString* value;
+    
+    NSScanner* scanner = [[NSScanner alloc] initWithString: line];
+    [scanner autorelease];
+    
+    // Skip to "@"
+    [scanner scanUpToCharactersFromSet: [NSCharacterSet characterSetWithCharactersInString: @"@"]
+                            intoString: NULL];
+    
+    // Read key until whitespace
+    if ([scanner isAtEnd])
+        return;
+    [scanner scanUpToCharactersFromSet: [NSCharacterSet whitespaceCharacterSet]
+                            intoString: &key];
 
-	// Read value until "\r" or "\n"
-	if ([scanner isAtEnd])
-		return;
-	[scanner scanUpToCharactersFromSet: [NSCharacterSet characterSetWithCharactersInString: @"\n\r"]
-							intoString: &value];
-	
-	NSMutableArray* ary = [result objectForKey: key];
-	if (! ary) {
-		ary = [[NSMutableArray alloc] init];
-		[result setObject: ary forKey: key];
-		[ary release];
-	}
-	[ary addObject: value];
+    // Read value until "\r" or "\n"
+    if ([scanner isAtEnd])
+        return;
+    [scanner scanUpToCharactersFromSet: [NSCharacterSet characterSetWithCharactersInString: @"\n\r"]
+                            intoString: &value];
+    
+    NSMutableArray* ary = [result objectForKey: key];
+    if (! ary) {
+        ary = [[NSMutableArray alloc] init];
+        [result setObject: ary forKey: key];
+        [ary release];
+    }
+    [ary addObject: value];
 }
 
 + (NSDictionary*) parseMetadata: (NSString*) script
 {
-	NSMutableDictionary* result;
-	result = [[NSMutableDictionary alloc] init];
-	
-	BOOL inMetadata = NO;
-	NSArray* lines = [script componentsSeparatedByString: @"\n"];
-	int i;
-	for (i = 0; i < [lines count]; i++) {
-		NSString* line = [lines objectAtIndex: i];
+    NSMutableDictionary* result;
+    result = [[NSMutableDictionary alloc] init];
+    
+    BOOL inMetadata = NO;
+    NSArray* lines = [script componentsSeparatedByString: @"\n"];
+    int i;
+    for (i = 0; i < [lines count]; i++) {
+        NSString* line = [lines objectAtIndex: i];
 
-		
-		if ([line rangeOfString: @"==UserScript=="].length) {
-			inMetadata = YES;
-		} else if ([line rangeOfString: @"==/UserScript=="].length) {
-			inMetadata = NO;
-		} else if (inMetadata) {
-			[CMUserScript parseMetadataLine: line
-									 result: result];
-		}
-	}
-	
-	if ([result count] == 0) {
-		[result release];
-		return nil;
-	} else {
-		return [result autorelease];
-	}
+        
+        if ([line rangeOfString: @"==UserScript=="].length) {
+            inMetadata = YES;
+        } else if ([line rangeOfString: @"==/UserScript=="].length) {
+            inMetadata = NO;
+        } else if (inMetadata) {
+            [CMUserScript parseMetadataLine: line
+                                     result: result];
+        }
+    }
+    
+    if ([result count] == 0) {
+        [result release];
+        return nil;
+    } else {
+        return [result autorelease];
+    }
 }
 
 + (NSArray*) patternsFromStrings: (NSArray*) ary
@@ -375,23 +375,23 @@ static NSString* dummyBundleId_ = nil;
     if (! ary)
         return nil;
     
-	NSMutableArray* result = [[NSMutableArray alloc] init];
-	
-	int i;
-	for (i = 0; i < [ary count]; i++) {
-		WildcardPattern* pat = [WildcardPattern patternWithString: [ary objectAtIndex: i]];
-		[result addObject: pat];
-	}
-	
-	return [result autorelease];
+    NSMutableArray* result = [[NSMutableArray alloc] init];
+    
+    int i;
+    for (i = 0; i < [ary count]; i++) {
+        WildcardPattern* pat = [WildcardPattern patternWithString: [ary objectAtIndex: i]];
+        [result addObject: pat];
+    }
+    
+    return [result autorelease];
 }
 
 - (id) initWithString: (NSString*) s
               element: (NSXMLElement*) element
 {
-	self = [self init];
-	if (! self)
-		return nil;
+    self = [self init];
+    if (! self)
+        return nil;
 
     NSMutableString* ms = [NSMutableString stringWithString: s];
     NSString* replacement;
@@ -403,7 +403,7 @@ static NSString* dummyBundleId_ = nil;
     [ms replaceOccurrencesOfString: @"\r" withString: replacement
                            options: 0 range: NSMakeRange(0, [ms length])];
 
-	script_ = [ms retain];
+    script_ = [ms retain];
 
     if (element) {
         [self configureWithXMLElement: element];
@@ -419,13 +419,13 @@ static NSString* dummyBundleId_ = nil;
         ary = [CMUserScript patternsFromStrings: [md objectForKey: @"@include"]];
         [self setInclude: ary];
         include_ = [ary retain];
-	
+    
         // exclude
         ary = [CMUserScript patternsFromStrings: [md objectForKey: @"@exclude"]];
         [self setExclude: ary];
     }
-	
-	return self;
+    
+    return self;
 }
 
 - (id) initWithData: (NSData*) data
@@ -433,12 +433,12 @@ static NSString* dummyBundleId_ = nil;
 {
     NSString* str = [[NSString alloc] initWithData: data
                                           encoding: NSUTF8StringEncoding];
-	self = [self initWithString: str
+    self = [self initWithString: str
                         element: element];
-	if (! self)
-		return nil;
-	
-	return self;
+    if (! self)
+        return nil;
+    
+    return self;
 }
 
 
@@ -448,47 +448,47 @@ static NSString* dummyBundleId_ = nil;
     self = [self initWithData: [NSData dataWithContentsOfFile: path]
                       element: element];
 
-	if (! self)
-		return nil;
-	
-	fullPath_ = [path retain];
-	
-	return self;
+    if (! self)
+        return nil;
+    
+    fullPath_ = [path retain];
+    
+    return self;
 }
 
 #pragma mark Override
 - (id) init
 {
-	// NSLog(@"CMUserScript %p - init", self);
+    // NSLog(@"CMUserScript %p - init", self);
 
-	self = [super init];
-	
-	script_ = nil;
+    self = [super init];
+    
+    script_ = nil;
 
-	include_ = [[NSMutableArray alloc] init];
-	exclude_ = [[NSMutableArray alloc] init];
+    include_ = [[NSMutableArray alloc] init];
+    exclude_ = [[NSMutableArray alloc] init];
     applications_ = [[NSMutableSet alloc] init];
-	
-	fullPath_ = nil;
+    
+    fullPath_ = nil;
 
     name_ = nil;
     namespace_ = nil;
     description_ = nil;
-	
-	return self;
+    
+    return self;
 }
 
 - (void) dealloc
 {
-	// NSLog(@"CMUserScript %p - dealloc", self);
-	[script_ release];
+    // NSLog(@"CMUserScript %p - dealloc", self);
+    [script_ release];
 
-	[include_ release];
-	[exclude_ release];
-	
-	[fullPath_ release];
-	
-	[super dealloc];
+    [include_ release];
+    [exclude_ release];
+    
+    [fullPath_ release];
+    
+    [super dealloc];
 }
 
 @end
