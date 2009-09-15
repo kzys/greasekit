@@ -11,11 +11,11 @@
 
 #define CMController Info8_pCMController
 @interface CMController : NSObject {
-	IBOutlet NSMenu* topMenu;
-	IBOutlet NSArrayController* scriptsController;
-	
-	NSMutableArray* scripts_;
-	NSString* scriptDir_;
+    IBOutlet NSMenu* topMenu;
+    IBOutlet NSArrayController* scriptsController;
+    
+    NSMutableArray* scripts_;
+    NSString* scriptDir_;
     
     NSString* scriptTemplate_;
     Info8_pGKAppsController* appsController_;

@@ -37,28 +37,28 @@
 #if 0
 - (void) testEmptyScript
 {
-	CMUserScript* s;
-	
-	s = [[CMUserScript alloc] initWithString: nil];	
-	STAssertNil(s, nil);
-	[s release];
-	
-	s = [[CMUserScript alloc] initWithString: @""];	
-	STAssertNil(s, @"empty string");
-	[s release];
+    CMUserScript* s;
+    
+    s = [[CMUserScript alloc] initWithString: nil]; 
+    STAssertNil(s, nil);
+    [s release];
+    
+    s = [[CMUserScript alloc] initWithString: @""]; 
+    STAssertNil(s, @"empty string");
+    [s release];
 }
 
 - (void) testInvalidScript
 {
-	CMUserScript* s;
-	
-	s = [[CMUserScript alloc] initWithString: @"// ==UserScript==\n//\n//\n"];	
-	STAssertNil(s, @"'/UserScript' is not found");
-	[s release];
-		
-	s = [[CMUserScript alloc] initWithString: @"// ==UserScript==\n// @a b\n// ==/UserScript==\n"];	
-	STAssertNil(s, @"@name is missing");
-	[s release];
+    CMUserScript* s;
+    
+    s = [[CMUserScript alloc] initWithString: @"// ==UserScript==\n//\n//\n"];  
+    STAssertNil(s, @"'/UserScript' is not found");
+    [s release];
+        
+    s = [[CMUserScript alloc] initWithString: @"// ==UserScript==\n// @a b\n// ==/UserScript==\n"]; 
+    STAssertNil(s, @"@name is missing");
+    [s release];
 }
 #endif
 
@@ -78,10 +78,10 @@
     pat = [[WildcardPattern alloc] init];
     [pat setString: @"http://example.com/foo/bar"];
     [[script exclude] addObject: pat];
-	[pat release];
+    [pat release];
     STAssertFalse([script isMatched: url], @"exclude");
-	
-	[script release];
+    
+    [script release];
 }
 
 - (void) testFileName
@@ -128,8 +128,8 @@
 
     element = [script XMLElement];
     STAssertTrue([[element name] isEqualTo: @"Script"], @"element name");
-	
-	[script release];
+    
+    [script release];
 }
 
 - (void) testPatternsFromStrings

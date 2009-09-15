@@ -8,7 +8,7 @@
 
 #define WildcardPattern Info8_pWildcardPattern
 @interface WildcardPattern : NSObject {
-	NSString* source_;
+    NSString* source_;
     regex_t pattern_;
 }
 

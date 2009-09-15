@@ -2,7 +2,7 @@
 #import "WildcardPattern.h"
 
 @interface WildcardPatternTest : SenTestCase {
-	WildcardPattern* pattern_;
+    WildcardPattern* pattern_;
 }
 
 @end

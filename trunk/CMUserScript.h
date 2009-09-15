@@ -8,13 +8,13 @@
 
 #define CMUserScript Info8_pCMUserScript
 @interface CMUserScript : NSObject {
-	NSString* script_;
-	
-	NSMutableArray* include_;
-	NSMutableArray* exclude_;
+    NSString* script_;
+    
+    NSMutableArray* include_;
+    NSMutableArray* exclude_;
     NSMutableSet* applications_;
-	
-	NSString* fullPath_;
+    
+    NSString* fullPath_;
 
     NSString *name_, *namespace_, *description_;
 }
