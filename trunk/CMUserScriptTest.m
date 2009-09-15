@@ -78,7 +78,10 @@
     pat = [[WildcardPattern alloc] init];
     [pat setString: @"http://example.com/foo/bar"];
     [[script exclude] addObject: pat];
+	[pat release];
     STAssertFalse([script isMatched: url], @"exclude");
+	
+	[script release];
 }
 
 - (void) testFileName
@@ -125,6 +128,8 @@
 
     element = [script XMLElement];
     STAssertTrue([[element name] isEqualTo: @"Script"], @"element name");
+	
+	[script release];
 }
 
 - (void) testPatternsFromStrings

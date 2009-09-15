@@ -62,7 +62,7 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
         [result setObject: script
                    forKey: ElementAttribute(script, @"filename")];
     }
-
+	[doc release];
     return result;
 }
 
@@ -79,7 +79,11 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 
     NSXMLDocument* doc;
     doc = [[NSXMLDocument alloc] initWithRootElement: root];
+	[root release];
+
     NSData* data = [doc XMLDataWithOptions: NSXMLNodePrettyPrint];
+	[doc release];
+
     [data writeToFile: path atomically: YES];
 }
 
@@ -128,7 +132,9 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
         [item setState: [script isEnabled] ? NSOnState : NSOffState];
 
         [item setTitle: [script name]];
+
         [topMenu insertItem: item atIndex: i];
+		[item release];
     }
 }
 
@@ -184,9 +190,6 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 
 - (void) installCreammonkeyScripts
 {
-    NSFileManager* manager;
-    manager = [NSFileManager defaultManager];
-
     NSString* dir = [CM_SCRIPT_DIR_PATH stringByExpandingTildeInPath];
     NSArray* files = [self scriptsAtDir: dir];
     if (! files)
