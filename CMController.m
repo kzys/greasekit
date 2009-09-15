@@ -459,8 +459,8 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
                                 @"GreaseKit",  @"ApplicationName",
                             icon,  @"ApplicationIcon",
                             @"",  @"Version",
-                            @"Version 1.5",  @"ApplicationVersion",
-                            @"Copyright (c) 2007 KATO Kazuyoshi",  @"Copyright",
+                            @"Version 1.6",  @"ApplicationVersion",
+                            @"Copyright (c) 2006-2009 KATO Kazuyoshi",  @"Copyright",
                             nil];
     [NSApp orderFrontStandardAboutPanelWithOptions: options];
 }
