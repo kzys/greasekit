@@ -529,21 +529,40 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
     [super dealloc];
 }
 
+- (int) menuInsertIndex
+{
+    size_t n = [[NSApp mainMenu] numberOfItems];
+
+    NSMenu* right = [NSApp windowsMenu];
+    if (! right) {
+        right = [NSApp helpMenu];
+        if (! right) {
+            return n;
+        }
+    }
+
+    size_t i;
+    for (i = 1; i < n; i++) {
+        NSMenuItem* item = [[NSApp mainMenu] itemAtIndex: i];
+        if ([item submenu] == right) {
+            return i;
+        }
+    }
+
+    return n;
+}
+
 - (void) awakeFromNib
 {
     [self reloadUserScripts: nil];
 
-    // Menu
-    NSMenuItem* item;
-
-    item = [[NSMenuItem alloc] init];
-    [item setSubmenu: topMenu];
+    NSMenuItem* item = [[NSMenuItem alloc] init];
+    [[NSApp mainMenu] insertItem: item
+                         atIndex: [self menuInsertIndex]];
+    [item release];
 
     [topMenu setTitle: @"GreaseKit"];
-
-    [[NSApp mainMenu] insertItem: item
-                         atIndex: [[NSApp mainMenu] numberOfItems] - 2];
-    [item release];
+    [item setSubmenu: topMenu];
 
     // Notification
     NSNotificationCenter* center = [NSNotificationCenter defaultCenter];
