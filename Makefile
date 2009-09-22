@@ -23,7 +23,7 @@ GreaseKit-$(version).dmg: build/Release/GreaseKit.bundle
 clean:
 	-rm $(generated_files)
 	-rm GreaseKit-$(version).dmg
-	-rm -fr build/
+	-rm -fr tmp/ build/
 
 config.h:
 	echo "#define VERSION \"$(version)\"" > $@
