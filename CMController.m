@@ -10,6 +10,7 @@
 #import "GKAppsController.h"
 #import "CMUserScript.h"
 #import "Utils.h"
+#import "config.h"
 
 #if 0
 #  define DEBUG_LOG(...) NSLog(__VA_ARGS__)
@@ -459,14 +460,18 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
     NSImage* icon = [[NSWorkspace sharedWorkspace] iconForFileType: @"bundle"];
     [icon setSize: NSMakeSize(128, 128)];
 
+    NSString* s = [[NSString alloc] initWithFormat: @"Version %s", VERSION];
+
     NSDictionary* options;
     options = [NSDictionary dictionaryWithObjectsAndKeys:
                                 @"GreaseKit",  @"ApplicationName",
                             icon,  @"ApplicationIcon",
                             @"",  @"Version",
-                            @"Version 1.6",  @"ApplicationVersion",
+                            s,  @"ApplicationVersion",
                             @"Copyright (c) 2006-2009 KATO Kazuyoshi",  @"Copyright",
                             nil];
+    [s release];
+
     [NSApp orderFrontStandardAboutPanelWithOptions: options];
 }
 
