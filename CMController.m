@@ -536,7 +536,8 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
 
     [topMenu setTitle: @"GreaseKit"];
 
-    [[NSApp mainMenu] addItem: item];
+    [[NSApp mainMenu] insertItem: item
+                         atIndex: [[NSApp mainMenu] numberOfItems] - 2];
     [item release];
 
     // Notification
