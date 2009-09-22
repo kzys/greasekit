@@ -1,4 +1,4 @@
-GreaseKit 1.6
+GreaseKit VERSION
 
 GreaseKit adds Greasemonkey-like user scripting to WebKit applications.
 Please see more detail at http://8-p.info/greasekit/.
