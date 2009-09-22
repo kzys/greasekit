@@ -143,6 +143,11 @@ static NSString* GK_INPUT_MANAGER_PATH = @"~/Library/InputManagers/GreaseKit/";
     NSDirectoryEnumerator* files;
     files = [[NSFileManager defaultManager] enumeratorAtPath: dir];
 
+    // Should return nil instead of an empty array, otherwise -loadUserScripts
+    // will not create ~/Library/Appplication Support/GreaseKit directory for us
+    if (! files)
+        return nil;
+
     NSMutableArray* result = [NSMutableArray array];
     NSString* s;
     while (s = [files nextObject]) {
