@@ -16,10 +16,13 @@ GreaseKit-$(version).dmg: build/Release/GreaseKit.bundle
 	mkdir tmp/
 	mv $^ tmp/
 	sed -e s/VERSION/$(version)/g < README.txt > tmp/README.txt
+	cd tmp/ && svn export http://greasekit.googlecode.com/svn/trunk/ Source
+
 	hdiutil create -srcfolder tmp/ -volname 'GreaseKit $(version)' -format UDZO -o GreaseKit-$(version).dmg
 
 clean:
 	-rm $(generated_files)
+	-rm GreaseKit-$(version).dmg
 	-rm -fr build/
 
 config.h:
